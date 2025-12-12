@@ -15,26 +15,91 @@ function Checkout() {
     country: "",
     phone: "",
   });
-useEffect(()=>{
-  console.log(checkoutId);
-},[])
+  useEffect(() => {
+    console.log(checkoutId);
+  }, []);
   const handleCreateCheckout = (e) => {
     e.preventDefault();
     setCheckoutId(1234);
     // console.log(shippingAddress);
   };
 
-  const handleSuccess=({details})=>{
-    console.log('Payment detail',details);
-    navigate('/order-confirmation')
+  const cart = {
+    products: [
+      {
+        productID: 1,
+        name: "T-shirt",
+        size: "M",
+        color: "red",
+        quantity: 1,
+        price: 20,
+        image: "https://picsum.photos/200?random=1",
+      },
+      {
+        productID: 2,
+        name: "jins",
+        size: "M",
+        color: "blue",
+        quantity: 2,
+        price: 20,
+        image: "https://picsum.photos/200?random=1",
+      },
+      {
+        productID: 3,
+        name: "T-shirt",
+        size: "M",
+        color: "red",
+        quantity: 1,
+        price: 20,
+        image: "https://picsum.photos/200?random=1",
+      },
+      {
+        productID: 4,
+        name: "T-shirt",
+        size: "M",
+        color: "red",
+        quantity: 1,
+        price: 20,
+        image: "https://picsum.photos/200?random=1",
+      },
+      {
+        productID: 5,
+        name: "T-shirt",
+        size: "M",
+        color: "red",
+        quantity: 1,
+        price: 20,
+        image: "https://picsum.photos/200?random=1",
+      },
+      {
+        productID: 6,
+        name: "T-shirt",
+        size: "M",
+        color: "red",
+        quantity: 1,
+        price: 20,
+        image: "https://picsum.photos/200?random=1",
+      },
+    ],
+  };
 
-  }
+  const calculateTotal = () => {
+    const totlaQuantity = cart.products.reduce((total, product) => {
+      return total + product.price;
+    }, 0);
+    return totlaQuantity;
+  };
+
+  const handleSuccess = ({ details }) => {
+    console.log("Payment detail", details);
+    navigate("/order-confirmation");
+  };
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-7xl mx-auto py-10 px-6 tracking-tighter">
       {/*  left side*/}
       <div className="bg-white rounded-lg p-6">
         <h2 className="text-2xl uppercase mb-6 ">checkout</h2>
-        <form onSubmit={handleCreateCheckout} >
+        <form onSubmit={handleCreateCheckout}>
           <h3 className="text-lg mb-4">contact details</h3>
           <div className="mb-4">
             <label htmlFor="" className="block text-gray-700 ">
@@ -187,18 +252,63 @@ useEffect(()=>{
           </div>
           <div className="mb-6 ">
             {!checkoutId ? (
-              <button type="submit" className="w-full bg-black cursor-pointer text-white py-3 rounded">
+              <button
+                type="submit"
+                className="w-full bg-black cursor-pointer text-white py-3 rounded"
+              >
                 continue to payment
               </button>
             ) : (
               <div>
                 <h3 className="text-lg capitalize mb-4">pay with paypal</h3>
 
-                <PaypalButton amount={100} onsuccess={handleSuccess} onError={()=>alert('Payment failed. try again!')} />
+                <PaypalButton
+                  amount={100}
+                  onsuccess={handleSuccess}
+                  onError={() => alert("Payment failed. try again!")}
+                />
               </div>
             )}
           </div>
         </form>
+      </div>
+      {/* rightf sidebare */}
+      <div className="bg-gray-50 rounded-lg p-6 ">
+        <h2 className="items-center text-lg mb-4">order summery</h2>
+        <div className="border-t mb-4 py-4 ">
+          {cart.products.map((product, index) => (
+            <div
+              className="flex items-start justify-between py-2 border-b"
+              key={index}
+            >
+              <div className="flex  items-start">
+                <img
+                  src={product.image}
+                  alt={product.name}
+                  className="w-20 object-cover mr-4 h-24"
+                />
+                <div>
+                  <h3 className="text-md">{product.name}</h3>
+                  <p className="text-gray-500">Size: {product.size}</p>
+                  <p className="text-gray-500">Color: {product.color}</p>
+                </div>
+              </div>
+              <p className="text-lg">${product.price}</p>
+            </div>
+          ))}
+        </div>
+        <div className="flex justify-between items-center text-lg mb-4">
+          <p>Subtotal</p>
+          <p>${calculateTotal()}</p>
+        </div>
+        <div className="flex justify-between items-center text-lg">
+          <p>Shipping</p>
+          <p>Free</p>
+        </div>
+          <div className="flex justify-between items-center text-lg mt-r border-t pt-4">
+          <p>Total</p>
+          <p> ${calculateTotal()}</p>
+        </div>
       </div>
     </div>
   );

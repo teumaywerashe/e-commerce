@@ -67,7 +67,7 @@ function Navbar() {
           </button>
         </div>
       </nav>
-      <CartDrawer drawerOpen={drawerOpen} toggleCartDrawer={toggleCartDrawer} />
+      <CartDrawer setDrawerOpen={setDrawerOpen} drawerOpen={drawerOpen} toggleCartDrawer={toggleCartDrawer} />
 
       <div
         className={`fixed top-0 left-0 w-3/4 sm:w-1/2 md:w-1/3 h-full bg-white shadow-lg z-40 transform transition-transform duration-300 ${
