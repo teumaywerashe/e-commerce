@@ -19,7 +19,7 @@ const checkout = {
       color: "blue",
       quantity: 2,
       price: 20,
-      image: "https://picsum.photos/200?random=1",
+      image: "https://picsum.photos/200?random=2",
     },
     {
       productID: 3,
@@ -28,7 +28,7 @@ const checkout = {
       color: "red",
       quantity: 1,
       price: 20,
-      image: "https://picsum.photos/200?random=1",
+      image: "https://picsum.photos/200?random=3",
     },
   ],
   shippingAdress: {
@@ -73,24 +73,42 @@ function OrderConformationPage() {
           {/* ordered items */}
           <div className="mb-4 p-4">
             {checkout.checkOutItems.map((item) => (
-              <div key={item._id} className="flex items-center justify-between mb-4">
-                <div className="flex  gap-5 items-center justify-center">
-                  <img className="w-16 object-cover h-16" src={item.image} alt={item.name} />
-                  <div>
-                    <h1 className="text-lg font-bold text-black">
-                      {item.name}
-                    </h1>
-                    <p className="text-xl text-gray-400">
-                      {item.color}|{item.size}
-                    </p>
-                  </div>
-                </div>
+              <div
+                key={item._id}
+                className="flex items-center mb-4"
+              >
+                <img
+                  className="w-16 object-cover h-16 rounded-md mr-4"
+                  src={item.image}
+                  alt={item.name}
+                />
                 <div>
-                  <p className="text-lg text-black">{item.price}</p>
-                  <p className="text-sm text-gray-400">City: {item.city}</p>
+                  <h4 className="text-md  font-semibold text-black">{item.name}</h4>
+                  <p className="text-sm text-gray-500">
+                    {item.color} | {item.size}
+                  </p>
+                </div>
+
+                <div className="ml-auto text-right">
+                  <p className="text-md text-black">${item.price}</p>
+                  <p className="text-sm text-gray-500">Qty:  {item.quantity}</p>
                 </div>
               </div>
             ))}
+          </div>
+          {/* payment and delivery info */}
+          <div className="grid grid-cols-2 gap-8">
+            {/* payment info */}
+            <div>
+              <h4 className="text-lg font-semibold mb-2">Payment</h4>
+              <p className="text-gray-600">PayPal</p>
+            </div>
+            {/* delivery info */}
+            <div>
+            <h4 className="text-lg font-semibold mb-2">Delivery</h4>
+              <p className="text-gray-600">{checkout.shippingAdress.address.split(' ')[0]}</p>
+              <p className="text-gray-600"></p>
+            </div> 
           </div>
         </div>
       )}

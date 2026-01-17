@@ -86,9 +86,9 @@ function NewArrivals() {
   ];
 
   const scrollRef = useRef(null);
-  const [isDraggging, setIsDragging] = useState(false);
-  const [stateX, setStartX] = useState(0);
-  const [scrollLeft, setScrollLeft] = useState(false);
+  // const [isDraggging, setIsDragging] = useState(false);
+  // const [stateX, setStartX] = useState(0);
+  // const [scrollLeft, setScrollLeft] = useState(false);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
 

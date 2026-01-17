@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function MyOrders() {
   const [orders, setOrders] = useState([]);
+const navigate=useNavigate()
+
+  const handleOnClick=(id)=>{
+    navigate(`/order/${id}`)
+  }
   useEffect(() => {
     setTimeout(() => {
       const mokeOrders = [
@@ -69,7 +75,12 @@ function MyOrders() {
           <tbody>
             {orders.length > 0 ? (
               orders.map((order) => (
-                <tr key={order._id} className="border-b hover:border-r-gray-50 cursor-pointer">
+                <tr
+                  key={order._id}
+                  onClick={()=>handleOnClick(order._id)}
+                  
+                  className="border-b hover:border-r-gray-50 cursor-pointer"
+                >
                   <td className="py-2 px-2 sm:py-4 sm:px-4">
                     <img
                       src={order.orderItems[0].image}
@@ -77,10 +88,12 @@ function MyOrders() {
                       className="w-10 h-10 object-cover sm:h-12 sm:w-12 rounded-lg"
                     />
                   </td>
-                  <td className="py-2 px-2 sm:py-4 sm:px-4 text-gray-900 whitespace-nowrap">{order._id}</td>
+                  <td className="py-2 px-2 sm:py-4 sm:px-4 text-gray-900 whitespace-nowrap">
+                    {order._id}
+                  </td>
                   <td className="py-2 px-2 sm:py-4 sm:px-4">
                     {new Date(order.createdAt).toLocaleDateString()} <br />
-                     {new Date(order.createdAt).toLocaleTimeString()}
+                    {new Date(order.createdAt).toLocaleTimeString()}
                   </td>
                   <td className="py-2 px-2 sm:py-4 sm:px-4">
                     {order.shippingAddress.street}, {order.shippingAddress.city}

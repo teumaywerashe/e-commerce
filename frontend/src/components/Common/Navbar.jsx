@@ -45,6 +45,7 @@ function Navbar() {
         </div>
         {/* right icomes */}
         <div className="flex itemcenter space-x-4">
+          <Link to='/admin' className='block bg-black px-2 text-white rounded text-sm '>Admin</Link>
           <Link to="/profile" className="hover:text-black flex">
             <HiOutlineUser className="h-6 w-6 text-gray-700" />
           </Link>
