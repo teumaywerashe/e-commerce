@@ -6,6 +6,7 @@ import { connectDB } from "./config/db.js";
 import { userRouter } from "./routes/userRoutes.js";
 import { productRouter } from "./routes/productRoute.js";
 import { cartRouter } from "./routes/cartRoute.js";
+import { checkoutRouter } from "./routes/checkoutRoutes.js";
 
 const app = express();
 
@@ -14,6 +15,7 @@ app.use(cors());
 app.use("/api/user", userRouter);
 app.use('/api/product', productRouter)
 app.use('/api/cart', cartRouter)
+app.use('/api/checkout', checkoutRouter)
 const PORT = process.env.PORT || 3000;
 const startServer = async() => {
     try {
