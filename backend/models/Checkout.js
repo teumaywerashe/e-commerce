@@ -8,7 +8,8 @@ const checkoutItemSchema = new mongoose.Schema({
     },
     name: { type: String, required: true },
     image: { type: String, required: true },
-    price: { type: String, required: true },
+    price: { type: Number, required: true },
+    quantity: { type: Number, required: true },
 }, { _id: false }, );
 
 const checkoutSchema = new mongoose.Schema({
@@ -41,6 +42,10 @@ const checkoutSchema = new mongoose.Schema({
         required: true,
     },
     isPaid: {
+        type: Boolean,
+        defualt: false,
+    },
+    isFinalized: {
         type: Boolean,
         defualt: false,
     },

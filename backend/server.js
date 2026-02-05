@@ -7,6 +7,12 @@ import { userRouter } from "./routes/userRoutes.js";
 import { productRouter } from "./routes/productRoute.js";
 import { cartRouter } from "./routes/cartRoute.js";
 import { checkoutRouter } from "./routes/checkoutRoutes.js";
+import { orderRoute } from "./routes/orderRoute.js";
+import { subscriberRoute } from "./routes/subscriberRoute.js";
+import { adminRoute } from "./routes/adminRoute.js";
+import { productAdminRoute } from "./routes/productAdminRoute.js";
+import { adminOrderRoute } from "./routes/adminOrderRoute.js";
+// import { uploadRoute } from "./routes/uploadRoute.js";
 
 const app = express();
 
@@ -16,6 +22,17 @@ app.use("/api/user", userRouter);
 app.use('/api/product', productRouter)
 app.use('/api/cart', cartRouter)
 app.use('/api/checkout', checkoutRouter)
+app.use('/api/order', orderRoute)
+    // app.use('/api/upload', uploadRoute)
+app.use('/api/subscriber', subscriberRoute)
+app.use('/api/admin', adminRoute)
+app.use('/api/admin/product', productAdminRoute)
+app.use('/api/admin/orders', adminOrderRoute)
+
+
+
+
+
 const PORT = process.env.PORT || 3000;
 const startServer = async() => {
     try {
@@ -33,4 +50,5 @@ startServer();
 
 
 
-// 10:40:19
+// 10: 48: 19
+// 11:04:00

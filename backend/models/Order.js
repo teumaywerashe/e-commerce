@@ -29,6 +29,7 @@ export const orderSchema = new mongoose.Schema({
     deliveredAt: { type: String },
     isDelivered: { type: Boolean, default: false },
     paymentStatue: { type: String, default: 'Pending' },
+    paymentDetails: { type: mongoose.Schema.Types.Mixed },
     status: {
         type: String,
         enum: ['Processing', 'Shipping', 'Delivered', 'Cancelled'],

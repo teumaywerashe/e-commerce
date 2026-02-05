@@ -123,7 +123,7 @@ productRouter.patch("/:id", auth, admin, async(req, res) => {
 });
 
 // delete a product
-productRouter.delete("/:id", auth, async(req, res) => {
+productRouter.delete("/:id", auth, admin, async(req, res) => {
     const { id } = req.params;
     try {
         const product = await Product.findByIdAndDelete(id);

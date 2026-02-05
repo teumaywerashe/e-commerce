@@ -2,8 +2,10 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import { Product } from "./models/Product.js";
 import { User } from "./models/userModel.js";
-import products from "./data/products.js";
+
 import { Cart } from "./models/Cart.js";
+import products from "./data/products.js";
+
 dotenv.config();
 
 mongoose.connect(process.env.MONGO_URL);
