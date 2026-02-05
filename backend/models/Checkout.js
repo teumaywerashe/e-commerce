@@ -6,10 +6,26 @@ const checkoutItemSchema = new mongoose.Schema({
         ref: "Product",
         required: true,
     },
-    name: { type: String, required: true },
-    image: { type: String, required: true },
-    price: { type: Number, required: true },
-    quantity: { type: Number, required: true },
+    name: {
+        type: String,
+        required: true
+    },
+    image: {
+        type: String,
+        required: true
+    },
+    price: {
+        type: Number,
+        required: true
+    },
+    quantity: {
+        type: Number,
+        required: true
+    },
+    size: {
+        type: String,
+        required: true
+    }
 }, { _id: false }, );
 
 const checkoutSchema = new mongoose.Schema({
@@ -43,18 +59,20 @@ const checkoutSchema = new mongoose.Schema({
     },
     isPaid: {
         type: Boolean,
-        defualt: false,
+        default: false,
     },
     isFinalized: {
         type: Boolean,
-        defualt: false,
+        default: false,
     },
     paidAt: { type: Date },
     paymentStatus: {
         type: String,
-        defualt: "pending",
+        default: "pending",
     },
-    paymentDetails: { type: mongoose.Schema.Types.Mixed },
+    paymentDetails: {
+        type: mongoose.Schema.Types.Mixed
+    },
     finalizedAt: { type: Date },
 }, { timestamps: true }, );
 

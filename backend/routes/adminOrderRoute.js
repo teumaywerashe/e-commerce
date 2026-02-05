@@ -19,9 +19,10 @@ adminOrderRoute.put("/:id", auth, admin, async(req, res) => {
         if (!order) {
             return res.status(404).json({ success: false, msg: "Order not found" });
         }
+        console.log(order);
         order.status = req.body.status || order.status;
-        req.body.status === "Delivered" ? true : order.isDelivered;
-        order.isDelivered = order.deliveredAt =
+        order.isDelivered === "Delivered" ? true : order.isDelivered;
+        order.deliveredAt = order.deliveredAt =
             req.body.status === "Delivered" ? Date.now() : order.deliveredAt;
 
         const updatedOrder = await order.save();

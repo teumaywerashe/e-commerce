@@ -1,9 +1,9 @@
 import express from "express";
 import { admin, auth } from "../middleWares/protected.js";
 import { User } from "../models/userModel.js";
-export const adminRoute = express.Router();
+export const adminUsersRoute = express.Router();
 
-adminRoute.get("/users", auth, admin, async(req, res) => {
+adminUsersRoute.get("/", auth, admin, async(req, res) => {
     try {
         const users = await User.find({});
         if (!users) {
@@ -16,7 +16,7 @@ adminRoute.get("/users", auth, admin, async(req, res) => {
     }
 });
 
-adminRoute.post("/users", auth, admin, async(req, res) => {
+adminUsersRoute.post("/", auth, admin, async(req, res) => {
     const { name, email, password, role } = req.body;
     try {
         const exist = await User.findOne({ email });
@@ -38,7 +38,7 @@ adminRoute.post("/users", auth, admin, async(req, res) => {
     }
 });
 
-adminRoute.put("/users/:id", auth, admin, async(req, res) => {
+adminUsersRoute.put("/:id", auth, admin, async(req, res) => {
     const { name, email, password, role } = req.body;
     try {
         const user = await User.findById(req.params.id);
@@ -61,7 +61,7 @@ adminRoute.put("/users/:id", auth, admin, async(req, res) => {
         res.status(500).json({ success: true, msg: "Server Error" });
     }
 });
-adminRoute.delete('/users/:id', auth, admin, async(req, res) => {
+adminUsersRoute.delete('/:id', auth, admin, async(req, res) => {
     try {
         const user = await User.findByIdAndDelete(req.params.id)
         if (!user) {

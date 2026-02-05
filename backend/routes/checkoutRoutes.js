@@ -2,6 +2,7 @@ import express from "express";
 import { auth } from "../middleWares/protected.js";
 import Checkout from "../models/Checkout.js";
 import { Cart } from "../models/Cart.js";
+import Order from "../models/Order.js";
 export const checkoutRouter = express.Router();
 
 checkoutRouter.post("/", auth, async(req, res) => {
@@ -11,11 +12,12 @@ checkoutRouter.post("/", auth, async(req, res) => {
         paymentMethod,
         totalPrice,
         isPaid,
+        size,
         paidAt,
         paymentDetails,
     } = req.body;
 
-    console.log(checkoutItems, shippingAdress, PaymentAddress);
+    console.log(checkoutItems, req.user, shippingAdress, paymentDetails);
     if (!checkoutItems || checkoutItems.length === 0) {
         res.status(400).json({ success: false, msg: "no items in the checkout" });
     }
@@ -27,13 +29,15 @@ checkoutRouter.post("/", auth, async(req, res) => {
             paymentMethod,
             totalPrice,
             isPaid,
+            size,
             paidAt,
             paymentDetails,
         });
 
         console.log(`checkout create for the user:${req.user._id}`);
+        res.status(201).json({ success: true, newCheckout })
     } catch (error) {
-        console.log("error creating the checkout");
+        console.error("error creating the checkout", error);
         res.status(500).json({ success: false, msg: "server error" });
     }
 });
@@ -50,7 +54,7 @@ checkoutRouter.put("/:id/pay", auth, async(req, res) => {
                 .json({ success: false, msg: "Checkout Not Found" });
         }
 
-        if (!paymentStatus) {
+        if (paymentStatus === "paid") {
             ((checkout.isPaid = true),
                 (checkout.paymentStatus = paymentStatus),
                 (checkout.paymentDetails = paymentDetails),
@@ -69,13 +73,14 @@ checkoutRouter.put("/:id/pay", auth, async(req, res) => {
 checkoutRouter.post("/:id/finalize", auth, async(req, res) => {
     try {
         const checkout = await Checkout.findById(req.params.id);
+        console.log(checkout);
         if (!checkout) {
             return res.status(404).json({ success: false, msg: "Checkout not found!" });
         }
         if (checkout.isPaid && !checkout.isFinalized) {
             const finalOrder = await Order.create({
                 user: checkout.user,
-                orderItems: checkout.orderItems,
+                orderItems: checkout.checkoutItems,
                 shippingAdress: checkout.shippingAdress,
                 paymentMethod: checkout.paymentMethod,
                 totalPrice: checkout.totalPrice,
@@ -86,8 +91,8 @@ checkoutRouter.post("/:id/finalize", auth, async(req, res) => {
                 paymentDetails: Checkout.paymentDetails,
             });
             checkout.isFinalized = true
-            checkout.finalizedAt - Date.now()
-            await Checkout.save()
+            checkout.finalizedAt = Date.now()
+            await checkout.save()
 
             await Cart.findOneAndDelete({ user: checkout.user })
 

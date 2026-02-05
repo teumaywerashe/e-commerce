@@ -9,10 +9,10 @@ import { cartRouter } from "./routes/cartRoute.js";
 import { checkoutRouter } from "./routes/checkoutRoutes.js";
 import { orderRoute } from "./routes/orderRoute.js";
 import { subscriberRoute } from "./routes/subscriberRoute.js";
-import { adminRoute } from "./routes/adminRoute.js";
-import { productAdminRoute } from "./routes/productAdminRoute.js";
+import { adminProductRoute } from "./routes/adminProductRoute.js";
 import { adminOrderRoute } from "./routes/adminOrderRoute.js";
-// import { uploadRoute } from "./routes/uploadRoute.js";
+import { uploadRoute } from "./routes/uploadRoute.js";
+import { adminUsersRoute } from "./routes/adminUserRoute.js";
 
 const app = express();
 
@@ -23,10 +23,10 @@ app.use('/api/product', productRouter)
 app.use('/api/cart', cartRouter)
 app.use('/api/checkout', checkoutRouter)
 app.use('/api/order', orderRoute)
-    // app.use('/api/upload', uploadRoute)
+app.use('/api/upload', uploadRoute)
 app.use('/api/subscriber', subscriberRoute)
-app.use('/api/admin', adminRoute)
-app.use('/api/admin/product', productAdminRoute)
+app.use('/api/admin/users', adminUsersRoute)
+app.use('/api/admin/product', adminProductRoute)
 app.use('/api/admin/orders', adminOrderRoute)
 
 

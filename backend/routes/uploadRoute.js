@@ -1,14 +1,16 @@
 import express from "express";
-import "dotenv/config";
+import dotenv from 'dotenv/config'
 import multer from "multer";
 import { v2 as cloudinary } from "cloudinary";
 import streamifier from "streamifier";
-export const uploadRoute = express.Router()
+export const uploadRoute = express.Router();
 cloudinary.config({
-    cloud_name: process.env.CLOUNDINARY_CLOUD_NAME,
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
     api_key: process.env.CLOUDINARY_API_KEY,
     api_secret: process.env.CLOUDINARY_API_SECRET,
 });
+
+
 
 const storage = multer.memoryStorage({});
 
@@ -24,18 +26,18 @@ uploadRoute.post("/", upload.single("image"), async(req, res) => {
                     if (result) {
                         resolve(result);
                     } else {
-                        reject(err)
+                        reject(err);
                     }
                 });
-                streamifier.createReadStream(fileBuffer).pipe(stream)
+                streamifier.createReadStream(fileBuffer).pipe(stream);
             });
         };
-        const result = await streamUpload(req.file.buffer)
+        const result = await streamUpload(req.file.buffer);
         if (result) {
-            res.status(201).json({ success: true, imageUrl: result.secure_url })
+            res.status(201).json({ success: true, imageUrl: result.secure_url });
         }
     } catch (error) {
         console.error(error);
-        res.status(500).json({ success: false, msg: "Server Eroor" })
+        res.status(500).json({ success: false, msg: "Server Eroor" });
     }
 });

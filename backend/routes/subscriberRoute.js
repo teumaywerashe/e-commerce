@@ -11,7 +11,7 @@ subscriberRoute.post('/', async(req, res) => {
             return res.status(404).json({ success: false, msg: "Email is required" })
         }
         let subscriber = await Subscriber.findOne({ email })
-        if (email) {
+        if (subscriber) {
             return res.status(400).json({ success: false, mag: "Subscriber with this email already exist" })
         }
         subscriber = new Subscriber({ email })
@@ -22,9 +22,7 @@ subscriberRoute.post('/', async(req, res) => {
         console.log(error);
         res.status(500).json({
             success: false,
-            msg: "Server ErRor"
+            msg: "Server Error"
         })
     }
 })
-
-subscriberRoute.get('', async() => {})
