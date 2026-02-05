@@ -11,7 +11,7 @@ checkoutRouter.post("/", auth, async(req, res) => {
         totalPrice,
         isPaid,
         paidAt,
-        paymentdetail,
+        paymentDetail,
     } = req.body;
 
     console.log(checkoutItems, shippingAdress, PaymentAddress);
@@ -27,9 +27,42 @@ checkoutRouter.post("/", auth, async(req, res) => {
             totalPrice,
             isPaid,
             paidAt,
-            paymentdetail,
+            paymentDetail,
         });
 
         console.log(`checkout create for the user:${req.user._id}`);
-    } catch (error) {}
+    } catch (error) {
+        console.log("error creating the checkout");
+        res.status(500).json({ success: false, msg: "server error" });
+    }
 });
+
+checkoutRouter.put("/:id/pay", auth, async(req, res) => {
+    const { paymentStatus, paymentDetail } = req.body;
+
+    try {
+        const checkout = await Checkout.findById(req.params.id);
+
+        if (!checkout) {
+            return res
+                .status(404)
+                .json({ success: false, msg: "Checkout Not Found" });
+        }
+
+        if (!paymentStatus) {
+            checkout.isPaid = true,
+                checkout.paymentStatus = paymentStatus,
+                checkout.paymentDetail = paymentDetail,
+                checkout.paidAt = Date.now()
+            await checkout.save()
+            res.status(200).json({ success: true, checkout })
+        } else {
+            res.status(400).json({ succcess: false, msg: "Invalid Payment Status " })
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ success: false, msg: "Server Error" });
+    }
+});
+
+// checkoutRouter.post('/')
