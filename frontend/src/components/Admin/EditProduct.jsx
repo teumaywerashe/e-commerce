@@ -139,7 +139,7 @@ function EditProduct() {
             Upload Image
           </label>
           <input
-            type="file"
+            type="file" className="cursor-pointer"
             name="imag"
             // value={productData.category}
             onChange={handleImageUpload}

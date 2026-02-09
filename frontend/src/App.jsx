@@ -18,10 +18,11 @@ import UserManagement from "./components/Admin/UserManagement";
 import ProductManagement from "./components/Admin/ProductManagement";
 import EditProduct from "./components/Admin/EditProduct";
 import OrderManagement from "./components/Admin/OrderManagement";
-
+import {Provider} from 'react-redux'
 function App() {
   return (
     <>
+ 
       <Toaster position="top-right" />
       <Routes>
         <Route path="/" element={<UserLayout />}>
@@ -35,7 +36,7 @@ function App() {
           ></Route>
           <Route path="product/:id" element={<ProductDetails />}></Route>
           <Route path="checkout" element={<Checkout />}></Route>
-          <Route
+          <Route 
             path="order-conformation"
             element={<OrderConformationPage />}
           ></Route>
@@ -52,6 +53,7 @@ function App() {
 
         </Route>
       </Routes>
+    
     </>
   );
 }
