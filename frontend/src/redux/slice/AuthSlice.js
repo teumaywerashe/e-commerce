@@ -17,7 +17,7 @@ const initialState = {
     error: null,
 };
 
-const loginUser = createAsyncThunk(
+export const loginUser = createAsyncThunk(
     "auth/loginUser",
     async(userData, { rejectWithValue }) => {
         try {
@@ -32,7 +32,7 @@ const loginUser = createAsyncThunk(
 );
 
 
-export const registerUser = createSlice(
+export const registerUser = createAsyncThunk(
     "auth/registerUser",
     async(userData, { rejectWithValue }) => {
         try {
@@ -41,7 +41,7 @@ export const registerUser = createSlice(
             localStorage.setItem("userToken", JSON.stringify(response.data.token));
             return response.data.user;
         } catch (error) {
-            return rejectWithValue(error.msg.data);
+            return rejectWithValue(error.response.data);
         }
     },
 );
@@ -75,7 +75,7 @@ export const authSlice = createSlice({
         })
         builder.addCase(loginUser.rejected, (state, action) => {
             state.loading = false
-            state.error = action.payload.msg
+            state.error = action.payload
         })
         builder.addCase(registerUser.pending, (state) => {
             state.loading = true
