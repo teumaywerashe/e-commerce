@@ -18,22 +18,21 @@ const app = express();
 
 app.use(express.json());
 app.use(cors());
-app.use("/api/users", userRouter);
-app.use('/api/product', productRouter)
-app.use('/api/cart', cartRouter)
-app.use('/api/checkout', checkoutRouter)
-app.use('/api/order', orderRoute)
-app.use('/api/upload', uploadRoute)
-app.use('/api/subscriber', subscriberRoute)
-app.use('/api/admin/users', adminUsersRoute)
-app.use('/api/admin/product', adminProductRoute)
-app.use('/api/admin/orders', adminOrderRoute)
-
-
-
-
-
 const PORT = process.env.PORT || 3000;
+app.get("/", (req, res) => {
+    res.send(`<h1>Server running on port ${PORT}</h1>`);
+});
+app.use("/api/users", userRouter);
+app.use("/api/product", productRouter);
+app.use("/api/cart", cartRouter);
+app.use("/api/checkout", checkoutRouter);
+app.use("/api/order", orderRoute);
+app.use("/api/upload", uploadRoute);
+app.use("/api/subscriber", subscriberRoute);
+app.use("/api/admin/users", adminUsersRoute);
+app.use("/api/admin/product", adminProductRoute);
+app.use("/api/admin/orders", adminOrderRoute);
+
 const startServer = async() => {
     try {
         await connectDB();
@@ -47,8 +46,3 @@ const startServer = async() => {
 };
 
 startServer();
-
-
-
-// 10: 48: 19
-// 11:04:00

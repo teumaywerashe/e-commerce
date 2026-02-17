@@ -3,11 +3,11 @@ import { useNavigate } from "react-router-dom";
 
 function MyOrders() {
   const [orders, setOrders] = useState([]);
-const navigate=useNavigate()
+  const navigate = useNavigate();
 
-  const handleOnClick=(id)=>{
-    navigate(`/order/${id}`)
-  }
+  const handleOnClick = (id) => {
+    navigate(`/order/${id}`);
+  };
   useEffect(() => {
     setTimeout(() => {
       const mokeOrders = [
@@ -55,7 +55,7 @@ const navigate=useNavigate()
   return (
     <div className="max-w-7xl mx-auto p-4 sm:p-6">
       <h2 className="text-xl sm:text-2xl font-bold mb-6">My Orders</h2>
-      <div className="relative shadow-md sm:rounded-lg overflow-hidden">
+      <div className="relative shadow-md sm:rounded-lg overflow-x-scroll">
         <table className="min-w-full text-left text-gray-500">
           <thead
             className="bg-gray-100 text-xs uppercase text-gray-700
@@ -69,7 +69,7 @@ const navigate=useNavigate()
               <th className="py-2 px-4 sm:py-3">Items</th>
               <th className="py-2 px-4 sm:py-3">Price</th>
               <th className="py-2 px-4 sm:py-3">Status</th>
-              <th className="py-2 px-4 sm:py-3"></th>
+              <th className="py-2 px-4 sm:py-3">Details</th>
             </tr>
           </thead>
           <tbody>
@@ -77,8 +77,7 @@ const navigate=useNavigate()
               orders.map((order) => (
                 <tr
                   key={order._id}
-                  onClick={()=>handleOnClick(order._id)}
-                  
+                  onClick={() => handleOnClick(order._id)}
                   className="border-b hover:border-r-gray-50 cursor-pointer"
                 >
                   <td className="py-2 px-2 sm:py-4 sm:px-4">
@@ -101,7 +100,7 @@ const navigate=useNavigate()
                   <td className="py-2 px-2 sm:py-4 sm:px-4">
                     {order.orderItems.reduce(
                       (total, item) => total + item.quantity,
-                      0
+                      0,
                     )}{" "}
                     Items
                   </td>

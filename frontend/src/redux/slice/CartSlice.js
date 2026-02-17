@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-export const loadCartFromStorage = () => {
+const loadCartFromStorage = () => {
     const storedCart = localStorage.getItem("cart");
     return storedCart ? JSON.stringify(storedCart) : { products: [] };
 };

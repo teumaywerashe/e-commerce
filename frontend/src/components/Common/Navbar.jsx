@@ -3,11 +3,11 @@ import { Link } from "react-router-dom";
 import {
   HiOutlineUser,
   HiOutlineShoppingBag,
-  HiBars3BottomRight,
+  HiBars3BottomRight
 } from "react-icons/hi2";
 import SearchBar from "./SearchBar";
 import CartDrawer from "../Layout/CartDrawer";
-import { IoMdClock, IoMdClose } from "react-icons/io";
+import {  IoMdClose } from "react-icons/io";
 function Navbar() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [navOpen, setNavOpen] = useState(false);
