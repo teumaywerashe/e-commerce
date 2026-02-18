@@ -31,34 +31,69 @@ export const fetchProductsByFilters = createAsyncThunk(
         if (brand) query.append("brand", brand);
         if (limit) query.append("limit", limit);
         const response = await axios.get(
-            `${import.meta.env.VITE_BACKEND_URL}/api/products?${query.toString}`,
+            `${import.meta.env.VITE_BACKEND_URL}/api/products?${query.toString()}`,
         );
-        return response.data;
+        return response.data.products;
     },
 );
 
-export const fetchProductDetails = createAsyncThunk('products/fetchDetails', async(id) => {
+export const fetchProductDetails = createAsyncThunk(
+    "products/fetchDetails",
+    async(id) => {
+        const response = await axios.get(
+            `${import.meta.env.VITE_BACKEND_URL}/api/product/${id}`,
+        );
+        return response.data.product;
+    },
+);
 
-    const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/products${id}`)
-    return response.data
+// export const updateProduct = createAsyncThunk(
+//     "products/updateProduct",
+//     async(id, productData) => {
+//         const response = await axios.put(
+//             `${import.meta.env.VITE_BACKEND_URL}/api/products/${id}`,
+//             productData, {
+//                 headers: {
+//                     Authorizarion: `Bearer ${localStorage.getItem("userToken")}`,
+//                 },
+//             },
+//         );
 
-})
+//         return response.data.updatedProduct;
+//     },
+// );
 
-export const updateProduct = createAsyncThunk('products/updateProduct', async(id, productData) => {
-    const response = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/products/${id}`, productData, {
-        headers: {
-            Authorizarion: `Bearer ${localStorage.getItem('userToken')}`
+export const updateProduct = createAsyncThunk(
+    "products/updateProduct",
+    async({ id, productData }, { rejectWithValue }) => {
+        try {
+            const response = await axios.put(
+                `${import.meta.env.VITE_BACKEND_URL}/api/products/${id}`,
+                productData, {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+                    },
+                }
+            );
+            return response.data.updatedProduct;
+        } catch (error) {
+            return rejectWithValue(error.response.data);
         }
-    })
+    }
+);
 
-    return response.data
-})
 
-export const fetchSimilarProducts = createAsyncThunk('products/fetchSimilarProducts', async(id) => {
-    const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/products/similar/products/${id}`)
 
-    return response.data
-})
+export const fetchSimilarProducts = createAsyncThunk(
+    "products/fetchSimilarProducts",
+    async(id) => {
+        const response = await axios.get(
+            `${import.meta.env.VITE_BACKEND_URL}/api/products/similar/products/${id}`,
+        );
+
+        return response.data.similarProduct;
+    },
+);
 
 export const productSlice = createSlice({
     name: "products",
@@ -69,103 +104,106 @@ export const productSlice = createSlice({
         loading: false,
         error: null,
         filters: {
-            category: '',
-            size: '',
-            color: '',
-            gender: '',
-            brand: '',
-            soldBy: '',
-            search: '',
-            material: '',
-            collection: '',
-            minPrice: '',
-            maxPrice: ''
-        }
+            category: "",
+            size: "",
+            color: "",
+            gender: "",
+            brand: "",
+            soldBy: "",
+            search: "",
+            material: "",
+            collection: "",
+            minPrice: "",
+            maxPrice: "",
+        },
     },
     reducers: {
         setFilters: (state, action) => {
-            state.filters = {...state.filters, ...action.payload }
+            state.filters = {...state.filters, ...action.payload };
         },
         clearFilters: (state) => {
             state.filters = {
-                category: '',
-                size: '',
-                color: '',
-                gender: '',
-                brand: '',
-                soldBy: '',
-                search: '',
-                material: '',
-                collection: '',
-                minPrice: '',
-                maxPrice: ''
-            }
-        }
+                category: "",
+                size: "",
+                color: "",
+                gender: "",
+                brand: "",
+                soldBy: "",
+                search: "",
+                material: "",
+                collection: "",
+                minPrice: "",
+                maxPrice: "",
+            };
+        },
     },
     extraReducers: (builder) => {
-        builder
+        builder.addCase(fetchSimilarProducts.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
             .addCase(fetchProductsByFilters.pending, (state) => {
-                state.error = null
-                state.loading = true
+                state.error = null;
+                state.loading = true;
             })
             .addCase(fetchProductsByFilters.fulfilled, (state, action) => {
-                state.error = null
-                state.loading = false
-                state.products = Array.isArray(action.payload) ? action.payload : []
+                state.error = null;
+                state.loading = false;
+                state.products = Array.isArray(action.payload) ? action.payload : [];
             })
             .addCase(fetchProductsByFilters.rejected, (state, action) => {
-                state.error = action.error.msg
-                state.loading = false
+                state.error = action.error.message;
+                state.loading = false;
             })
             .addCase(fetchProductDetails.pending, (state) => {
-                state.error = null
-                state.loading = true
+                state.error = null;
+                state.loading = true;
             })
             .addCase(fetchProductDetails.fulfilled, (state, action) => {
-                state.error = null
-                state.loading = false
-                state.selectedProduct = action.payload
+                state.error = null;
+                state.loading = false;
+                state.selectedProduct = action.payload;
             })
             .addCase(fetchProductDetails.rejected, (state, action) => {
-                state.error = action.error.msg
-                state.loading = false
+                state.error = action.error.message;
+                state.loading = false;
             })
             .addCase(updateProduct.pending, (state) => {
-                state.error = null
-                state.loading = true
+                state.error = null;
+                state.loading = true;
             })
-            .addCase(updateProduct.fulfilled, (state, action) => {
-                state.error = null
-                state.loading = false
 
-                const updatedProduct = action.payload
-                const index = state.products.findIndex(product => product._id === updatedProduct._id)
+        .addCase(updateProduct.fulfilled, (state, action) => {
+                state.error = null;
+                state.loading = false;
+
+                const updatedProduct = action.payload;
+                const index = state.products.findIndex(
+                    (product) => product._id === updatedProduct._id,
+                );
                 if (index !== -1) {
-                    state.products[index] = updateProduct
+                    state.products[index] = updatedProduct;
                 }
             })
             .addCase(updateProduct.rejected, (state, action) => {
-                state.error = action.error.msg
-                state.loading = false
+                state.error = action.error.message;
+                state.loading = false;
             })
-            .addCase(fetchSimilarProducts.pending, (state) => {
-                state.error = null
-                state.loading = true
-            })
-            .addCase(fetchSimilarProducts.fulfilled, (state, action) => {
-                state.error = null
-                state.loading = false
-                state.similarProducts = Array.isArray(action.payload) ? action.payload : []
+
+        .addCase(fetchSimilarProducts.fulfilled, (state, action) => {
+                state.error = null;
+                state.loading = false;
+                state.similarProducts = Array.isArray(action.payload) ?
+                    action.payload : [];
             })
             .addCase(fetchSimilarProducts.rejected, (state, action) => {
-                state.error = action.error.msg
-                state.loading = false
-            })
-            // .addCase(fetchProducts.pending, (state) => {});
+                state.error = action.error.message;
+                state.loading = false;
+            });
+
     },
 });
 
+export const { setFilters, clearFilters } = productSlice.actions;
 
-export const { setFilters, clearFilters } = productSlice.actions
-
-export default productSlice.reducer
+export default productSlice.reducer;

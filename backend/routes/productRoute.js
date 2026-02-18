@@ -243,6 +243,7 @@ productRouter.get("/new-arrival", async(req, res) => {
         res.status(500).json({ success: false, msg: "Server Error" });
     }
 });
+
 // get single product
 productRouter.get("/:id", async(req, res) => {
     const { id } = req.params;

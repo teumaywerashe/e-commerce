@@ -12,6 +12,7 @@ const getCart = (userId, guestId) => {
     } else return null;
 };
 
+// add to cart
 cartRouter.post("/", async(req, res) => {
     const { productId, quantity, size, color, guestId, userId } = req.body;
 
@@ -72,6 +73,8 @@ cartRouter.post("/", async(req, res) => {
     }
 });
 
+
+// fetch cart
 cartRouter.get("/", async(req, res) => {
     try {
         const carts = await Cart.find();
@@ -85,6 +88,7 @@ cartRouter.get("/", async(req, res) => {
     }
 });
 
+// update cart
 cartRouter.put("/", async(req, res) => {
     const { productId, quantity, color, size, guestId, userId } = req.body;
     try {
@@ -99,7 +103,7 @@ cartRouter.put("/", async(req, res) => {
             p.size === size &&
             p.color === color
         );
-        if (productIndex > -1) {
+        if (productIndex !== -1) {
             if (quantity > 0) {
                 cart.products[productIndex].quantity = quantity;
             } else {
@@ -120,6 +124,8 @@ cartRouter.put("/", async(req, res) => {
     }
 });
 
+
+// delete cart
 cartRouter.delete("/", async(req, res) => {
     const { size, color, userId, guestId, productId } = req.body;
     try {
@@ -150,6 +156,7 @@ cartRouter.delete("/", async(req, res) => {
     }
 });
 
+// fetch userCart
 cartRouter.get("/", async(req, res) => {
     const { userId, guestId } = req.query;
 
@@ -165,6 +172,8 @@ cartRouter.get("/", async(req, res) => {
     }
 });
 
+
+// merge cart
 cartRouter.post("/merge", auth, async(req, res) => {
     const { guestId } = req.body;
     try {

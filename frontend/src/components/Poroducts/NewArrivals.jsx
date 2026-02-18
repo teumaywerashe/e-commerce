@@ -1,94 +1,32 @@
+import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import { Link } from "react-router-dom";
 
 function NewArrivals() {
-  const NewArrivals = [
-    {
-      _id: "1",
-      name: "Stylish Jacket",
-      price: 120,
-      image: [
-        {
-          url: "https://picsum.photos/500/500?ramdom=1",
-          altText: "Stylish Jacket",
-        },
-      ],
-    },
-    {
-      _id: "2",
-      name: "Casual Shirt",
-      price: 60,
-      image: [
-        {
-          url: "https://picsum.photos/500/500?ramdom=2",
-          altText: "Casual Shirt",
-        },
-      ],
-    },
-    {
-      _id: "3",
-      name: "Elegant Dress",
-      price: 150,
-      image: [
-        {
-          url: "https://picsum.photos/500/500?ramdom=3",
+  
+  const [newArrivals, setNewArrivals] = useState([]);
 
-          altText: "Elegant Dress",
-        },
-      ],
-    },
-    {
-      _id: "4",
-      name: "Running Shoes",
-      price: 80,
-      image: [
-        {
-          url: "https://picsum.photos/500/500?ramdom=4",
-          altText: "Running Shoes",
-        },
-      ],
-    },
-    {
-      _id: "5",
-      name: "Denim Jeans",
-      price: 70,
-      image: [
-        {
-          url: "https://picsum.photos/500/500?ramdom=5",
-          altText: "Denim Jeans",
-        },
-      ],
-    },
-    {
-      _id: "6",
-      name: "Leather Handbag",
-      price: 200,
-      image: [
-        {
-          url: "https://picsum.photos/500/500?ramdom=6",
+  
+  useEffect(() => {
+    const fetchNewArrial = async () => {
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_BACKEND_URL}/api/product/new-arrival`,
+        );
+       
+          setNewArrivals(response.data.newArivaleProducts);
+       
+    
+      } catch (error) {
+        console.log(error);
+      }
+    };
 
-          altText: "Leather Handbag",
-        },
-      ],
-    },
-    {
-      _id: "7",
-      name: "Summer Hat",
-      price: 35,
-      image: [
-        {
-          url: "https://picsum.photos/500/500?ramdom=7",
-          altText: "Summer Hat",
-        },
-      ],
-    },
-  ];
+    fetchNewArrial()
+  },[newArrivals]);
 
   const scrollRef = useRef(null);
-  // const [isDraggging, setIsDragging] = useState(false);
-  // const [stateX, setStartX] = useState(0);
-  // const [scrollLeft, setScrollLeft] = useState(false);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
 
@@ -102,7 +40,7 @@ function NewArrivals() {
     if (container) {
       setCanScrollLeft(container.scrollLeft > 0);
       setCanScrollRight(
-        container.scrollLeft + container.clientWidth < container.scrollWidth
+        container.scrollLeft + container.clientWidth < container.scrollWidth,
       );
     }
   };
@@ -160,14 +98,14 @@ function NewArrivals() {
         ref={scrollRef}
         className="container overflow-x-scroll mx-auto flex space-x-6 relative"
       >
-        {NewArrivals.map((product) => (
+        {newArrivals?.map((product) => (
           <div
             key={product._id}
             className="min-w-full sm:min-w-[50%] md:min-w-[300px] lg:min-w-[30%] relative"
           >
             <img
-              src={product.image[0]?.url}
-              alt={product.image[0].altText}
+              src={product.images[0]?.url}
+              alt={product.images[0]?.altText}
               className="w-full h-[500px] object-cover mb-4 rounded-lg"
             />
             <div className="absolute bottom-0 right-0 left-0 bg-opacity-50 backdrop-blur-md text-white p-4 rounded-b-lg ">

@@ -3,8 +3,9 @@ import axios from "axios";
 
 const loadCartFromStorage = () => {
     const storedCart = localStorage.getItem("cart");
-    return storedCart ? JSON.stringify(storedCart) : { products: [] };
+    return storedCart ? JSON.parse(storedCart) : { products: [] };
 };
+
 const saveCartToStorage = (cart) => {
     localStorage.setItem("cart", JSON.stringify(cart));
 };
@@ -17,10 +18,10 @@ export const fetchCart = createAsyncThunk(
                 `${import.meta.env.VITE_BACKEND_URL}/api/cart`, { params: { userId, guestId } },
             );
 
-            return response.data;
+            return response.data.carts;
         } catch (error) {
             console.log(error);
-            rejectWithValue(error.response.data);
+            return rejectWithValue(error.response.data);
         }
     },
 );
@@ -39,54 +40,52 @@ export const updateCartQuantity = createAsyncThunk(
                     color,
                 },
             );
-            return response.data;
+            return response.data.cart;
         } catch (error) {
             console.log(error);
-            rejectWithValue(error.response.data);
+            return rejectWithValue(error.response.data);
         }
     },
 );
 export const addToCart = createAsyncThunk(
     "cart/addToCart",
-    async({ productId, quantity, sizez, color, guestId, userId }, { rejectWithValue }, ) => {
+    async({ productId, quantity, size, color, guestId, userId }, { rejectWithValue }, ) => {
         try {
             const response = await axios.post(
                 `${import.meta.env.VITE_BACKEND_URL}/api/cart`, {
                     productId,
                     quantity,
-                    sizez,
+                    size,
                     color,
                     guestId,
                     userId,
                 },
             );
-            return response.data;
+            return response.data.cart;
         } catch (error) {
             console.log(error);
-            rejectWithValue(error.response.data);
+            return rejectWithValue(error.response.data);
         }
     },
 );
 
-export const removeFromCrt = createAsyncThunk(
+export const removeFromCart = createAsyncThunk(
     "cart/removeFromCart",
     async({ productId, guestId, userId, size, color }, { rejectWithValue }) => {
         try {
-            const response = await axios.delete(
-                `${import.meta.env.VITE_BACKEND_URL}/api/cart`, {
-                    data: {
-                        productId,
-                        guestId,
-                        userId,
-                        size,
-                        color,
-                    },
+            await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api/cart`, {
+                data: {
+                    productId,
+                    guestId,
+                    userId,
+                    size,
+                    color,
                 },
-            );
-            return response.data;
+            });
+            return productId;
         } catch (error) {
             console.log(error);
-            rejectWithValue(error.response.data);
+            return rejectWithValue(error.response.data);
         }
     },
 );
@@ -102,24 +101,24 @@ export const mergeCart = createAsyncThunk(
                     },
                 },
             );
-            return response.data;
+            return response.data.userCart;
         } catch (error) {
             console.log(error);
-            rejectWithValue(RTCError.response.data);
+            return rejectWithValue(error.response.data);
         }
     },
 );
 const cartSlice = createSlice({
     name: "cart",
     initialState: {
-        cart: loadCartFromStorage,
+        cart: loadCartFromStorage(),
         loading: false,
         error: null,
     },
     reducer: {
         clearCart: (state) => {
             state.cart = {
-                product: [],
+                products: [],
             };
             localStorage.removeItem("cart");
         },
@@ -127,8 +126,8 @@ const cartSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(fetchCart.pending, (state) => {
-                state.error = null
-                state.loading = true
+                state.error = null;
+                state.loading = true;
             })
             .addCase(fetchCart.fulfilled, (state, action) => {
                 state.error = null;
@@ -137,13 +136,12 @@ const cartSlice = createSlice({
                 saveCartToStorage(state.cart);
             })
             .addCase(fetchCart.rejected, (state, action) => {
-                state.error = action.error.message || 'Faild to load the cart'
+                state.error = action.error.message || "Faild to load the cart";
                 state.loading = false;
             })
             .addCase(addToCart.pending, (state) => {
-                state.error = null
-                state.loading = true
-
+                state.error = null;
+                state.loading = true;
             })
             .addCase(addToCart.fulfilled, (state, action) => {
                 state.error = null;
@@ -152,9 +150,10 @@ const cartSlice = createSlice({
                 saveCartToStorage(state.cart);
             })
             .addCase(addToCart.rejected, (state, action) => {
-                state.error = action.error.message || 'Faild to add to cart'
+                state.error = action.error.message || "Faild to add to cart";
                 state.loading = false;
-            }).addCase(updateCartQuantity.pending, (state) => {
+            })
+            .addCase(updateCartQuantity.pending, (state) => {
                 ((state.error = null), (state.loading = true));
             })
             .addCase(updateCartQuantity.fulfilled, (state, action) => {
@@ -164,20 +163,22 @@ const cartSlice = createSlice({
                 saveCartToStorage(state.cart);
             })
             .addCase(updateCartQuantity.rejected, (state, action) => {
-                state.error = action.error.message || 'Faild to update item quantity'
+                state.error = action.error.message || "Faild to update item quantity";
                 state.loading = false;
             })
-            .addCase(removeFromCrt.pending, (state) => {
+            .addCase(removeFromCart.pending, (state) => {
                 ((state.error = null), (state.loading = true));
             })
-            .addCase(removeFromCrt.fulfilled, (state, action) => {
+            .addCase(removeFromCart.fulfilled, (state, action) => {
                 state.error = null;
                 state.loading = false;
-                state.cart = action.payload;
+                state.cart.products = state.cart.products.filter(
+                    product => product._id !== action.payload
+                );
                 saveCartToStorage(state.cart);
             })
-            .addCase(removeFromCrt.rejected, (state, action) => {
-                state.error = action.error.message || 'Faild to remove item'
+            .addCase(removeFromCart.rejected, (state, action) => {
+                state.error = action.error.message || "Faild to remove item";
                 state.loading = false;
             })
             .addCase(mergeCart.pending, (state) => {
@@ -190,13 +191,12 @@ const cartSlice = createSlice({
                 saveCartToStorage(state.cart);
             })
             .addCase(mergeCart.rejected, (state, action) => {
-                state.error = action.error.message || 'Faild to merge cart'
+                state.error = action.error.message || "Faild to merge cart";
                 state.loading = false;
             });
     },
 });
 
-
-export const { clearCart } = cartSlice.actions
+export const { clearCart } = cartSlice.actions;
 
 export default cartSlice.reducer;
