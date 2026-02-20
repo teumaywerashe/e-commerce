@@ -3,9 +3,18 @@ import { FiFilter } from "react-icons/fi";
 import FilterSidebar from "../components/Poroducts/FilterSidebar";
 import SortOpitions from "../components/Poroducts/SortOpitions";
 import ProductGrid from '../components/Poroducts/ProductGrid'
+import { useParams, useSearchParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchProductsByFilters } from "../redux/slice/productSlice";
 
 function CollectionPage() {
-  const [products, setProducts] = useState([]);
+
+  const {collection}=useParams()
+  const [searchParams]=useSearchParams()
+  const queryParams=Object.fromEntries([...searchParams])
+  const dispatch=useDispatch()
+
+  const {products,error,loading}=useSelector(state=>state.products)
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const sidebareRef = useRef(null);
 
@@ -19,6 +28,11 @@ function CollectionPage() {
     }
   };
 
+
+  useEffect(()=>{
+    dispatch(fetchProductsByFilters({collection,...queryParams}))
+  },[dispatch,collection,searchParams])
+
   useEffect(() => {
     document.addEventListener("mousedown", handleClickoutside);
     return () => {
@@ -26,43 +40,7 @@ function CollectionPage() {
     };
   }, []);
 
-  useEffect(() => {
-    setTimeout(() => {
-      const fetchedProducts = [
-        {
-          _id: 1,
-          name: "product 1",
-          price: 100,
-          image: [{ url: "https://picsum.photos/500/500?ramdom=10" }],
-        },
-        {
-          _id: 1,
-          name: "product 2",
-          price: 100,
-          image: [{ url: "https://picsum.photos/500/500?ramdom=11" }],
-        },
-        {
-          _id: 1,
-          name: "product 3",
-          price: 100,
-          image: [{ url: "https://picsum.photos/500/500?ramdom=12" }],
-        },
-        {
-          _id: 1,
-          name: "product 4",
-          price: 100,
-          image: [{ url: "https://picsum.photos/500/500?ramdom=13" }],
-        },
-        {
-          _id: 1,
-          name: "product 5",
-          price: 100,
-          image: [{ url: "https://picsum.photos/500/500?ramdom=14" }],
-        },
-      ];
-      setProducts(fetchedProducts);
-    }, 1000);
-  }, []);
+
   return (
     <div className="flex flex-col lg:flex-row">
       <button
@@ -84,7 +62,7 @@ function CollectionPage() {
         <h2 className="text-2x1 uppercase mb-4">All collection</h2>
         <SortOpitions/>
  
-        <ProductGrid products={products} />
+        <ProductGrid products={products} error={error} loading={loading}/>
       </div>
     </div>
   );

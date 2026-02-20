@@ -20,7 +20,7 @@ app.use(express.json());
 app.use(cors());
 const PORT = process.env.PORT || 3000;
 app.get("/", (req, res) => {
-  res.send(`<h1>Server running on port ${PORT}</h1>`);
+    res.send(`<h1>Server running on port ${PORT}</h1>`);
 });
 app.use("/api/users", userRouter);
 app.use("/api/product", productRouter);
@@ -33,16 +33,16 @@ app.use("/api/admin/users", adminUsersRoute);
 app.use("/api/admin/product", adminProductRoute);
 app.use("/api/admin/orders", adminOrderRoute);
 
-const startServer = async () => {
-  try {
-    await connectDB();
-    app.listen(PORT, () => {
-      console.log(`Server running on http://localhost:${PORT}   13:34:20`);
-    });
-  } catch (error) {
-    console.error("Failed to start server", error);
-    process.exit(1);
-  }
+const startServer = async() => {
+    try {
+        await connectDB();
+        app.listen(PORT, () => {
+            console.log(`Server running on http://localhost:${PORT}   13:50:20`);
+        });
+    } catch (error) {
+        console.error("Failed to start server", error);
+        process.exit(1);
+    }
 };
 
 startServer();

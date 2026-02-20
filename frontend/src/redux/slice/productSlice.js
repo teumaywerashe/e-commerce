@@ -31,7 +31,7 @@ export const fetchProductsByFilters = createAsyncThunk(
         if (brand) query.append("brand", brand);
         if (limit) query.append("limit", limit);
         const response = await axios.get(
-            `${import.meta.env.VITE_BACKEND_URL}/api/products?${query.toString()}`,
+            `${import.meta.env.VITE_BACKEND_URL}/api/product?${query.toString()}`,
         );
         return response.data.products;
     },
@@ -51,7 +51,7 @@ export const fetchProductDetails = createAsyncThunk(
 //     "products/updateProduct",
 //     async(id, productData) => {
 //         const response = await axios.put(
-//             `${import.meta.env.VITE_BACKEND_URL}/api/products/${id}`,
+//             `${import.meta.env.VITE_BACKEND_URL}/api/product/${id}`,
 //             productData, {
 //                 headers: {
 //                     Authorizarion: `Bearer ${localStorage.getItem("userToken")}`,
@@ -68,7 +68,7 @@ export const updateProduct = createAsyncThunk(
     async({ id, productData }, { rejectWithValue }) => {
         try {
             const response = await axios.put(
-                `${import.meta.env.VITE_BACKEND_URL}/api/products/${id}`,
+                `${import.meta.env.VITE_BACKEND_URL}/api/product/${id}`,
                 productData, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("userToken")}`,
@@ -88,7 +88,7 @@ export const fetchSimilarProducts = createAsyncThunk(
     "products/fetchSimilarProducts",
     async(id) => {
         const response = await axios.get(
-            `${import.meta.env.VITE_BACKEND_URL}/api/products/similar/products/${id}`,
+            `${import.meta.env.VITE_BACKEND_URL}/api/product/similar/${id}`,
         );
 
         return response.data.similarProduct;
@@ -149,7 +149,7 @@ export const productSlice = createSlice({
             .addCase(fetchProductsByFilters.fulfilled, (state, action) => {
                 state.error = null;
                 state.loading = false;
-                state.products = Array.isArray(action.payload) ? action.payload : [];
+                state.products = action.payload
             })
             .addCase(fetchProductsByFilters.rejected, (state, action) => {
                 state.error = action.error.message;

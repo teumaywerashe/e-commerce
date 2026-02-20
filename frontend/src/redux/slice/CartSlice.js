@@ -95,7 +95,10 @@ export const mergeCart = createAsyncThunk(
     async({ guestId, user }, { rejectWithValue }) => {
         try {
             const response = await axios.post(
-                `${import.meta.env.VITE_BACKEND_URL}/api/cart/merge`, { data: { guestId, user } }, {
+                `${import.meta.env.VITE_BACKEND_URL}/api/cart/merge`, {
+                    guestId,
+                    user
+                }, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("userToken")}`,
                     },
@@ -147,6 +150,7 @@ const cartSlice = createSlice({
                 state.error = null;
                 state.loading = false;
                 state.cart = {...loadCartFromStorage(), ...action.payload };
+
                 saveCartToStorage(state.cart);
             })
             .addCase(addToCart.rejected, (state, action) => {

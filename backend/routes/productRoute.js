@@ -142,9 +142,9 @@ productRouter.delete("/:id", auth, admin, async(req, res) => {
 productRouter.get("/", async(req, res) => {
     try {
         const {
-            collection,
-            size,
-            color,
+            collections,
+            sizes,
+            colors,
             gender,
             minPrice,
             maxPrice,
@@ -156,8 +156,8 @@ productRouter.get("/", async(req, res) => {
             limit,
         } = req.query;
         let query = {};
-        if (collection && collection.toLowerCase() !== "all") {
-            query.collection = collection;
+        if (collections && collections.toLowerCase() !== "all") {
+            query.collections = collections;
         }
         if (category && category.toLowerCase() !== "all") {
             query.category = category;
@@ -169,11 +169,11 @@ productRouter.get("/", async(req, res) => {
         if (brand) {
             query.brand = { $in: brand.split(",") };
         }
-        if (size) {
-            query.size = { $in: size.split(",") };
+        if (sizes) {
+            query.sizes = { $in: sizes.split(",") };
         }
-        if (color) {
-            query.color = { $in: color.split(",") };
+        if (colors) {
+            query.colors = { $in: colors.split(",") };
         }
         if (gender) {
             query.gender = gender;
@@ -205,6 +205,7 @@ productRouter.get("/", async(req, res) => {
         if (!products) {
             return res.status(404).json({ success: false, msg: "No Products Found" });
         }
+        // console.log(req.query, query);
         res.json({ legth: products.length, products: products });
     } catch (error) {
         console.log(error);

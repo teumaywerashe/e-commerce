@@ -6,9 +6,9 @@ function FilterSidebar() {
   const navigate = useNavigate();
   const [filters, setFilters] = useState({
     category: "",
-    color: "",
+    colors: "",
     gender: "",
-    size: "",
+    sizes: "",
     material: "",
     brand: "",
     minPrice: "",
@@ -16,9 +16,9 @@ function FilterSidebar() {
   });
   const [priceRange, setPriceRange] = useState([0, 100]);
 
-  const categories = ["top wear", "bottom wear"];
+  const categories = ["Top Wear", "Bottom Wear"];
   const gender = ["Men", "Women"];
-  const color = [
+  const colors = [
     "Red",
     "Blue",
     "Black",
@@ -30,26 +30,26 @@ function FilterSidebar() {
     "Beige",
     "Navy",
   ];
-  const sizeS = ["XS", "MS", "M", "L", "XL", "XXL"];
+  const sizes = ["XS", "MS", "M", "L", "XL", "XXL"];
 
   const materials = [
-    "Cotten",
-    "Wool",
+    "Cotton Blend",
+    "Wool Blend",
     "Denim",
-    "Polyster",
-    "Silk",
-    "Linen",
+    "Polyester",
+    "Silk Blend",
+    "Linen Blend",
     "Viscose",
     "Fleece",
   ];
 
   const brands = [
-    "Urban tread",
+    "Urban Threads",
     "Modern Fit",
-    "Streer style",
-    "Beach breeze",
+    "Street Style",
+    "Beach Breeze",
     "Fashionista",
-    "Chicstyle",
+    "ChicStyle",
   ];
 
   useEffect(() => {
@@ -58,8 +58,8 @@ function FilterSidebar() {
     setFilters({
       category: params.category || "",
       gender: params.gender || "",
-      color: params.color || "",
-      size: params.size ? params.size.split(",") : [],
+      colors: params.color || "",
+      sizes: params.size ? params.size.split(",") : [],
       material: params.material ? params.material.split(",") : [],
       brand: params.brand ? params.brand.split(",") : [],
       minPrice: params.minPrice || 0,
@@ -152,7 +152,7 @@ function FilterSidebar() {
 
         <div className="flex flex-wrap gap-2">
           {" "}
-          {color.map((color) => (
+          {colors.map((color) => (
             <button
               key={color}
               value={color}
@@ -171,13 +171,13 @@ function FilterSidebar() {
       {/* size filter */}
       <div className="mb-6">
         <label className="block text-gray-600 font-medium mb-2">Size</label>
-        {sizeS.map((size) => (
+        {sizes.map((size) => (
           <div key={size} className="flex items-center mb-1">
             <input
               type="checkbox"
               name="size"
               value={size}
-              checked={filters.size.includes(size)}
+              checked={filters.sizes.includes(size)}
               onChange={handleFilterChange}
               className="mr-2 h-4 w-4  text-blue-500 cursor-pointer focus:ring-blue-400 border-gray-300"
             />
@@ -209,7 +209,7 @@ function FilterSidebar() {
         {brands.map((brand) => (
           <div key={brand} className="flex items-center mb-1">
             <input
-              type="checkbox"
+              type="radio"
               value={brand}
               checked={filters.brand.includes(brand)}
               onChange={handleFilterChange}

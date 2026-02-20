@@ -24,7 +24,7 @@ function NewArrivals() {
     };
 
     fetchNewArrial()
-  },[newArrivals]);
+  },[]);
 
   const scrollRef = useRef(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);

@@ -3,10 +3,11 @@ import { toast } from "sonner";
 import ProductGrid from "./ProductGrid";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchProductDetails, 
+import {
+  fetchProductDetails,
   fetchSimilarProducts,
 } from "../../redux/slice/productSlice";
-import {addToCart} from "../../redux/slice/CartSlice";
+import { addToCart } from "../../redux/slice/CartSlice";
 
 function ProductDetails({ productId }) {
   const { id } = useParams();
@@ -14,7 +15,7 @@ function ProductDetails({ productId }) {
 
   const { user, guestId } = useSelector((state) => state.auth);
   const { selectedProduct, similarProducts, error, loading } = useSelector(
-    (state) => state.products
+    (state) => state.products,
   );
 
   const productFetchId = productId || id;
@@ -45,6 +46,7 @@ function ProductDetails({ productId }) {
       toast.error("Please select size and color before adding to cart", {
         duration: 1000,
       });
+      console.log(selectedColor, selectedSize);
       return;
     }
 
@@ -58,11 +60,12 @@ function ProductDetails({ productId }) {
         color: selectedColor,
         guestId,
         userId: user?._id,
-      })
+      }),
     )
       .then(() => {
         toast.success("Product added to cart!", { duration: 1000 });
       })
+      .catch(() => toast.error("failled adding to cart"))
       .finally(() => {
         setIsButtonDisabled(false);
       });
@@ -76,7 +79,6 @@ function ProductDetails({ productId }) {
     <div className="p-6">
       <div className="max-w-6xl bg-white p-8 rounded-lg">
         <div className="flex flex-col md:flex-row">
-          
           {/* Thumbnails */}
           <div className="hidden md:flex flex-col space-y-4 mr-6">
             {selectedProduct.images?.map((img, index) => (
@@ -121,9 +123,7 @@ function ProductDetails({ productId }) {
               ${selectedProduct.price}
             </p>
 
-            <p className="text-gray-600 mb-4">
-              {selectedProduct.description}
-            </p>
+            <p className="text-gray-600 mb-4">{selectedProduct.description}</p>
 
             {/* Colors */}
             <div className="mb-4">
@@ -150,7 +150,7 @@ function ProductDetails({ productId }) {
             <div className="mb-4">
               <p className="text-gray-700">Size:</p>
               <div className="flex gap-2 mt-2">
-                {selectedProduct.size?.map((size, index) => (
+                {selectedProduct.sizes?.map((size, index) => (
                   <button
                     key={index}
                     onClick={() => setSelectedSize(size)}
@@ -187,7 +187,6 @@ function ProductDetails({ productId }) {
               </div>
             </div>
 
-            {/* Add To Cart */}
             <button
               onClick={handleAddToCart}
               disabled={isButtonDisabled}

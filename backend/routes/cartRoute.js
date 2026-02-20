@@ -48,7 +48,7 @@ cartRouter.post("/", async(req, res) => {
                 0
             );
             await cart.save();
-            res.status(200).json(cart);
+            res.status(200).json({ cart });
         } else {
             const newCart = await Cart.create({
                 user: userId ? userId : undefined,
@@ -64,7 +64,7 @@ cartRouter.post("/", async(req, res) => {
                 }, ],
                 totalPrice: product.price * quantity,
             });
-            return res.status(201).json({ newCart });
+            return res.status(201).json({ cart: newCart });
         }
         return;
     } catch (error) {

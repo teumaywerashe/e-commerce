@@ -18,7 +18,6 @@ import UserManagement from "./components/Admin/UserManagement";
 import ProductManagement from "./components/Admin/ProductManagement";
 import EditProduct from "./components/Admin/EditProduct";
 import OrderManagement from "./components/Admin/OrderManagement";
-import {Provider} from 'react-redux'
 function App() {
   return (
     <>
