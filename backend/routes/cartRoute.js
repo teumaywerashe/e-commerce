@@ -27,7 +27,7 @@ cartRouter.post("/", async(req, res) => {
                 (p) =>
                 p.productId.toString() === productId &&
                 p.size === size &&
-                p.color === color
+                p.color === color,
             );
 
             if (productIndex > -1) {
@@ -45,7 +45,7 @@ cartRouter.post("/", async(req, res) => {
             }
             cart.totalPrice = cart.products.reduce(
                 (acc, item) => acc + item.price * item.quantity,
-                0
+                0,
             );
             await cart.save();
             res.status(200).json({ cart });
@@ -74,26 +74,15 @@ cartRouter.post("/", async(req, res) => {
 });
 
 
-// fetch cart
-cartRouter.get("/", async(req, res) => {
-    try {
-        const carts = await Cart.find();
-        if (!carts) {
-            return res.status(400).json({ success: false, msg: "No cart found" });
-        }
-        res.status(200).json({ success: true, carts });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ success: false, msg: "server error" });
-    }
-});
 
 // update cart quantity
 cartRouter.put("/", async(req, res) => {
     const { productId, quantity, color, size, guestId, userId } = req.body;
+    console.log({ productId, quantity, color, size, guestId, userId });
     try {
         let cart = await getCart(userId, guestId);
         if (!cart) {
+            console.log('error1');
             return res.status(400).json({ success: false, msg: "cart not found" });
         }
 
@@ -101,7 +90,7 @@ cartRouter.put("/", async(req, res) => {
             (p) =>
             p.productId.toString() === productId &&
             p.size === size &&
-            p.color === color
+            p.color === color,
         );
         if (productIndex !== -1) {
             if (quantity > 0) {
@@ -111,11 +100,12 @@ cartRouter.put("/", async(req, res) => {
             }
             cart.totalPrice = cart.products.reduce(
                 (acc, item) => acc + item.price,
-                0
+                0,
             );
             cart.save();
             res.status(200).json({ success: true, cart });
         } else {
+            console.log('error');
             res.status(400).json({ success: false, msg: "Product not font in cart" });
         }
     } catch (error) {
@@ -124,34 +114,39 @@ cartRouter.put("/", async(req, res) => {
     }
 });
 
-
 // delete from a cart
 cartRouter.delete("/", async(req, res) => {
     const { size, color, userId, guestId, productId } = req.body;
     try {
         const cart = await getCart(userId, guestId);
+        console.log(cart);
         if (!cart) {
+            console.log('cart not found');
             return res.status(404).json({ success: false, msg: "Cart not found" });
         }
         const productIndex = cart.products.findIndex(
             (p) =>
             p.size === size &&
             p.productId.toString() === productId &&
-            p.color === color
+            p.color === color,
         );
+        console.log(cart.products, productIndex);
         if (productIndex > -1) {
             cart.products.splice(productIndex, 1);
             cart.totalQuantity = cart.products.reduce(
                 (acc, item) => item.quantity * item.price + acc,
-                0
+                0,
             );
-            await cart.save();
+            await cart.save();;
             res.status(200).json({ success: true, cart, msg: "cart deleted " });
         } else {
+            console.log('Product not found');
             res.status(400).json({ success: false, msg: "Product not found" });
         }
+
     } catch (error) {
         console.error(error);
+        console.log("server error");
         res.status(500).json({ succcess: false, msg: "Server error" });
     }
 });
@@ -171,7 +166,6 @@ cartRouter.get("/", async(req, res) => {
         res.status(500).json({ successs: false, msg: "server Error" });
     }
 });
-
 
 // merge cart
 cartRouter.post("/merge", auth, async(req, res) => {
@@ -202,7 +196,7 @@ cartRouter.post("/merge", auth, async(req, res) => {
                 });
                 userCart.totalPrice = userCart.products.reduce(
                     (acc, item) => acc + item.price * item.quantity,
-                    0
+                    0,
                 );
                 await userCart.save();
 
@@ -220,9 +214,9 @@ cartRouter.post("/merge", auth, async(req, res) => {
             }
         } else {
             if (userCart) {
-                return res.status(200).json({ success: true, userCart })
+                return res.status(200).json({ success: true, userCart });
             }
-            res.status(404).json({ msg: 'guestCart not found', success: false })
+            res.status(404).json({ msg: "guestCart not found", success: false });
         }
     } catch (error) {
         console.log(error);

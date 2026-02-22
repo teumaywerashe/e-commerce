@@ -28,7 +28,7 @@ export const fetchCart = createAsyncThunk(
 
 export const updateCartQuantity = createAsyncThunk(
     "/cart/updateCartQuantity",
-    async({ quantity, productId, guestId, userId, size, color }, { rejectWithValue }, ) => {
+    async({ productId, quantity, guestId, userId, size, color }, { rejectWithValue }, ) => {
         try {
             const response = await axios.put(
                 `${import.meta.env.VITE_BACKEND_URL}/api/cart/`, {
@@ -82,6 +82,7 @@ export const removeFromCart = createAsyncThunk(
                     color,
                 },
             });
+
             return productId;
         } catch (error) {
             console.log(error);

@@ -11,20 +11,21 @@ function CartContent({ cart, userId, guestId }) {
 
   const handleAddToCart = (productId, size, delta, color, quantity) => {
     const newQuantity = quantity + delta;
+     console.log(productId, guestId, userId, size, color);
 
     dispatch(
       updateCartQuantity({
-        productId,
-        size,
-        color,
+        productId:String(productId),
         quantity: newQuantity,
         guestId,
         userId,
+        size,
+        color
       }),
     );
   };
   const handleRemoveFromCart = (productId, color, size) => {
-    dispatch(removeFromCart({ productId, color, size, userId, guestId }));
+    dispatch(removeFromCart({ productId, guestId, userId, size, color }));
   };
   // Example cart items array
   return (
