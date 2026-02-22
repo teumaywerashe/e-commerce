@@ -97,7 +97,7 @@ export const mergeCart = createAsyncThunk(
             const response = await axios.post(
                 `${import.meta.env.VITE_BACKEND_URL}/api/cart/merge`, {
                     guestId,
-                    user
+                    user,
                 }, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("userToken")}`,
@@ -118,7 +118,7 @@ const cartSlice = createSlice({
         loading: false,
         error: null,
     },
-    reducer: {
+    reducers: {
         clearCart: (state) => {
             state.cart = {
                 products: [],
@@ -177,7 +177,7 @@ const cartSlice = createSlice({
                 state.error = null;
                 state.loading = false;
                 state.cart.products = state.cart.products.filter(
-                    product => product._id !== action.payload
+                    (product) => product._id !== action.payload,
                 );
                 saveCartToStorage(state.cart);
             })
