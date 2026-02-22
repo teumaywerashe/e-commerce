@@ -7,7 +7,10 @@ const loadCartFromStorage = () => {
 };
 
 const saveCartToStorage = (cart) => {
+
+
     localStorage.setItem("cart", JSON.stringify(cart));
+
 };
 
 export const fetchCart = createAsyncThunk(
@@ -82,8 +85,14 @@ export const removeFromCart = createAsyncThunk(
                     color,
                 },
             });
-
-            return productId;
+            console.log({
+                productId,
+                guestId,
+                userId,
+                size,
+                color
+            });
+            return { productId, size, color };
         } catch (error) {
             console.log(error);
             return rejectWithValue(error.response.data);
@@ -150,7 +159,7 @@ const cartSlice = createSlice({
             .addCase(addToCart.fulfilled, (state, action) => {
                 state.error = null;
                 state.loading = false;
-                state.cart = {...loadCartFromStorage(), ...action.payload };
+                state.cart = action.payload;
 
                 saveCartToStorage(state.cart);
             })
@@ -177,8 +186,16 @@ const cartSlice = createSlice({
             .addCase(removeFromCart.fulfilled, (state, action) => {
                 state.error = null;
                 state.loading = false;
+
+                const { productId, size, color } = action.payload;
+
                 state.cart.products = state.cart.products.filter(
-                    (product) => product._id !== action.payload,
+                    (product) =>
+                    !(
+                        product.productId.toString() === productId.toString() &&
+                        product.size === size &&
+                        product.color === color
+                    )
                 );
                 saveCartToStorage(state.cart);
             })

@@ -25,6 +25,7 @@ function CartContent({ cart, userId, guestId }) {
     );
   };
   const handleRemoveFromCart = (productId, color, size) => {
+    console.log({ productId, guestId, userId, size, color });
     dispatch(removeFromCart({ productId, guestId, userId, size, color }));
   };
   // Example cart items array

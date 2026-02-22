@@ -25,7 +25,7 @@ cartRouter.post("/", async(req, res) => {
         if (cart) {
             const productIndex = cart.products.findIndex(
                 (p) =>
-                p.productId.toString() === productId &&
+                p.productId.toString() === productId.toString() &&
                 p.size === size &&
                 p.color === color,
             );
@@ -88,7 +88,7 @@ cartRouter.put("/", async(req, res) => {
 
         const productIndex = cart.products.findIndex(
             (p) =>
-            p.productId.toString() === productId &&
+            p.productId.toString() === productId.toString() &&
             p.size === size &&
             p.color === color,
         );
@@ -127,7 +127,7 @@ cartRouter.delete("/", async(req, res) => {
         const productIndex = cart.products.findIndex(
             (p) =>
             p.size === size &&
-            p.productId.toString() === productId &&
+            p.productId.toString() === productId.toString() &&
             p.color === color,
         );
         console.log(cart.products, productIndex);
@@ -138,6 +138,7 @@ cartRouter.delete("/", async(req, res) => {
                 0,
             );
             await cart.save();;
+            console.log('deleted from the cart');
             res.status(200).json({ success: true, cart, msg: "cart deleted " });
         } else {
             console.log('Product not found');
