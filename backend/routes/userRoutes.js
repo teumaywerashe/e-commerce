@@ -6,10 +6,13 @@ import { auth } from "../middleWares/protected.js";
 
 export const userRouter = express.Router();
 
+// create token
 const createToken = (payload) => {
     return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "7d" });
 };
 
+
+// register user
 userRouter.post("/register", async(req, res) => {
     try {
         const { name, email, password } = req.body;
@@ -51,6 +54,8 @@ userRouter.post("/register", async(req, res) => {
     }
 });
 
+
+// login user
 userRouter.post("/login", async(req, res) => {
     const { email, password } = req.body;
     try {
@@ -85,6 +90,8 @@ userRouter.post("/login", async(req, res) => {
         res.status(500).json({ success: false, msg: "server Error" });
     }
 });
+
+// get usr profile
 userRouter.get("/profile", auth, async(req, res) => {
     res.status(200).json(req.user)
 });

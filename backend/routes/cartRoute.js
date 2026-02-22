@@ -88,7 +88,7 @@ cartRouter.get("/", async(req, res) => {
     }
 });
 
-// update cart
+// update cart quantity
 cartRouter.put("/", async(req, res) => {
     const { productId, quantity, color, size, guestId, userId } = req.body;
     try {
@@ -125,7 +125,7 @@ cartRouter.put("/", async(req, res) => {
 });
 
 
-// delete cart
+// delete from a cart
 cartRouter.delete("/", async(req, res) => {
     const { size, color, userId, guestId, productId } = req.body;
     try {

@@ -44,7 +44,7 @@ adminUsersRoute.put("/:id", auth, admin, async(req, res) => {
         const user = await User.findById(req.params.id);
 
         const exist = await User.findOne({ email });
-        if (exist) {
+        if (exist && exist._id !== req.params.id) {
             return res
                 .status(400)
                 .json({ success: false, msg: "Users with this email already exist" });

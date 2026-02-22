@@ -5,6 +5,8 @@ import { Cart } from "../models/Cart.js";
 import Order from "../models/Order.js";
 export const checkoutRouter = express.Router();
 
+
+// create new checkout
 checkoutRouter.post("/", auth, async(req, res) => {
     const {
         checkoutItems,
@@ -17,7 +19,7 @@ checkoutRouter.post("/", auth, async(req, res) => {
         paymentDetails,
     } = req.body;
 
-    console.log(checkoutItems, req.user, shippingAdress, paymentDetails);
+    // console.log(checkoutItems, req.user, shippingAdress, paymentDetails);
     if (!checkoutItems || checkoutItems.length === 0) {
         res.status(400).json({ success: false, msg: "no items in the checkout" });
     }
@@ -34,7 +36,7 @@ checkoutRouter.post("/", auth, async(req, res) => {
             paymentDetails,
         });
 
-        console.log(`checkout create for the user:${req.user._id}`);
+        // console.log(`checkout create for the user:${req.user._id}`);
         res.status(201).json({ success: true, newCheckout })
     } catch (error) {
         console.error("error creating the checkout", error);
@@ -42,6 +44,7 @@ checkoutRouter.post("/", auth, async(req, res) => {
     }
 });
 
+// update the payment status of checkout
 checkoutRouter.put("/:id/pay", auth, async(req, res) => {
     const { paymentStatus, paymentDetails } = req.body;
 
@@ -70,6 +73,7 @@ checkoutRouter.put("/:id/pay", auth, async(req, res) => {
     }
 });
 
+// finalize checkout and create order
 checkoutRouter.post("/:id/finalize", auth, async(req, res) => {
     try {
         const checkout = await Checkout.findById(req.params.id);

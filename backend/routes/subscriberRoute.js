@@ -2,7 +2,7 @@ import express from 'express'
 import Subscriber from '../models/subscriber.js'
 export const subscriberRoute = express.Router()
 
-
+// subscribe the page
 subscriberRoute.post('/', async(req, res) => {
     try {
 

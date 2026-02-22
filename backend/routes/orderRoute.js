@@ -4,9 +4,10 @@ import { auth } from '../middleWares/protected.js'
 
 export const orderRoute = express.Router()
 
+// get all user orders
 orderRoute.get('/my-orders', auth, async(req, res) => {
     try {
-        const userOrders = (await Order.find({ user: req.user._id })).toSorted({ createdAt: -1 });
+        const userOrders = await Order.find({ user: req.user._id }).toSorted({ createdAt: -1 });
         res.status(200).json({ success: true, userOrders })
     } catch (error) {
         console.log(error);
@@ -14,7 +15,7 @@ orderRoute.get('/my-orders', auth, async(req, res) => {
     }
 })
 
-
+// get order by id
 orderRoute.get('/orders/:id', auth, async(req, res) => {
     try {
         const order = await Order.findById(req.params.id).populate('user', 'name email')

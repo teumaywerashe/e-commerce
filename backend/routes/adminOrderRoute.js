@@ -6,7 +6,7 @@ export const adminOrderRoute = express.Router();
 
 adminOrderRoute.get("/", auth, admin, async(req, res) => {
     try {
-        const orders = await Order.find({});
+        const orders = await Order.find();
         if (!orders) {
             return res.status(404).json({ success: false, msg: "No Orders Found" });
         }
@@ -19,10 +19,10 @@ adminOrderRoute.put("/:id", auth, admin, async(req, res) => {
         if (!order) {
             return res.status(404).json({ success: false, msg: "Order not found" });
         }
-        console.log(order);
+        // console.log(order);
         order.status = req.body.status || order.status;
-        order.isDelivered === "Delivered" ? true : order.isDelivered;
-        order.deliveredAt = order.deliveredAt =
+        order.isDelivered = order.isDelivered === "Delivered" ? true : order.isDelivered;
+        order.deliveredAt =
             req.body.status === "Delivered" ? Date.now() : order.deliveredAt;
 
         const updatedOrder = await order.save();
