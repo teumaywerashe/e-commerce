@@ -1,12 +1,15 @@
 import React from "react";
 import { RiDeleteBin3Line } from "react-icons/ri";
 import { useDispatch } from "react-redux";
-import {  removeFromCart, updateCartQuantity } from "../../redux/slice/CartSlice";
+import {
+  removeFromCart,
+  updateCartQuantity,
+} from "../../redux/slice/CartSlice";
 
 function CartContent({ cart, userId, guestId }) {
   const dispatch = useDispatch();
 
-  const handleAddToCart = ( productId, size, delta, color, quantity ) => {
+  const handleAddToCart = (productId, size, delta, color, quantity) => {
     const newQuantity = quantity + delta;
 
     dispatch(
@@ -20,9 +23,9 @@ function CartContent({ cart, userId, guestId }) {
       }),
     );
   };
-const handleRemoveFromCart=(productId,color,size)=>{
-  dispatch(removeFromCart({productId,color,size,userId,guestId}))
-}
+  const handleRemoveFromCart = (productId, color, size) => {
+    dispatch(removeFromCart({ productId, color, size, userId, guestId }));
+  };
   // Example cart items array
   return (
     <div>
@@ -46,15 +49,30 @@ const handleRemoveFromCart=(productId,color,size)=>{
                 <p className="text-sm text-gray-500"> Size: {item.size}</p>
                 <div>
                   <button
-                    onClick={() => handleAddToCart(item.productId, item.size, -1, item.color, item.quantity)}
+                    onClick={() =>
+                      handleAddToCart(
+                        item.productId,
+                        item.size,
+                        -1,
+                        item.color,
+                        item.quantity,
+                      )
+                    }
                     className="border rounded   cursor-pointer px-2 py-1 text-xl font-medium"
                   >
                     -
-               
                   </button>
                   <span className="mx-4"> {item.quantity}</span>
                   <button
-                    onClick={() =>{() => handleAddToCart(item.productId, item.size, 1, item.color, item.quantity)}}
+                    onClick={() =>
+                      handleAddToCart(
+                        item.productId,
+                        item.size,
+                        1,
+                        item.color,
+                        item.quantity,
+                      )
+                    }
                     className="border rounded  cursor-pointer px-2 py-1 text-xl font-medium"
                   >
                     +
@@ -63,7 +81,12 @@ const handleRemoveFromCart=(productId,color,size)=>{
               </div>
               <div>
                 <p>$ {item.price}</p>
-                <button onClick={handleRemoveFromCart(item.productId,item.color,item.size)} className="cursor-pointer">
+                <button
+                  onClick={() =>
+                    handleRemoveFromCart(item.productId, item.color, item.size)
+                  }
+                  className="cursor-pointer"
+                >
                   <RiDeleteBin3Line className="h-6 w-6 mt-2 text-[red]" />
                 </button>
               </div>
