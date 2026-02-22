@@ -92,7 +92,7 @@ function Checkout() {
 
   const handleSuccess = ({ details }) => {
     console.log("Payment detail", details);
-    navigate("/order-confirmation");
+    navigate("/order-conformation");
   };
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-7xl mx-auto py-10 px-6 tracking-tighter">
@@ -305,7 +305,7 @@ function Checkout() {
           <p>Shipping</p>
           <p>Free</p>
         </div>
-          <div className="flex justify-between items-center text-lg mt-r border-t pt-4">
+        <div className="flex justify-between items-center text-lg mt-r border-t pt-4">
           <p>Total</p>
           <p> ${calculateTotal()}</p>
         </div>

@@ -1,4 +1,4 @@
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import {
   HiOutlineUser,
@@ -8,7 +8,7 @@ import {
 import SearchBar from "./SearchBar";
 import CartDrawer from "../Layout/CartDrawer";
 import { IoMdClose } from "react-icons/io";
-import {  useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 function Navbar() {
   const { cart } = useSelector((state) => state.cart);
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -16,7 +16,9 @@ function Navbar() {
   const toggleNav = () => {
     setNavOpen(!navOpen);
   };
- const cartItemCount=cart?.products?.reduce((total,product)=>total+product.quantity,0)||0
+  const cartItemCount =
+    cart?.products?.reduce((total, product) => total + product.quantity, 0) ||
+    0;
   const toggleCartDrawer = () => {
     setDrawerOpen(!drawerOpen);
   };
@@ -72,9 +74,11 @@ function Navbar() {
             className="flex cursor-pointer relative hover:text-black"
           >
             <HiOutlineShoppingBag className="h-6 w-6 text-gray-700" />
-           {cartItemCount>0&& <span className="absolute bg-[#ea2e0e] -top-1 text-white text-xs rounded-full px-2 py-0.5">
-              {cartItemCount}
-            </span>}
+            {cartItemCount > 0 && (
+              <span className="absolute bg-[#ea2e0e] -top-1 text-white text-xs rounded-full px-2 py-0.5">
+                {cartItemCount}
+              </span>
+            )}
           </button>
 
           <div clasname="overflow-hidden">
@@ -115,21 +119,21 @@ function Navbar() {
             </Link>
             <Link
               onClick={toggleNav}
-              to="collections/all?gender=Women"
+              to="/collections/all?gender=Women"
               className="block py-2 text-gray-600 hover:text-black"
             >
               women
             </Link>{" "}
             <Link
               onClick={toggleNav}
-              to="collections/all?category=Top Wear"
+              to="/collections/all?category=Top Wear"
               className="block py-2 text-gray-600 hover:text-black"
             >
               Top Wear
             </Link>
             <Link
               onClick={toggleNav}
-              to="collections/all?category=Bottom Wear"
+              to="/collections/all?category=Bottom Wear"
               className="block py-2 text-gray-600 hover:text-black"
             >
               Bottom Wear

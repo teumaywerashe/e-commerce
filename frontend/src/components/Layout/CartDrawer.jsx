@@ -10,10 +10,9 @@ function CartDrawer({ drawerOpen, setDrawerOpen, toggleCartDrawer }) {
 
   const { cart } = useSelector((state) => state.cart);
 
-
-  useEffect(()=>{
+  useEffect(() => {
     console.log(cart);
-  },[])
+  }, []);
 
   const { user, guestId } = useSelector((state) => state.auth);
 
@@ -23,6 +22,7 @@ function CartDrawer({ drawerOpen, setDrawerOpen, toggleCartDrawer }) {
     setDrawerOpen(false);
     if (!user) {
       navigate("/login?redirect=checkout");
+      return;
     }
     navigate("/checkout");
   };
@@ -50,7 +50,6 @@ function CartDrawer({ drawerOpen, setDrawerOpen, toggleCartDrawer }) {
       <div className="p-4 bg-white sticky bottom-0">
         {cart && cart?.products?.length > 0 && (
           <>
-      
             <button
               onClick={navigateCheckout}
               className="w-full bg-black text-white py-3 rounded-lg cursor-pointer font-semibold hover:text-gray-800 hover:bg-gray-200 transition"
