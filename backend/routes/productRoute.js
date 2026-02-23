@@ -155,6 +155,7 @@ productRouter.get("/", async(req, res) => {
             brand,
             limit,
         } = req.query;
+        console.log(req.query);
         let query = {};
         if (collections && collections.toLowerCase() !== "all") {
             query.collections = collections;

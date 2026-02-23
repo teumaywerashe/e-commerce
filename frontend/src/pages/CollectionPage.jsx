@@ -28,7 +28,6 @@ function CollectionPage() {
     }
   };
 
-
   useEffect(()=>{
     dispatch(fetchProductsByFilters({collection,...queryParams}))
   },[dispatch,collection,searchParams])
