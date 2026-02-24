@@ -1,17 +1,45 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import {
+  Link,
+  useLocation,
+  useNavigate,
+  useSearchParams,
+} from "react-router-dom";
 import loginImage from "../assets/login.webp";
-import {useDispatch} from 'react-redux'
+import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../redux/slice/AuthSlice";
+import { mergeCart } from "../redux/slice/CartSlice";
 function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-const dispatch=useDispatch()
+  const dispatch = useDispatch();
+
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const { user, guestId } = useSelector((state) => state.auth);
+  const { cart } = useSelector((state) => state.cart);
+
+  const redirect = new useSearchParams(location).get("redirect") || "/";
+
+  const isCheckoutRedirect = redirect.includes("checkout");
+
+  useEffect(() => {
+    if (user) {
+      if (cart?.products.lengt > 0 && guestId) {
+        dispatch(mergeCart({ guestId, user })).then(() => {
+          navigate(isCheckoutRedirect ? "/checkout" : "/");
+        });
+      } else {
+        navigate(isCheckoutRedirect ? "/checkout" : "/");
+      }
+    }
+  }, [user,guestId,cart,navigate,dispatch]);
   const handleSubmit = (e) => {
     e.preventDefault();
     try {
-      console.log({email,password});
-    dispatch(loginUser({email,password}))
+      console.log({ email, password });
+      dispatch(loginUser({ email, password }));
     } catch (error) {
       console.log(error);
     }
@@ -19,7 +47,10 @@ const dispatch=useDispatch()
   return (
     <div className="flex ">
       <div className="w-full flex md:w-1/2 flex-col justify-center items-center p-8 md:p-12">
-        <form onSubmit={handleSubmit} className=" w-full max-w-md bg-white p-8 rounded-lg border shadow-sm">
+        <form
+          onSubmit={handleSubmit}
+          className=" w-full max-w-md bg-white p-8 rounded-lg border shadow-sm"
+        >
           <div className="flex justify-center mb-6">
             <h2 className="text-xl font-medium ">Rabbit</h2>
           </div>
@@ -59,7 +90,7 @@ const dispatch=useDispatch()
           </button>
           <p className="mb-6 text-center text-sm">
             Don't have an account?{" "}
-            <Link to="/register" className="text-blue-500">
+            <Link to={`/register?redirecct=${encodeURIComponent(redirect)}`} className="text-blue-500">
               Register
             </Link>
           </p>
