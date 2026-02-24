@@ -7,8 +7,8 @@ function SortOpitions() {
   const [searchParams,setSearchParams]=useSearchParams()
   // const [sort, setSort] = useState(searchParams.get('sort')||'default');
   const handleSortChange = (e) => {
-   const sortedBy=e.target.value;
-   searchParams.set('sortedBy',sortedBy)
+   const sortBy=e.target.value;
+   searchParams.set('sortBy',sortBy)
    setSearchParams(searchParams)
   };
 
@@ -18,7 +18,7 @@ function SortOpitions() {
         name="sort"
         onChange={handleSortChange}
         id="sort"
-        value={searchParams.get('sortedBy')||''}
+        value={searchParams.get('sortBy')||''}
         className="border p-2 rounded-md focus:outline-none"
       >
         <option value="">Default</option>

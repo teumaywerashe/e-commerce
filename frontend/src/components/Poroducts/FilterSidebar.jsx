@@ -95,7 +95,10 @@ function FilterSidebar() {
     });
     setSearchParams(params);
     navigate(`?${params.toString()}`);
+    
   };
+
+  
 
   const updatePriceRange = (e) => {
     const newPriceRange = e.target.value;

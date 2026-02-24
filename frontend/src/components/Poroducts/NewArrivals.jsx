@@ -45,12 +45,14 @@ function NewArrivals() {
     }
   };
 
+
+
+
   useEffect(() => {
     const container = scrollRef.current;
 
     if (container) {
       container.addEventListener("scroll", updateScrollButton);
-      updateScrollButton();
     }
 
     // Cleanup function
@@ -59,6 +61,7 @@ function NewArrivals() {
         container.removeEventListener("scroll", updateScrollButton);
       }
     };
+   
   }, []); // run once on mount
 
   return (

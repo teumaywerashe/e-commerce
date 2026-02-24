@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { HiXMark } from "react-icons/hi2";
 import { IoMdClose } from "react-icons/io";
 import CartContent from "../Cart/CartContent";
@@ -7,12 +7,14 @@ import { useSelector } from "react-redux";
 
 function CartDrawer({ drawerOpen, setDrawerOpen, toggleCartDrawer }) {
   const navigate = useNavigate();
-
+const   cartRef=useRef()
   const { cart } = useSelector((state) => state.cart);
 
   useEffect(() => {
     console.log(cart);
   }, []);
+
+
 
   const { user, guestId } = useSelector((state) => state.auth);
 
@@ -27,7 +29,7 @@ function CartDrawer({ drawerOpen, setDrawerOpen, toggleCartDrawer }) {
     navigate("/checkout");
   };
   return (
-    <div
+    <div  ref={cartRef}
       className={`flex flex-col absolute overflow-scroll shadow-lg transform transition-transform duration-300  w-3/4 sm:w-1/2 md:w-[30rem] h-full bg-white text-black z-50 top-0 right-0 ${
         drawerOpen ? "translate-x-0 " : "translate-x-full hidden"
       }`}

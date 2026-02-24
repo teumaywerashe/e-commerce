@@ -155,7 +155,7 @@ productRouter.get("/", async(req, res) => {
             brand,
             limit,
         } = req.query;
-        console.log(req.query);
+
         let query = {};
         if (collections && collections.toLowerCase() !== "all") {
             query.collections = collections;
@@ -194,9 +194,9 @@ productRouter.get("/", async(req, res) => {
 
         let sort = {};
         const sortOptions = {
-            priceAsc: { price: 1 },
-            priceDesc: { price: -1 },
-            popularity: { rating: -1 },
+            PriceAsc: { price: 1 },
+            PriceDesc: { price: -1 },
+            Popularity: { rating: -1 },
         };
 
         sort = sortOptions[sortBy] || {};
