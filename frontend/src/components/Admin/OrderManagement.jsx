@@ -1,34 +1,48 @@
 import React from "react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchAllOrders, updateOrderStatus } from "../../redux/slice/adminOrderSlice";
 
 function OrderManagement() {
-  const orders = [
-    {
-      _id: 1334,
-      user: {
-        name: "jhon madia",
-      },
-      totalPrice: 23,
-      status: "Processing",
-    },
-    {
-      _id: 3423,
-      user: {
-        name: "jhon madia",
-      },
-      totalPrice: 23,
-      status: "Processing",
-    },
-    {
-      _id: 1423,
-      user: {
-        name: "jhon madia",
-      },
-      totalPrice: 23,
-      status: "Processing",
-    },
-  ];
+  // const orders = [
+  //   {
+  //     _id: 1334,
+  //     user: {
+  //       name: "jhon madia",
+  //     },
+  //     totalPrice: 23,
+  //     status: "Processing",
+  //   },
+  //   {
+  //     _id: 3423,
+  //     user: {
+  //       name: "jhon madia",
+  //     },
+  //     totalPrice: 23,
+  //     status: "Processing",
+  //   },
+  //   {
+  //     _id: 1423,
+  //     user: {
+  //       name: "jhon madia",
+  //     },
+  //     totalPrice: 23,
+  //     status: "Processing",
+  //   },
+  // ];
 
+  const dispatch = useDispatch();
+  const orders = useSelector((state) => state.adminOrders);
+
+  useEffect(() => {
+    dispatch(fetchAllOrders());
+  }, []);
   const handleStatusChange = (orderId, status) => {
+    try {
+      dispatch(updateOrderStatus({orderId, status}))
+    } catch (error) {
+      console.log(error);
+    }
     console.log(orderId, status);
   };
   return (
@@ -85,7 +99,10 @@ function OrderManagement() {
               ))
             ) : (
               <tr>
-                <td colSpan={5} className="p-4 text-center ttext-gray-500"> No Orders found</td>
+                <td colSpan={5} className="p-4 text-center ttext-gray-500">
+                  {" "}
+                  No Orders found
+                </td>
               </tr>
             )}
           </tbody>
