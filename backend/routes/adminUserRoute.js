@@ -61,6 +61,7 @@ adminUsersRoute.put("/:id", auth, admin, async(req, res) => {
         res.status(500).json({ success: true, msg: "Server Error" });
     }
 });
+
 adminUsersRoute.delete('/:id', auth, admin, async(req, res) => {
     try {
         const user = await User.findByIdAndDelete(req.params.id)

@@ -3,7 +3,7 @@ import {
   Link,
   useLocation,
   useNavigate,
-  useSearchParams,
+  
 } from "react-router-dom";
 import loginImage from "../assets/login.webp";
 import { useDispatch, useSelector } from "react-redux";
@@ -17,10 +17,10 @@ function LoginPage() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const { user, guestId } = useSelector((state) => state.auth);
+  const { user, guestId,loading } = useSelector((state) => state.auth);
   const { cart } = useSelector((state) => state.cart);
 
-  const redirect = new useSearchParams(location).get("redirect") || "/";
+  const redirect = new URLSearchParams(location.search).get("redirect") || "/";
 
   const isCheckoutRedirect = redirect.includes("checkout");
 
@@ -86,7 +86,7 @@ function LoginPage() {
             type="submit"
             className="w-full bg-black mb-4 cursor-pointer text-white p-2 rounded-lg font-semibold hover:bg-gray-800 transition"
           >
-            Login
+           {loading?"Processing...":'Login'}
           </button>
           <p className="mb-6 text-center text-sm">
             Don't have an account?{" "}

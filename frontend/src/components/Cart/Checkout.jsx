@@ -1,11 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PaypalButton from "./PaypalButton";
+import { useDispatch, useSelector } from "react-redux";
+import { createCheckout } from "../../redux/slice/CheckoutSlice";
 
 function Checkout() {
+  const { user } = useSelector((state) => state.auth);
+  const {cart}=useSelector((state)=>state.cart)
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [checkoutId, setCheckoutId] = useState(null);
   const [shippingAddress, setShippingAddress] = useState({
     firestName: "",
     lastName: "",
@@ -15,73 +19,18 @@ function Checkout() {
     country: "",
     phone: "",
   });
-  useEffect(() => {
-    console.log(checkoutId);
-  }, []);
+ 
   const handleCreateCheckout = (e) => {
     e.preventDefault();
-    setCheckoutId(1234);
-    // console.log(shippingAddress);
+    try {
+      dispatch(createCheckout({checkoutItems:cart,shippingAddress,toatalPrice:calculateTotal(),}))
+    } catch (error) {
+      console.log(error);
+    }
+   
   };
 
-  const cart = {
-    products: [
-      {
-        productID: 1,
-        name: "T-shirt",
-        size: "M",
-        color: "red",
-        quantity: 1,
-        price: 20,
-        image: "https://picsum.photos/200?random=1",
-      },
-      {
-        productID: 2,
-        name: "jins",
-        size: "M",
-        color: "blue",
-        quantity: 2,
-        price: 20,
-        image: "https://picsum.photos/200?random=1",
-      },
-      {
-        productID: 3,
-        name: "T-shirt",
-        size: "M",
-        color: "red",
-        quantity: 1,
-        price: 20,
-        image: "https://picsum.photos/200?random=1",
-      },
-      {
-        productID: 4,
-        name: "T-shirt",
-        size: "M",
-        color: "red",
-        quantity: 1,
-        price: 20,
-        image: "https://picsum.photos/200?random=1",
-      },
-      {
-        productID: 5,
-        name: "T-shirt",
-        size: "M",
-        color: "red",
-        quantity: 1,
-        price: 20,
-        image: "https://picsum.photos/200?random=1",
-      },
-      {
-        productID: 6,
-        name: "T-shirt",
-        size: "M",
-        color: "red",
-        quantity: 1,
-        price: 20,
-        image: "https://picsum.photos/200?random=1",
-      },
-    ],
-  };
+
 
   const calculateTotal = () => {
     const totlaQuantity = cart.products.reduce((total, product) => {
@@ -108,7 +57,7 @@ function Checkout() {
             <input
               className="w-full p-2 border rounded"
               type="email"
-              value="user@example.com "
+              value={`${user.email}`}
               disabled
             />
           </div>

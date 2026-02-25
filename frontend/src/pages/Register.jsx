@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import registerImage from "../assets/register.webp";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { registerUser } from "../redux/slice/AuthSlice";
 
 function Register() {
@@ -9,11 +9,15 @@ function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
+  const { loading } = useSelector((state) => state.auth);
   const handleSubmit = (e) => {
     e.preventDefault();
     try {
       dispatch(registerUser({ name: name, email: email, password: password }));
+
+      navigate("/");
     } catch (error) {
       console.log(error);
     }
@@ -72,7 +76,7 @@ function Register() {
             type="submit"
             className="w-full bg-black mb-4 cursor-pointer text-white p-2 rounded-lg font-semibold hover:bg-gray-800 transition"
           >
-            Sign Up
+            {loading ? "Processing" : "Sign Up"}
           </button>
           <p className="mb-6 text-center text-sm">
             already have an account?{" "}

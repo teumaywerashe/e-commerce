@@ -1,16 +1,30 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchUsers } from "../../redux/slice/adminSlice";
 
 function UserManagement() {
-  const users=[
-    { _id: 12345, name: "jhon deo", email: "jhon@gmail.com", role: "admin" },
-    {
-      _id: 12365,
-      name: "sthef meo",
-      email: "esth@gmail.com",
-      role: "customer",
-    },
-    { _id: 12395, name: "neo diad", email: "neo@gmail.com", role: "customer" },
-  ];
+  const { users } = useSelector((state) => state.admin);
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchUsers());
+  }, [users, dispatch]);
+
+
+  useEffect(()=>{
+    console.log(users);
+  },[])
+
+  // const users=[
+  //   { _id: 12345, name: "jhon deo", email: "jhon@gmail.com", role: "admin" },
+  //   {
+  //     _id: 12365,
+  //     name: "sthef meo",
+  //     email: "esth@gmail.com",
+  //     role: "customer",
+  //   },
+  //   { _id: 12395, name: "neo diad", email: "neo@gmail.com", role: "customer" },
+  // ];
 
   const handleDeleteUser = (userId) => {
     if (window.confirm("Are you sure to delete this user?")) {
@@ -118,7 +132,6 @@ function UserManagement() {
         <table className="min-w-full text-left text-gray-500">
           <thead className="bg-gray-100 p-4 text-sm text-gray-700">
             <tr>
-              
               <th className="py-3 uppercase px-4">name</th>
               <th className="py-3 uppercase px-4">email</th>
               <th className="py-3 uppercase px-4">role</th>

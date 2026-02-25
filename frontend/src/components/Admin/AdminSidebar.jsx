@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   FaBoxOpen,
   FaClipboardList,
@@ -7,13 +7,26 @@ import {
   FaStore,
   FaUser,
 } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, NavLink, useNavigate } from "react-router-dom";
+import { logout } from "../../redux/slice/AuthSlice";
+import { clearCart } from "../../redux/slice/CartSlice";
 
 function AdminSidebar() {
+
+  const {user}=useSelector(state=>state.auth)
   const navigate = useNavigate();
-  const handleLogout = () => {
-    navigate("/");
-  };
+  const dispatch = useDispatch();
+ const handleLogout=()=>{
+   dispatch(logout())
+   dispatch(clearCart())
+   navigate('/login')
+ }
+ useEffect(()=>{
+ if(!user){
+   navigate('/')
+ }
+ },[user,navigate])
   return (
     <div className="p-6">
       <div className="mb-6">
