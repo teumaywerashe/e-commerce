@@ -110,8 +110,8 @@ frontend/
 
 Once deployed, you can access the live versions of the project here:
 
-- **Frontend Live Site:** [Add your Vercel/Render link here]
-- **Backend Live API:** [Add your Render link here]
+- **Frontend Live Site:** [https://e-commerce.onrender.com]
+- **Backend Live API:** [https://e-commerce1.onrender.com]
 
 The frontend will run on [http://localhost:5173](http://localhost:5173) and the backend on [http://localhost:5000](http://localhost:5000) by default.
 
