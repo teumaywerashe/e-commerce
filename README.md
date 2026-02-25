@@ -106,7 +106,6 @@ frontend/
   npm run dev
   ```
 
-
 ## Live Sites
 
 Once deployed, you can access the live versions of the project here:
@@ -119,4 +118,3 @@ The frontend will run on [http://localhost:5173](http://localhost:5173) and the 
 ## Contributing
 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
-
