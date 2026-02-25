@@ -1,55 +1,63 @@
-import { Data } from "@react-google-maps/api";
 import React from "react";
-import {  Link, useParams } from "react-router-dom";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useParams } from "react-router-dom";
+import { fetchUserOrders } from "../redux/slice/orderSlice";
 function OrderDetailsPage() {
   const id = useParams();
-  const [orderDetails, setOrderDetails] = React.useState(null);
+  // const [orderDetails, setOrderDetails] = React.useState(null);
+  const dispatch = useDispatch();
+  const orderDetails = useSelector((state) => state.orders);
 
-  React.useEffect(() => {
-    //fetch order details using id
+  useEffect(() => {
+    dispatch(fetchUserOrders());
+  }, [id, dispatch]);
 
-    const mockOrderDetails = {
-      _id: 1234,
-      createdAt: new Date(),
-      isPaid: true,
-      isDelevered: false,
-      paymentMethod: "paypal",
-      ShippimgMethod: "Standard",
-      shippingAdress: {
-        address: "123 Fashion St, New York, NY",
-        city: "New York",
-        country: "USA",
-        postalCode: "10001",
-      },
+  // React.useEffect(() => {
+  //   //fetch order details using id
 
-      orderItems: [
-        {
-          productID: 1,
-          name: "T-shirt",
-          size: "M",
-          color: "red",
-          quantity: 1,
-          price: 20,
-          image: "https://picsum.photos/200?random=1",
-        },
+  //   const mockOrderDetails = {
+  //     _id: 1234,
+  //     createdAt: new Date(),
+  //     isPaid: true,
+  //     isDelevered: false,
+  //     paymentMethod: "paypal",
+  //     ShippimgMethod: "Standard",
+  //     shippingAdress: {
+  //       address: "123 Fashion St, New York, NY",
+  //       city: "New York",
+  //       country: "USA",
+  //       postalCode: "10001",
+  //     },
 
-        {
-          productID: 2,
-          name: "jeans",
-          size: "32",
-          color: "blue",
-          quantity: 2,
-          price: 40,
-          image: "https://picsum.photos/200?random=2",
-        },
-      ],
-      itemsPrice: 100,
-      shippingPrice: 10,
-      taxPrice: 8,
-      totalPrice: 118,
-    };
-    setOrderDetails(mockOrderDetails);
-  }, [id]);
+  //     orderItems: [
+  //       {
+  //         productID: 1,
+  //         name: "T-shirt",
+  //         size: "M",
+  //         color: "red",
+  //         quantity: 1,
+  //         price: 20,
+  //         image: "https://picsum.photos/200?random=1",
+  //       },
+
+  //       {
+  //         productID: 2,
+  //         name: "jeans",
+  //         size: "32",
+  //         color: "blue",
+  //         quantity: 2,
+  //         price: 40,
+  //         image: "https://picsum.photos/200?random=2",
+  //       },
+  //     ],
+  //     itemsPrice: 100,
+  //     shippingPrice: 10,
+  //     taxPrice: 8,
+  //     totalPrice: 118,
+  //   };
+  //   setOrderDetails(mockOrderDetails);
+  // }, [id]);
   return (
     <div className="max-w-7xl mx-auto p-4 sm:p-6">
       <h2 className="text-2xl md:text-3xl font-bold mb-6 ">order details</h2>

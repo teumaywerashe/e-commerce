@@ -8,6 +8,8 @@ function Checkout() {
   const { user } = useSelector((state) => state.auth);
   const {cart}=useSelector((state)=>state.cart)
   const dispatch = useDispatch();
+
+  const [checkoutId,setCheckoutId]=useState(null)
   const navigate = useNavigate();
 
   const [shippingAddress, setShippingAddress] = useState({
@@ -22,6 +24,7 @@ function Checkout() {
  
   const handleCreateCheckout = (e) => {
     e.preventDefault();
+    setCheckoutId(1234)
     try {
       dispatch(createCheckout({checkoutItems:cart,shippingAddress,toatalPrice:calculateTotal(),}))
     } catch (error) {
