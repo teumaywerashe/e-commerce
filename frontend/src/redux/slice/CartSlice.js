@@ -76,7 +76,7 @@ export const removeFromCart = createAsyncThunk(
     "cart/removeFromCart",
     async({ productId, guestId, userId, size, color }, { rejectWithValue }) => {
         try {
-            await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api/cart`, {
+            const response = await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api/cart`, {
                 data: {
                     productId,
                     guestId,
@@ -85,13 +85,7 @@ export const removeFromCart = createAsyncThunk(
                     color,
                 },
             });
-            console.log({
-                productId,
-                guestId,
-                userId,
-                size,
-                color
-            });
+            console.log(response);
             return { productId, size, color };
         } catch (error) {
             console.log(error);
@@ -186,9 +180,7 @@ const cartSlice = createSlice({
             .addCase(removeFromCart.fulfilled, (state, action) => {
                 state.error = null;
                 state.loading = false;
-
                 const { productId, size, color } = action.payload;
-
                 state.cart.products = state.cart.products.filter(
                     (product) =>
                     !(

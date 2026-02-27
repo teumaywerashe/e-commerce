@@ -5,7 +5,7 @@ function ProductGrid({ products, loading, error }) {
     return <p>Loading ...</p>;
   }
   if (error) {
-    return <p>Error:{error}</p>;
+    return <p className="text-red-500">Error:{error}</p>;
   }
   return (
     <>

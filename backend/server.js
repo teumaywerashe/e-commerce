@@ -37,7 +37,7 @@ const startServer = async() => {
     try {
         await connectDB();
         app.listen(PORT, () => {
-            console.log(`Server running on http://localhost:${PORT} 14:23:20`);
+            console.log(`Server running on http://localhost:${PORT} 14:36:08`);
         });
     } catch (error) {
         console.error("Failed to start server", error);

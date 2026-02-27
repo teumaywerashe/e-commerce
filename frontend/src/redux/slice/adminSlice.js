@@ -24,7 +24,7 @@ export const addUser = createAsyncThunk(
     async(userData, { rejectWithValue }) => {
         try {
             const response = await axios.post(
-                `${import.meta.filename.VITE_BACKEND_URL}/api/admin/users`,
+                `${import.meta.env.VITE_BACKEND_URL}/api/admin/users`,
                 userData, { Headers: { Authorization: localStorage.getItem("userToken") } },
             );
             return response.data;
