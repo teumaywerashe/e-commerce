@@ -1,43 +1,8 @@
 import React from "react";
-const checkout = {
-  _id: "1234",
-  createdAt: new Date(),
-  checkOutItems: [
-    {
-      productID: 1,
-      name: "T-shirt",
-      size: "M",
-      color: "red",
-      quantity: 1,
-      price: 20,
-      image: "https://picsum.photos/200?random=1",
-    },
-    {
-      productID: 2,
-      name: "jins",
-      size: "M",
-      color: "blue",
-      quantity: 2,
-      price: 20,
-      image: "https://picsum.photos/200?random=2",
-    },
-    {
-      productID: 3,
-      name: "T-shirt",
-      size: "M",
-      color: "red",
-      quantity: 1,
-      price: 20,
-      image: "https://picsum.photos/200?random=3",
-    },
-  ],
-  shippingAdress: {
-    address: "123 Fashion Street",
-    city: "New York",
-    country: "USA",
-  },
-};
-
+import { useEffect } from "react";
+import { clearCart } from "../redux/slice/CartSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 const calculateEstimatedDelivery = (createdAt) => {
   const orderDate = new Date(createdAt);
   orderDate.setDate(orderDate.getDate() + 10);
@@ -45,6 +10,19 @@ const calculateEstimatedDelivery = (createdAt) => {
 };
 
 function OrderConformationPage() {
+  const { checkout } = useSelector((state) => state.checkout);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (checkout && checkout._id) {
+      dispatch(clearCart());
+      localStorage.removeItem("cart");
+    } else {
+      navigate("/my-orders");
+    }
+  }, [checkout, dispatch]);
+
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white">
       <h1 className="text-4xl font-bold text-center text-emerald-700 mb-8">
@@ -73,17 +51,16 @@ function OrderConformationPage() {
           {/* ordered items */}
           <div className="mb-4 p-4">
             {checkout.checkOutItems.map((item) => (
-              <div
-                key={item._id}
-                className="flex items-center mb-4"
-              >
+              <div key={item._id} className="flex items-center mb-4">
                 <img
                   className="w-16 object-cover h-16 rounded-md mr-4"
                   src={item.image}
                   alt={item.name}
                 />
                 <div>
-                  <h4 className="text-md  font-semibold text-black">{item.name}</h4>
+                  <h4 className="text-md  font-semibold text-black">
+                    {item.name}
+                  </h4>
                   <p className="text-sm text-gray-500">
                     {item.color} | {item.size}
                   </p>
@@ -91,7 +68,7 @@ function OrderConformationPage() {
 
                 <div className="ml-auto text-right">
                   <p className="text-md text-black">${item.price}</p>
-                  <p className="text-sm text-gray-500">Qty:  {item.quantity}</p>
+                  <p className="text-sm text-gray-500">Qty: {item.quantity}</p>
                 </div>
               </div>
             ))}
@@ -105,10 +82,12 @@ function OrderConformationPage() {
             </div>
             {/* delivery info */}
             <div>
-            <h4 className="text-lg font-semibold mb-2">Delivery</h4>
-              <p className="text-gray-600">{checkout.shippingAdress.address.split(' ')[0]}</p>
+              <h4 className="text-lg font-semibold mb-2">Delivery</h4>
+              <p className="text-gray-600">
+                {checkout.shippingAdress.address.split(" ")[0]}
+              </p>
               <p className="text-gray-600"></p>
-            </div> 
+            </div>
           </div>
         </div>
       )}

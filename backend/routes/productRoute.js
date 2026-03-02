@@ -207,6 +207,7 @@ productRouter.get("/", async(req, res) => {
             return res.status(404).json({ success: false, msg: "No Products Found" });
         }
         // console.log(req.query, query);
+        // console.log(products);
         res.json({ legth: products.length, products: products });
     } catch (error) {
         console.log(error);

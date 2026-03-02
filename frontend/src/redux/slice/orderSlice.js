@@ -33,17 +33,6 @@ export const fetchOrderDetails = createAsyncThunk(
         }
     },
 );
-// export const createUserOrder = createAsyncThunk('order/createUserOrder', async(orderData, { rejectWithValue }) => {
-//     try {
-//         const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/orders`, orderData, {
-//             headers: { Authorization: `Bearer ${localStorage.getItem('userToken')}` }
-//         })
-//         return response.data
-//     } catch (error) {
-//         console.log(error);
-//       return rejectWithValue(error.response.data)
-//     }
-// })
 
 const orderSlice = createSlice({
     name: "orders",

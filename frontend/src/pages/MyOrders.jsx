@@ -1,66 +1,33 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { fetchUserOrders } from "../redux/slice/orderSlice";
 
 function MyOrders() {
-  const [orders, setOrders] = useState([]);
+  const dispatch = useDispatch();
+  const { orders, loading, error } = useSelector((state) => state.orders);
   const navigate = useNavigate();
 
-  const handleOnClick = (id) => {
-    navigate(`/order/${id}`);
-  };
   useEffect(() => {
-    setTimeout(() => {
-      const mokeOrders = [
-        {
-          _id: "1",
-          createdAt: "2023-10-01",
-          shippingAddress: {
-            street: "123 Main St",
-            city: "New York",
-          },
-          isPaid: true,
-          totalPrice: 150.0,
-          orderItems: [
-            {
-              name: "Product A",
-              image: "https://picsum.photos/200?random=1",
-              quantity: 2,
-              price: 50.0,
-            },
-          ],
-        },
-        {
-          _id: "2",
-          createdAt: "2023-09-15",
-          shippingAddress: {
-            street: "456 Elm St",
-            city: "Los Angeles",
-          },
-          isPaid: true,
-          totalPrice: 200.0,
-          orderItems: [
-            {
-              name: "Product C",
-              image: "https://picsum.photos/200?random=2",
-              quantity: 4,
-              price: 50.0,
-            },
-          ],
-        },
-      ];
-      setOrders(mokeOrders);
-    }, 1000);
-  }, []);
+    dispatch(fetchUserOrders());
+  }, [dispatch]);
 
+  const handleRowClick = (orderId) => {
+    navigate(`/order/${orderId}`);
+  };
+
+  if (loading) {
+    return <p>Loading ...</p>;
+  }
+  if (error) {
+    return <p>Error:{error}</p>;
+  }
   return (
     <div className="max-w-7xl mx-auto p-4 sm:p-6">
       <h2 className="text-xl sm:text-2xl font-bold mb-6">My Orders</h2>
       <div className="relative shadow-md sm:rounded-lg overflow-x-scroll">
         <table className="min-w-full text-left text-gray-500">
-          <thead
-            className="bg-gray-100 text-xs uppercase text-gray-700
-          "
-          >
+          <thead className="bg-gray-100 text-xs uppercase text-gray-700">
             <tr>
               <th className="py-2 px-4 sm:py-3">Image</th>
               <th className="py-2 px-4 sm:py-3">Order Id</th>
@@ -76,8 +43,8 @@ function MyOrders() {
             {orders.length > 0 ? (
               orders.map((order) => (
                 <tr
+                  onClick={() => handleRowClick(order._id)}
                   key={order._id}
-                  onClick={() => handleOnClick(order._id)}
                   className="border-b hover:border-r-gray-50 cursor-pointer"
                 >
                   <td className="py-2 px-2 sm:py-4 sm:px-4">
