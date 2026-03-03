@@ -1,7 +1,7 @@
 import express from "express";
 import jwt from "jsonwebtoken";
 import { User } from "../models/userModel.js";
-import { useReducer } from "react";
+// import { useReducer } from "react";
 import { auth } from "../middleWares/protected.js";
 
 export const userRouter = express.Router();

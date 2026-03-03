@@ -4,8 +4,8 @@ import GenderCollectionSection from "../components/Poroducts/GenderCollectionSec
 import NewArrivals from "../components/Poroducts/NewArrivals";
 import ProductDetails from "../components/Poroducts/ProductDetails";
 import ProductGrid from "../components/Poroducts/ProductGrid";
-import FeaturedCollection from "../components/Poroducts/featuredCollection";
-import FeaturesSection from "../components/Poroducts/featuresSection";
+import FeaturedCollection from "../components/Poroducts/FeaturedCollection";
+import FeaturesSection from "../components/Poroducts/FeaturesSection";
 
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
