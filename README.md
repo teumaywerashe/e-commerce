@@ -110,11 +110,7 @@ frontend/
 
 Once deployed, you can access the live versions of the project here:
 
-- **Frontend Live Site:** [e-commerce live demo](https://e-commerce.onrender.com)
-- **Backend Live API:** [Api Swagger documentation](https://e-commerce1.onrender.com)
+- [**Frontend Live Site:**](https://e-commerce.onrender.com)
+- [**Backend Live API:**](https://e-commerce1.onrender.com)
 
 The frontend will run on [http://localhost:5173](http://localhost:5173) and the backend on [http://localhost:5000](http://localhost:5000) by default.
-
-## Contributing
-
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.

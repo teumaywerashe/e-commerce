@@ -4,7 +4,7 @@ export default {
     theme: {
         extend: {
             colors: {
-                rabbit: "[#ea2e0e]", // Your first color
+                rabbit: "[#ea2e0e]", 
             },
         },
     },
