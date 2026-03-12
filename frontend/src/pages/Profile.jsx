@@ -4,6 +4,7 @@ import MyOrders from "./MyOrders";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../redux/slice/AuthSlice";
 import { clearCart } from "../redux/slice/CartSlice";
+import { toast } from "sonner";
 
 function Profile() {
 
@@ -20,7 +21,8 @@ const handleLogout=()=>{
 }
 useEffect(()=>{
 if(!user){
-  navigate('/')
+  toast.error('login first')
+  navigate('/login')
 }
 },[user,navigate])
 

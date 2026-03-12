@@ -92,7 +92,7 @@ function Footer() {
               <TbBrandMeta className="h-6 w-6" />
             </a>
             <a
-              href="http://www.facebook.com"
+              href="http://www.instagram.com"
               target="_black"
               rel="noopener noreferrer"
               className="hover:text-gray-500"
@@ -100,7 +100,7 @@ function Footer() {
               <IoLogoInstagram className="h-6 w-6" />
             </a>{" "}
             <a
-              href="http://www.facebook.com"
+              href="http://www.x.com"
               target="_black"
               rel="noopener noreferrer"
               className="hover:text-gray-500"

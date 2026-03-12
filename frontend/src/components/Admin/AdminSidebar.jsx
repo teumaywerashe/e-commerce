@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { logout } from "../../redux/slice/AuthSlice";
 import { clearCart } from "../../redux/slice/CartSlice";
+import { toast } from "sonner";
 
 function AdminSidebar() {
 
@@ -24,7 +25,8 @@ function AdminSidebar() {
  }
  useEffect(()=>{
  if(!user){
-   navigate('/')
+  // toast.error("login to go to profile")
+   navigate('/login')
  }
  },[user,navigate])
   return (
