@@ -34,7 +34,7 @@ function Checkout() {
           toatalPrice: cart.toatalPrice,
         }),
       );
-      setCheckoutId(res.payload._id);
+      setCheckoutId(res.payload?._id);
 
       console.log(res);
     } catch (error) {

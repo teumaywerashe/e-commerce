@@ -1,50 +1,40 @@
 import React from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAllOrders, updateOrderStatus } from "../../redux/slice/adminOrderSlice";
+import {
+  fetchAllOrders,
+  updateOrderStatus,
+} from "../../redux/slice/adminOrderSlice";
+import { useNavigate } from "react-router-dom";
 
 function OrderManagement() {
-  // const orders = [
-  //   {
-  //     _id: 1334,
-  //     user: {
-  //       name: "jhon madia",
-  //     },
-  //     totalPrice: 23,
-  //     status: "Processing",
-  //   },
-  //   {
-  //     _id: 3423,
-  //     user: {
-  //       name: "jhon madia",
-  //     },
-  //     totalPrice: 23,
-  //     status: "Processing",
-  //   },
-  //   {
-  //     _id: 1423,
-  //     user: {
-  //       name: "jhon madia",
-  //     },
-  //     totalPrice: 23,
-  //     status: "Processing",
-  //   },
-  // ];
-
   const dispatch = useDispatch();
-  const orders = useSelector((state) => state.adminOrders);
+  const navigate = useNavigate();
+  const { user } = useSelector((state) => state.auth);
+  const { orders, loading, error } = useSelector((state) => state.adminOrders);
 
   useEffect(() => {
-    dispatch(fetchAllOrders());
-  }, []);
+    if (!user || user.role !== "admin") {
+      return navigate("/");
+    } else {
+      dispatch(fetchAllOrders());
+    }
+  }, [dispatch, orders]);
+
   const handleStatusChange = (orderId, status) => {
     try {
-      dispatch(updateOrderStatus({orderId, status}))
+      dispatch(updateOrderStatus({ id:orderId, status }));
     } catch (error) {
       console.log(error);
     }
-    console.log(orderId, status);
   };
+
+  if(loading){
+    return <p>Loading ...</p>
+  }
+  if(error){
+    return <p>Error:{error}</p>
+  }
   return (
     <div className="max-w-5xl mx-auto p-6">
       <h1 className="font-bold text-black mb-6 text-2xl">Order Management</h1>
@@ -70,7 +60,7 @@ function OrderManagement() {
                     #{order._id}
                   </td>
                   <td className="px-3 py-4">{order.user.name}</td>
-                  <td className="px-3 py-4">{order.totalPrice}</td>
+                  <td className="px-3 py-4">{order.totalPrice.toFixed(2)}</td>
                   <td className="px-3 py-4">
                     <select
                       onChange={(e) =>

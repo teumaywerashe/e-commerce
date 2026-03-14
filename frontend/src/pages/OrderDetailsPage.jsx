@@ -5,60 +5,19 @@ import { Link, useParams } from "react-router-dom";
 import { fetchUserOrders } from "../redux/slice/orderSlice";
 function OrderDetailsPage() {
   const id = useParams();
-  // const [orderDetails, setOrderDetails] = React.useState(null);
   const dispatch = useDispatch();
-  const orderDetails = useSelector((state) => state.orders);
+  const {orderDetails,loading,error} = useSelector((state) => state.orders);
 
   useEffect(() => {
     dispatch(fetchUserOrders());
   }, [id, dispatch]);
-
-  // React.useEffect(() => {
-  //   //fetch order details using id
-
-  //   const mockOrderDetails = {
-  //     _id: 1234,
-  //     createdAt: new Date(),
-  //     isPaid: true,
-  //     isDelevered: false,
-  //     paymentMethod: "paypal",
-  //     ShippimgMethod: "Standard",
-  //     shippingAdress: {
-  //       address: "123 Fashion St, New York, NY",
-  //       city: "New York",
-  //       country: "USA",
-  //       postalCode: "10001",
-  //     },
-
-  //     orderItems: [
-  //       {
-  //         productID: 1,
-  //         name: "T-shirt",
-  //         size: "M",
-  //         color: "red",
-  //         quantity: 1,
-  //         price: 20,
-  //         image: "https://picsum.photos/200?random=1",
-  //       },
-
-  //       {
-  //         productID: 2,
-  //         name: "jeans",
-  //         size: "32",
-  //         color: "blue",
-  //         quantity: 2,
-  //         price: 40,
-  //         image: "https://picsum.photos/200?random=2",
-  //       },
-  //     ],
-  //     itemsPrice: 100,
-  //     shippingPrice: 10,
-  //     taxPrice: 8,
-  //     totalPrice: 118,
-  //   };
-  //   setOrderDetails(mockOrderDetails);
-  // }, [id]);
-  return (
+  if(loading){
+    return <p>Loading</p>
+  }
+  if(error){
+    return <p>Error:{error}</p>
+  }
+ return (
     <div className="max-w-7xl mx-auto p-4 sm:p-6">
       <h2 className="text-2xl md:text-3xl font-bold mb-6 ">order details</h2>
       {orderDetails ? (

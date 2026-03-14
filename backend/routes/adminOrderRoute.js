@@ -6,7 +6,7 @@ export const adminOrderRoute = express.Router();
 
 adminOrderRoute.get("/", auth, admin, async(req, res) => {
     try {
-        const orders = await Order.find();
+        const orders = await Order.find().populate('user', 'name email');
         if (!orders) {
             return res.status(404).json({ success: false, msg: "No Orders Found" });
         }
@@ -15,11 +15,10 @@ adminOrderRoute.get("/", auth, admin, async(req, res) => {
 });
 adminOrderRoute.put("/:id", auth, admin, async(req, res) => {
     try {
-        const order = await Order.findById(req.params.id);
+        const order = await Order.findById(req.params.id).populate('user', 'name email');
         if (!order) {
             return res.status(404).json({ success: false, msg: "Order not found" });
         }
-        // console.log(order);
         order.status = req.body.status || order.status;
         order.isDelivered = order.isDelivered === "Delivered" ? true : order.isDelivered;
         order.deliveredAt =

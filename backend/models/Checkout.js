@@ -22,10 +22,8 @@ const checkoutItemSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    size: {
-        type: String,
-        required: true
-    }
+    color: String,
+    size: String,
 }, { _id: false }, );
 
 const checkoutSchema = new mongoose.Schema({

@@ -1,51 +1,64 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUsers } from "../../redux/slice/adminSlice";
+import {
+  addUser,
+  deleteUser,
+  fetchUsers,
+  updateUser,
+} from "../../redux/slice/adminSlice";
+import { useNavigate } from "react-router-dom";
 
 function UserManagement() {
-  const { users } = useSelector((state) => state.admin);
+  const { users, loading, error } = useSelector((state) => state.admin);
+  const { user } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
+
+  const [formData, SetFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    role: "customer",
+  });
 
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchUsers());
   }, [users, dispatch]);
 
+  useEffect(() => {
+    if (user && user.role !== "aadmin") {
+      navigate("/");
+    }
+  }, [user, navigate]);
 
   useEffect(()=>{
-    console.log(users);
-  },[])
-
-  // const users=[
-  //   { _id: 12345, name: "jhon deo", email: "jhon@gmail.com", role: "admin" },
-  //   {
-  //     _id: 12365,
-  //     name: "sthef meo",
-  //     email: "esth@gmail.com",
-  //     role: "customer",
-  //   },
-  //   { _id: 12395, name: "neo diad", email: "neo@gmail.com", role: "customer" },
-  // ];
+    if(user&&user.role==='admin'){
+      dispatch(fetchUsers())
+    }
+  },[dispatch,user])
 
   const handleDeleteUser = (userId) => {
     if (window.confirm("Are you sure to delete this user?")) {
-      console.log(userId);
+      dispatch(deleteUser(userId));
       console.log("yes");
     } else {
       console.log("no");
     }
   };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     SetFormData((pre) => ({ ...pre, [name]: value }));
   };
 
   const handleRoleChange = (userId, newRole) => {
-    console.log(userId, newRole);
+    dispatch(updateUser({ id: userId, role: newRole }));
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      console.log(formData);
+      dispatch(addUser(formData));
     } catch (error) {
       console.log(error);
     } finally {
@@ -57,15 +70,12 @@ function UserManagement() {
       });
     }
   };
-  const [formData, SetFormData] = useState({
-    name: "",
-    email: "",
-    password: "",
-    role: "customer",
-  });
+
   return (
     <div className="max-w-7xl mx-auto p-6 ">
       <h2 className="text-2xl font-bold mb-4">User Management</h2>
+      {loading && <p>Loading</p>}
+      {error && <p>Error:{error}</p>}
       <div className="P-6 rounded-lg mb-6 ">
         <h1 className="text-lg font-bold mx-4 mb-4">Add New User</h1>
         <form onSubmit={handleSubmit} action="submit">

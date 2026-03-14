@@ -10,7 +10,7 @@ import CartDrawer from "../Layout/CartDrawer";
 import { IoMdClose } from "react-icons/io";
 import { useSelector } from "react-redux";
 function Navbar() {
-
+  const { user } = useSelector((state) => state.auth);
   const { cart } = useSelector((state) => state.cart);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [navOpen, setNavOpen] = useState(false);
@@ -61,12 +61,15 @@ function Navbar() {
         </div>
         {/* right icomes */}
         <div className="flex itemcenter space-x-4">
-          <Link
-            to="/admin"
-            className="block bg-black px-2 text-white rounded text-sm "
-          >
-            Admin
-          </Link>
+          {user && user.role == "admin" && (
+            <Link
+              to="/admin"
+              className="block bg-black px-2 text-white rounded text-sm "
+            >
+              Admin
+            </Link>
+          )}
+
           <Link to="/profile" className="hover:text-black flex">
             <HiOutlineUser className="h-6 w-6 text-gray-700" />
           </Link>

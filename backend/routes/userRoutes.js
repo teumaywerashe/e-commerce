@@ -62,7 +62,7 @@ userRouter.post("/login", async(req, res) => {
         const user = await User.findOne({ email });
         if (!user) {
             return res
-                .status(400)
+                .status(200)
                 .json({ success: false, msg: "user not found please sign up" });
         }
         const isMatchPassword = await user.matchPassword(password);

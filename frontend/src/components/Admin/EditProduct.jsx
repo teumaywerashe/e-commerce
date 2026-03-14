@@ -1,25 +1,35 @@
-import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+import { fetchProductDetails } from "../../redux/slice/productSlice";
 
 function EditProduct() {
-  const [productData, setProductDate] = useState({
-    name: "nj",
-    description: "",
-    price: 0,
-    countInStock: 0,
-    sku: "",
-    category: "",
-    brand: "",
-    sizes: ["XL", "S", "M", "XXL"],
-    colors: ["red", "blue"],
-    collections: "",
-    materials: "",
-    gender: "",
-    images: [
-      { url: "https://picsum.photos/500/500?ramdom=13" },
-      { url: "https://picsum.photos/500/500?ramdom=14" },
-    ],
-  });
+
+  const navigate=useNavigate()
+  const dispatch=useDispatch()
+
+  const {id}=useParams()
+
+  const {selectedProduct,loading,error}=useSelector(state=>state.products)
+  const [productData, setProductDate] = useState(
+);
+
+
+
+  const {uploading,setUploading}=useState(false)
+
+  useEffect(()=>{
+    if(id){
+    dispatch(fetchProductDetails(id))
+  }},[dispatch,id])
+
+
+
+  useEffect(()=>{
+    if(selectedProduct){
+      setProductDate(selectedProduct)
+    }
+  },[selectedProduct])
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
     console.log(file);
@@ -28,7 +38,7 @@ function EditProduct() {
     const { name, value } = e.target;
     setProductDate((pre) => ({ ...pre, [name]: value }));
   };
-  const id = useParams();
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(id);

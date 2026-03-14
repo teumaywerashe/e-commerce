@@ -27,7 +27,7 @@ export const addUser = createAsyncThunk(
                 `${import.meta.env.VITE_BACKEND_URL}/api/admin/users`,
                 userData, { Headers: { Authorization: localStorage.getItem("userToken") } },
             );
-            return response.data;
+            return response.data.user;
         } catch (error) {
             console.log(error);
             return rejectWithValue(error.message);
@@ -46,7 +46,7 @@ export const updateUser = createAsyncThunk(
                     },
                 },
             );
-            return response.data;
+            return response.data.user;
         } catch (error) {
             console.log(error);
             return rejectWithValue(Error.message);

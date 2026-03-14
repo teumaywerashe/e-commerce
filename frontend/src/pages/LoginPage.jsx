@@ -17,7 +17,7 @@ function LoginPage() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const { user, guestId,loading } = useSelector((state) => state.auth);
+  const { user,error, guestId,loading } = useSelector((state) => state.auth);
   const { cart } = useSelector((state) => state.cart);
 
   const redirect = new URLSearchParams(location.search).get("redirect") || "/";
@@ -82,6 +82,7 @@ function LoginPage() {
               placeholder="Enter your password"
             />
           </div>
+          {error&&<p className="text-red-400 p-10">{error}</p>}
           <button
             type="submit"
             className="w-full bg-black mb-4 cursor-pointer text-white p-2 rounded-lg font-semibold hover:bg-gray-800 transition"

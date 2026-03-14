@@ -21,7 +21,7 @@ const handleLogout=()=>{
 }
 useEffect(()=>{
 if(!user){
-  toast.error('login first')
+  
   navigate('/login')
 }
 },[user,navigate])

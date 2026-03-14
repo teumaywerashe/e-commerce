@@ -22,11 +22,17 @@ export const loginUser = createAsyncThunk(
     async(userData, { rejectWithValue }) => {
         try {
             const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/users/login`, userData);
-            localStorage.setItem("userInfo", JSON.stringify(response.data.user));
-            localStorage.setItem("userToken", JSON.stringify(response.data.token));
-            console.log(response.data.user);
-            return response.data.user;
+            if (response.data.success) {
+                localStorage.setItem("userInfo", JSON.stringify(response.data.user));
+                localStorage.setItem("userToken", JSON.stringify(response.data.token));
+                console.log(response.data);
+                return response.data.user;
+            }
+            console.log(response.data);
+            return response.data
+
         } catch (error) {
+            console.log(error);
             return rejectWithValue(error.response.data || error.message);
         }
     },
@@ -76,7 +82,7 @@ export const authSlice = createSlice({
         })
         builder.addCase(loginUser.rejected, (state, action) => {
             state.loading = false
-            state.error = action.payload
+            state.error = action.payload.msg
         })
         builder.addCase(registerUser.pending, (state) => {
             state.loading = true
