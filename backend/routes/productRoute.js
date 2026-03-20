@@ -54,6 +54,7 @@ productRouter.post("/", auth, async(req, res) => {
         res.json(createProduct);
     } catch (error) {
         console.log(error);
+        return res.status(500).json({ success: false, msg: "Server Error" })
     }
 });
 
