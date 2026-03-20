@@ -17,7 +17,7 @@ const dispatch =useDispatch()
 const handleLogout=()=>{
   dispatch(logout())
   dispatch(clearCart())
-  navigate('/login')
+  navigate('/')
 }
 useEffect(()=>{
 if(!user){

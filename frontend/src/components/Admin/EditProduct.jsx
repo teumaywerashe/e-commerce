@@ -1,35 +1,28 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { fetchProductDetails } from "../../redux/slice/productSlice";
+import { fetchProductDetails, updateProduct } from "../../redux/slice/productSlice";
 
 function EditProduct() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const navigate=useNavigate()
-  const dispatch=useDispatch()
+  const { id } = useParams();
 
-  const {id}=useParams()
+  const { selectedProduct } = useSelector((state) => state.products);
+  const [productData, setProductDate] = useState();
 
-  const {selectedProduct,loading,error}=useSelector(state=>state.products)
-  const [productData, setProductDate] = useState(
-);
+  const [uploading, setUploading] = useState(false);
 
-
-
-  const [uploading,setUploading]=useState(false)
-
-  useEffect(()=>{
-    if(id){
-    dispatch(fetchProductDetails(id))
-  }},[dispatch,id])
-
-
-
-  useEffect(()=>{
-    if(selectedProduct){
-      setProductDate(selectedProduct)
+  useEffect(() => {
+    if (id) {
+      dispatch(fetchProductDetails(id));
     }
-  },[selectedProduct])
+  }, [dispatch, id]);
+
+  useEffect(() => {
+    setProductDate(selectedProduct);
+  }, [selectedProduct]);
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
     console.log(file);
@@ -38,24 +31,17 @@ function EditProduct() {
     const { name, value } = e.target;
     setProductDate((pre) => ({ ...pre, [name]: value }));
   };
-  
-  const handleSubmit = async (e) => {
 
-   
-    e.preventDefault(); 
-   setUploading(true)
-    console.log(id);
-    setTimeout(() => {
-      setUploading(false)
-    }, 2000);
-   
-   
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setUploading(true);
+   dispatch(updateProduct({id,productData}))
+   navigate('/admin/products')
   };
 
-
-  useEffect(()=>{
-console.log(productData);
-  },[productData])
+  useEffect(() => {
+    console.log(productData);
+  }, [productData]);
   return (
     <div className="max-w-5xl mx-auto p-6 shadow-md rounded-md">
       <h2 className="text-3xl font-bold mb-6">Edit Product</h2>
@@ -162,7 +148,8 @@ console.log(productData);
             Upload Image
           </label>
           <input
-            type="file" className="cursor-pointer"
+            type="file"
+            className="cursor-pointer"
             name="imag"
             // value={productData?.category}
             onChange={handleImageUpload}
@@ -181,9 +168,11 @@ console.log(productData);
             ))}
           </div>
         </div>
-      {<button className="w-full bg-green-500 rounded-md font-bold text-white py-2 hover:bg-green-600 cursor-pointer transition-colors ">
-       {  uploading ?'Updating ...': 'Update Product'}
-        </button>}
+        {
+          <button className="w-full bg-green-500 rounded-md font-bold text-white py-2 hover:bg-green-600 cursor-pointer transition-colors ">
+            {uploading ? "Updating ..." : "Update Product"}
+          </button>
+        }
       </form>
     </div>
   );

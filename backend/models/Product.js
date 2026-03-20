@@ -79,7 +79,7 @@ const productSchema = new mongoose.Schema({
         default: 0,
     },
     tages: {
-        type: [String],
+        type: String,
     },
     user: {
         type: mongoose.Schema.Types.ObjectId,

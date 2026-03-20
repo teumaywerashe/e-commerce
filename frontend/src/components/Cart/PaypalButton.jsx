@@ -2,15 +2,14 @@ import React from "react";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 
 function PaypalButton({ amount, onSuccess, onError }) {
-  // Convert amount to string with 2 decimals
+  
   const value = parseFloat(amount || 0).toFixed(2);
 
-  // Automatically choose sandbox or live based on environment
   const clientId =
     import.meta.env.VITE_PAYPAL_LIVE_CLIENT_ID
      ;
 
-  console.log("Using PayPal client ID:", clientId); // just to double-check
+
 
   return (
     <PayPalScriptProvider options={{ "client-id": clientId, currency: "USD" }}>

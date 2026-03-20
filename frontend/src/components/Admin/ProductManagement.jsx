@@ -1,33 +1,38 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import { deleteProducts, fetchAdminProducts } from "../../redux/slice/adminProductSlice";
+import { Link, useNavigate } from "react-router-dom";
+import {} from 'react-icons'
+import {
+  deleteProducts,
+  fetchAdminProducts,
+} from "../../redux/slice/adminProductSlice";
+import { FaPlus } from "react-icons/fa";
 
 function ProductManagement() {
- const dispatch=useDispatch()
+  const dispatch = useDispatch();
+const navigate=useNavigate()
+  const { products } = useSelector((state) => state.adminProducts);
 
-
- 
- const {products}=useSelector(state=>state.adminProducts)
-
-
-useEffect(()=>{
-  dispatch(fetchAdminProducts())
- },[dispatch,products])
-
+  useEffect(() => {
+    dispatch(fetchAdminProducts());
+  }, [dispatch, products]);
 
   const handleDelete = (id) => {
     if (window.confirm("Are you sure to delete this product")) {
-     dispatch(deleteProducts(id, "yes"));
+      dispatch(deleteProducts(id, "yes"));
     } else {
       console.log("no");
     }
   };
 
-
   return (
     <div className="max-w-7xl mx-auto p-6">
-      <h1 className="text-black font-bold text-2xl mb-6">Product Management</h1>
+      <div className="flex items-center justify-between">
+        <h1 className="text-black font-bold text-2xl mb-6">
+          Product Management
+        </h1>
+        <button onClick={()=>navigate('/admin/new-product')}  className="bg-amber-300 flex items-center gap-4 mb-5 rounded-xl hover:bg-amber-100 cursor-pointer hover:rounded-full p-2"> <FaPlus/> <span>new product</span> </button>
+      </div>
       <div className="overflow-x-auto shadow-md sm:rounded-lg">
         <table className="min-w-full text-left text-gray-500">
           <thead className="text-xs bg-gray-100 uppercase font-bold text-gray-700">

@@ -78,7 +78,7 @@ cartRouter.post("/", async(req, res) => {
 // update cart quantity
 cartRouter.put("/", async(req, res) => {
     const { productId, quantity, color, size, guestId, userId } = req.body;
-    console.log({ productId, quantity, color, size, guestId, userId });
+    // console.log({ productId, quantity, color, size, guestId, userId });
     try {
         let cart = await getCart(userId, guestId);
         if (!cart) {

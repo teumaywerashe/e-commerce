@@ -58,7 +58,7 @@ productRouter.post("/", auth, async(req, res) => {
 });
 
 // update product
-productRouter.patch("/:id", auth, admin, async(req, res) => {
+productRouter.put("/:id", auth, admin, async(req, res) => {
     const { id } = req.params;
     try {
         const {

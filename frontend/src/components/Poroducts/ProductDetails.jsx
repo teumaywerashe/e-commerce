@@ -46,7 +46,6 @@ function ProductDetails({ error,loading,productId, }) {
       toast.error("Please select size and color before adding to cart", {
         duration: 1000,
       });
-      console.log(selectedColor, selectedSize);
       return;
     }
 

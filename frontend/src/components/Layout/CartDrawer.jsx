@@ -10,9 +10,7 @@ function CartDrawer({ drawerOpen, setDrawerOpen, toggleCartDrawer }) {
 const   cartRef=useRef()
   const { cart } = useSelector((state) => state.cart);
 
-  useEffect(() => {
-    console.log(cart);
-  }, []);
+  
 
 
 

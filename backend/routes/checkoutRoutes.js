@@ -78,7 +78,7 @@ checkoutRouter.put("/:id/pay", auth, async(req, res) => {
 checkoutRouter.post("/:id/finalize", auth, async(req, res) => {
     try {
         const checkout = await Checkout.findById(req.params.id);
-        console.log(checkout);
+
         if (!checkout) {
             return res
                 .status(404)

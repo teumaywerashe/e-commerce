@@ -38,17 +38,13 @@ function UserManagement() {
   },[dispatch])
 
 
-  useEffect(()=>{
-    console.log(users);
-  }),[dispatch]
+  
 
   const handleDeleteUser = (userId) => {
     if (window.confirm("Are you sure to delete this user?")) {
       dispatch(deleteUser(userId));
-      console.log("yes");
-    } else {
-      console.log("no");
-    }
+     
+    } 
   };
 
   const handleChange = (e) => {
