@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { createAdminProduct } from "../../redux/slice/adminProductSlice";
-import { toast } from "react-hot-toast"; // Optional: for better UX
 
 function AddProduct() {
   const navigate = useNavigate();
