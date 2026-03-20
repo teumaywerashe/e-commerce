@@ -1,77 +1,83 @@
-import mongoose from "mongoose";
+import mongoose, { now } from "mongoose";
 
-const checkoutItemSchema = new mongoose.Schema({
+const checkoutItemSchema = new mongoose.Schema(
+  {
     productId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Product",
-        required: true,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Product",
+      required: true,
     },
     name: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
     image: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
     price: {
-        type: Number,
-        required: true
+      type: Number,
+      required: true,
     },
     quantity: {
-        type: Number,
-        required: true
+      type: Number,
+      required: true,
     },
     color: String,
     size: String,
-}, { _id: false }, );
+  },
+  { _id: false },
+);
 
-const checkoutSchema = new mongoose.Schema({
+const checkoutSchema = new mongoose.Schema(
+  {
     user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-        required: true,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
     },
     checkoutItems: [checkoutItemSchema],
-    shippingAdress: {
-        adress: {
-            type: String,
-            required: true,
-        },
-        city: {
-            type: String,
-            required: true,
-        },
-        postalCode: {
-            type: String,
-            required: true,
-        },
-    },
-    paymentMethod: {
+    shippingAddress: {
+      address: {
         type: String,
         required: true,
+      },
+      city: {
+        type: String,
+        required: true,
+      },
+      postalCode: {
+        type: String,
+        required: true,
+      },
+    },
+    paymentMethod: {
+      type: String,
+      required: true,
     },
     totalPrice: {
-        type: Number,
-        required: true,
+      type: Number,
+      required: true,
     },
     isPaid: {
-        type: Boolean,
-        default: false,
+      type: Boolean,
+      default: false,
     },
     isFinalized: {
-        type: Boolean,
-        default: false,
+      type: Boolean,
+      default: false,
     },
     paidAt: { type: Date },
     paymentStatus: {
-        type: String,
-        default: "pending",
+      type: String,
+      default: "pending",
     },
     paymentDetails: {
-        type: mongoose.Schema.Types.Mixed
+      type: mongoose.Schema.Types.Mixed,
     },
     finalizedAt: { type: Date },
-}, { timestamps: true }, );
+  },
+  { timestamps: true },
+);
 
-export default mongoose.model('Checkout', checkoutSchema)
+export default mongoose.model("Checkout", checkoutSchema);

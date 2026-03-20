@@ -9,12 +9,12 @@ import {
 } from "../../redux/slice/productSlice";
 import { addToCart } from "../../redux/slice/CartSlice";
 
-function ProductDetails({ productId }) {
+function ProductDetails({ error,loading,productId, }) {
   const { id } = useParams();
   const dispatch = useDispatch();
 
   const { user, guestId } = useSelector((state) => state.auth);
-  const { selectedProduct, similarProducts, error, loading } = useSelector(
+  const { selectedProduct, similarProducts } = useSelector(
     (state) => state.products,
   );
 
@@ -72,7 +72,7 @@ function ProductDetails({ productId }) {
   };
 
   if (loading) return <p className="p-6">Loading...</p>;
-  if (error) return <p className="p-6 text-red-500">Error: {error}</p>;
+  if (error) return <p className="p-6 text-center  mx-auto text-red-500">Error: {error}</p>;
   if (!selectedProduct) return null;
 
   return (

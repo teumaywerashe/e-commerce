@@ -47,11 +47,12 @@ function Home() {
       <GenderCollectionSection />
       <NewArrivals />
       <h2 className="text-3xl text-center font-bold mb-4">Best Seller</h2>
-      {bestSellereProduct ? (
-        <ProductDetails productId={bestSellereProduct._id} />
-      ) : (
-        <p className="text-center"> Loading best seller product...</p>
-      )}
+
+      <ProductDetails
+        error={error}
+        loading={loading}
+        productId={bestSellereProduct?._id}
+      />
 
       <div className="container mx-auto ">
         <h2 className="text-3xl text-center font-bold mb-4">

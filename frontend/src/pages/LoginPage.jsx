@@ -39,7 +39,7 @@ function LoginPage() {
     e.preventDefault();
     try {
       console.log({ email, password });
-      dispatch(loginUser({ email, password }));
+    dispatch(loginUser({ email, password }));
     } catch (error) {
       console.log(error);
     }

@@ -23,22 +23,24 @@ function Checkout() {
     phone: "",
   });
 
-  const handleCreateCheckout = (e) => {
+  const handleCreateCheckout = async (e) => {
     e.preventDefault();
     try {
-      const res = dispatch(
+      const res = await dispatch(
         createCheckout({
           checkoutItems: cart.products,
           shippingAddress,
-          PaymentMethod: "Paypal",
-          toatalPrice: cart.toatalPrice,
+          paymentMethod: "Paypal",
+          totalPrice: Number(cart.totalPrice),
         }),
       );
-      setCheckoutId(res.payload?._id);
-
+      if (res.payload) {
+        setCheckoutId(res.payload?._id);
+      }
       console.log(res);
     } catch (error) {
       console.log(error);
+      console.log("error");
     }
   };
   useEffect(() => {
@@ -57,7 +59,7 @@ function Checkout() {
   const handlePaymentSuccess = async ({ details }) => {
     try {
       await axios.put(
-        `${import.meta.env.VITE_BACKEND_URL}/api/checkout/pay`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/checkout/${checkoutId}/pay`,
         { paymentStatus: "paid", paymentDetail: details },
         {
           headers: {
@@ -66,7 +68,6 @@ function Checkout() {
         },
       );
       await handleFinalizeCheckout(checkoutId);
-   
     } catch (error) {
       console.error(error);
     }
@@ -74,21 +75,22 @@ function Checkout() {
 
   const handleFinalizeCheckout = async (checkoutId) => {
     try {
-     await axios.post(
+      await axios.post(
         `${import.meta.env.VITE_BACKEND_URL}/api/checkout/${checkoutId}/finalize`,
+        {},
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("userToken")}`,
           },
         },
       );
-  
-        navigate("/order-confirmation");
-    
+
+      navigate("/order-confirmation");
     } catch (error) {
       console.error(error);
     }
   };
+
 
   if (loading) {
     return <p>Loading a cart ....</p>;
@@ -171,7 +173,7 @@ function Checkout() {
                   })
                 }
                 type="text"
-                placeholder="yoour address"
+                placeholder="yoouraddress"
                 className="w-full p-2 border rounded"
                 required
               />
@@ -269,8 +271,8 @@ function Checkout() {
                 <h3 className="text-lg capitalize mb-4">pay with paypal</h3>
 
                 <PaypalButton
-                  amount={cart.toatalPrice}
-                  onsuccess={handlePaymentSuccess}
+                  amount={cart.totalPrice}
+                  onSuccess={handlePaymentSuccess}
                   onError={() => alert("Payment failed. try again!")}
                 />
               </div>

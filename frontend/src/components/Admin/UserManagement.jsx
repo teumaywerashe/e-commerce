@@ -23,10 +23,10 @@ function UserManagement() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchUsers());
-  }, [users, dispatch]);
+  }, [ dispatch]);
 
   useEffect(() => {
-    if (user && user.role !== "aadmin") {
+    if (!user && user.role !== "admin") {
       navigate("/");
     }
   }, [user, navigate]);
@@ -35,7 +35,12 @@ function UserManagement() {
     if(user&&user.role==='admin'){
       dispatch(fetchUsers())
     }
-  },[dispatch,user])
+  },[dispatch])
+
+
+  useEffect(()=>{
+    console.log(users);
+  }),[dispatch]
 
   const handleDeleteUser = (userId) => {
     if (window.confirm("Are you sure to delete this user?")) {
@@ -149,7 +154,10 @@ function UserManagement() {
             </tr>
           </thead>
           <tbody>
-            {users.map((user) => (
+
+            {
+            users.length>0?
+            users.map((user) => (
               <tr className="border-b hover:bg-gray-200" key={user._id}>
                 <td className="p-4 font-medium text-gray-900 whitespace-nowrap">
                   {user.name}
@@ -176,7 +184,8 @@ function UserManagement() {
                   </button>
                 </td>
               </tr>
-            ))}
+            )):
+            <td className="text-center py-3">No users found</td>}
           </tbody>
         </table>
       </div>

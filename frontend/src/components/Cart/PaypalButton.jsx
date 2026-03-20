@@ -1,20 +1,31 @@
 import React from "react";
-import {  PayPalScriptProvider,PayPalButtons } from "@paypal/react-paypal-js";
+import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
+
 function PaypalButton({ amount, onSuccess, onError }) {
+  // Convert amount to string with 2 decimals
+  const value = parseFloat(amount || 0).toFixed(2);
+
+  // Automatically choose sandbox or live based on environment
+  const clientId =
+    import.meta.env.VITE_PAYPAL_LIVE_CLIENT_ID
+     ;
+
+  console.log("Using PayPal client ID:", clientId); // just to double-check
+
   return (
-    <PayPalScriptProvider options={{ clientId: "dkjfrlkjnolkjfml" }}>
+    <PayPalScriptProvider options={{ "client-id": clientId, currency: "USD" }}>
       <PayPalButtons
         style={{ layout: "vertical" }}
-        createOrder={(data, action) => {
-          return action.order.create({
-            purchase_units: [{ amount: { value: parseFloat(amount).toFixed(2) } }],
+        createOrder={(data, actions) => {
+          return actions.order.create({
+            purchase_units: [{ amount: { value } }],
           });
         }}
-        onApprove={(data, action) => {
-          return action.order.capture().then(onSuccess);
+        onApprove={(data, actions) => {
+          return actions.order.capture().then(onSuccess);
         }}
         onError={onError}
-      ></PayPalButtons>
+      />
     </PayPalScriptProvider>
   );
 }

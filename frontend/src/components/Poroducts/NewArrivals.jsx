@@ -4,27 +4,26 @@ import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import { Link } from "react-router-dom";
 
 function NewArrivals() {
-  
   const [newArrivals, setNewArrivals] = useState([]);
 
-  
+  const [error, seteError] = useState(false);
+
   useEffect(() => {
     const fetchNewArrial = async () => {
       try {
         const response = await axios.get(
           `${import.meta.env.VITE_BACKEND_URL}/api/product/new-arrival`,
         );
-       
-          setNewArrivals(response.data.newArivaleProducts);
-       
-    
+
+        setNewArrivals(response.data.newArivaleProducts);
       } catch (error) {
+        seteError(true);
         console.log(error);
       }
     };
 
-    fetchNewArrial()
-  },[]);
+    fetchNewArrial();
+  }, []);
 
   const scrollRef = useRef(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
@@ -45,9 +44,6 @@ function NewArrivals() {
     }
   };
 
-
-
-
   useEffect(() => {
     const container = scrollRef.current;
 
@@ -61,8 +57,13 @@ function NewArrivals() {
         container.removeEventListener("scroll", updateScrollButton);
       }
     };
-   
-  }, []); // run once on mount
+  }, [newArrivals]); // run once on mount
+
+
+
+  useEffect(()=>{
+    console.log(canScrollLeft,canScrollRight,newArrivals);
+  },[])
 
   return (
     <section className="py-16 px-4 lg:px-0">
@@ -72,6 +73,7 @@ function NewArrivals() {
           Discover the latest styles straight off the runway,freshly added to
           our collection
         </p>
+        {newArrivals.length>3&&
         <div className="absolute right-0 -bottom-12 mb-3 flex space-x-2 ">
           <button
             onClick={() => scroll("left")}
@@ -95,31 +97,40 @@ function NewArrivals() {
           >
             <FiChevronRight className="text-xl" />
           </button>
-        </div>
+        </div>}
       </div>
-      <div
-        ref={scrollRef}
-        className="container overflow-x-scroll mx-auto flex space-x-6 relative"
-      >
-        {newArrivals?.map((product) => (
+      {
+        <>
+          {error && (
+            <p className="text-center text-red-600">Error:Network Error</p>
+          )}
           <div
-            key={product._id}
-            className="min-w-full sm:min-w-[50%] md:min-w-[300px] lg:min-w-[30%] relative"
+            ref={scrollRef}
+            className="container overflow-x-scroll mx-auto flex space-x-6 relative"
           >
-            <img
-              src={product.images[0]?.url}
-              alt={product.images[0]?.altText}
-              className="w-full h-[500px] object-cover mb-4 rounded-lg"
-            />
-            <div className="absolute bottom-0 right-0 left-0 bg-opacity-50 backdrop-blur-md text-white p-4 rounded-b-lg ">
-              <Link to={`/product/${product._id}`} className="block">
-                <h3 className="text-lg font-semibold mb-2">{product.name}</h3>
-                <p className="text-gray-700 font-bold">${product.price}</p>
-              </Link>
-            </div>
+            {newArrivals?.map((product) => (
+              <div
+                key={product._id}
+                className="min-w-full sm:min-w-[50%] md:min-w-[300px] lg:min-w-[30%] relative"
+              >
+                <img
+                  src={product.images[0]?.url}
+                  alt={product.images[0]?.altText}
+                  className="w-full h-[500px] object-cover mb-4 rounded-lg"
+                />
+                <div className="absolute bottom-0 right-0 left-0 bg-opacity-50 backdrop-blur-md text-white p-4 rounded-b-lg ">
+                  <Link to={`/product/${product._id}`} className="block">
+                    <h3 className="text-lg font-semibold mb-2">
+                      {product.name}
+                    </h3>
+                    <p className="text-gray-700 font-bold">${product.price}</p>
+                  </Link>
+                </div>
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
+        </>
+      }
     </section>
   );
 }

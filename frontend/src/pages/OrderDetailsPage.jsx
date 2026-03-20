@@ -12,10 +12,10 @@ function OrderDetailsPage() {
     dispatch(fetchUserOrders());
   }, [id, dispatch]);
   if(loading){
-    return <p>Loading</p>
+    return <p className="text-center">Loading</p>
   }
   if(error){
-    return <p>Error:{error}</p>
+    return <p className="text-center">Error:{error}</p>
   }
  return (
     <div className="max-w-7xl mx-auto p-4 sm:p-6">

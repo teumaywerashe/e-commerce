@@ -11,7 +11,7 @@ function OrderManagement() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
-  const { orders, loading, error } = useSelector((state) => state.adminOrders);
+  const { orders } = useSelector((state) => state.adminOrders);
 
   useEffect(() => {
     if (!user || user.role !== "admin") {
@@ -23,18 +23,12 @@ function OrderManagement() {
 
   const handleStatusChange = (orderId, status) => {
     try {
-      dispatch(updateOrderStatus({ id:orderId, status }));
+      dispatch(updateOrderStatus({ id: orderId, status }));
     } catch (error) {
       console.log(error);
     }
   };
 
-  if(loading){
-    return <p>Loading ...</p>
-  }
-  if(error){
-    return <p>Error:{error}</p>
-  }
   return (
     <div className="max-w-5xl mx-auto p-6">
       <h1 className="font-bold text-black mb-6 text-2xl">Order Management</h1>
@@ -49,6 +43,8 @@ function OrderManagement() {
               <td className="px-4 py-2">Actions</td>
             </tr>
           </thead>
+        
+        
           <tbody>
             {orders.length > 0 ? (
               orders.map((order) => (

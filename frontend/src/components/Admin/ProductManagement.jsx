@@ -8,7 +8,7 @@ function ProductManagement() {
 
 
  
- const {products,loading,error}=useSelector(state=>state.adminProducts)
+ const {products}=useSelector(state=>state.adminProducts)
 
 
 useEffect(()=>{
@@ -25,13 +25,6 @@ useEffect(()=>{
   };
 
 
-  if(loading){
-    return <p>Loading ...</p>
-  }
-
-  if(error){
-    return <p>Error:{error}</p>
-  }
   return (
     <div className="max-w-7xl mx-auto p-6">
       <h1 className="text-black font-bold text-2xl mb-6">Product Management</h1>

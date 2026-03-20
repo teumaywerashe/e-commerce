@@ -16,7 +16,7 @@ function EditProduct() {
 
 
 
-  const {uploading,setUploading}=useState(false)
+  const [uploading,setUploading]=useState(false)
 
   useEffect(()=>{
     if(id){
@@ -40,9 +40,22 @@ function EditProduct() {
   };
   
   const handleSubmit = async (e) => {
-    e.preventDefault();
+
+   
+    e.preventDefault(); 
+   setUploading(true)
     console.log(id);
+    setTimeout(() => {
+      setUploading(false)
+    }, 2000);
+   
+   
   };
+
+
+  useEffect(()=>{
+console.log(productData);
+  },[productData])
   return (
     <div className="max-w-5xl mx-auto p-6 shadow-md rounded-md">
       <h2 className="text-3xl font-bold mb-6">Edit Product</h2>
@@ -56,7 +69,7 @@ function EditProduct() {
             type="text"
             name="name"
             required
-            value={productData.name}
+            value={productData?.name}
             onChange={handleDataChange}
           />
         </div>
@@ -69,7 +82,7 @@ function EditProduct() {
             type="text"
             name="description"
             rows={4}
-            value={productData.description}
+            value={productData?.description}
             onChange={handleDataChange}
           ></textarea>
         </div>
@@ -81,7 +94,7 @@ function EditProduct() {
             className="w-full p-2 border border-gray-300 rounded-md"
             type="number"
             name="price"
-            value={productData.price}
+            value={productData?.price}
             onChange={handleDataChange}
           />
         </div>
@@ -94,7 +107,7 @@ function EditProduct() {
             type="number"
             name="countInStock"
             required
-            value={productData.countInStock}
+            value={productData?.countInStock}
             onChange={handleDataChange}
           />
         </div>
@@ -106,7 +119,7 @@ function EditProduct() {
             className="w-full p-2 border border-gray-300 rounded-md"
             type="text"
             name="sku"
-            value={productData.sku}
+            value={productData?.sku}
             onChange={handleDataChange}
           />
         </div>
@@ -118,7 +131,7 @@ function EditProduct() {
             className="w-full p-2 border border-gray-300 rounded-md"
             type="text"
             name="name"
-            value={productData.sizes.join(", ")}
+            value={productData?.sizes.join(", ")}
             onChange={(e) =>
               setProductDate((productData) => ({
                 ...productData,
@@ -135,7 +148,7 @@ function EditProduct() {
             className="w-full p-2 border border-gray-300 rounded-md"
             type="text"
             name="name"
-            value={productData.colors.join(", ")}
+            value={productData?.colors.join(", ")}
             onChange={(e) =>
               setProductDate((productData) => ({
                 ...productData,
@@ -151,12 +164,12 @@ function EditProduct() {
           <input
             type="file" className="cursor-pointer"
             name="imag"
-            // value={productData.category}
+            // value={productData?.category}
             onChange={handleImageUpload}
           />
           ,
           <div className="flex gap-4 mt-4">
-            {productData.images.map((image, i) => (
+            {productData?.images.map((image, i) => (
               <div key={i}>
                 {" "}
                 <img
@@ -168,9 +181,9 @@ function EditProduct() {
             ))}
           </div>
         </div>
-        <button className="w-full bg-green-500 rounded-md font-bold text-white py-2 hover:bg-green-600 cursor-pointer transition-colors ">
-          Update Product
-        </button>
+      {<button className="w-full bg-green-500 rounded-md font-bold text-white py-2 hover:bg-green-600 cursor-pointer transition-colors ">
+       {  uploading ?'Updating ...': 'Update Product'}
+        </button>}
       </form>
     </div>
   );

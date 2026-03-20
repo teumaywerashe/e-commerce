@@ -4,7 +4,7 @@ import MyOrders from "./MyOrders";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../redux/slice/AuthSlice";
 import { clearCart } from "../redux/slice/CartSlice";
-import { toast } from "sonner";
+
 
 function Profile() {
 
@@ -36,6 +36,7 @@ if(!user){
           <div className="w-full md:w-1/3 shadow-md lg:w-1/4 rounded-lg p-6 ">
             <h1 className="text-2xl md:text-2xl  font-bold mb-4 ">{user?.name}</h1>
             <p className="text-lg text-gray-600 mb-4">{user?.email}</p>
+            
             <button onClick={handleLogout} className="w-full bg-red-500 text-white py-2 px-4 rounded-lg font-semibold hover:bg-red-600 transition cursor-pointer">
               Logout
             </button>

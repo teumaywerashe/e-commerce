@@ -5,13 +5,15 @@ import { fetchAdminProducts } from "../redux/slice/adminProductSlice";
 import { fetchAllOrders } from "../redux/slice/adminOrderSlice";
 
 function AdminHomePage() {
-  const { dispatch } = useDispatch();
+  const  dispatch  = useDispatch();
 
   const {
     products,
     loading: productLoading,
     error: productError,
   } = useSelector((state) => state.adminProducts);
+
+  
 
   const {
     orders,
@@ -24,7 +26,7 @@ function AdminHomePage() {
   useEffect(() => {
     dispatch(fetchAdminProducts);
     dispatch(fetchAllOrders());
-  }, [orders, dispatch]);
+  }, [ dispatch]);
 
   if (orderError) {
     return <p>Error:{productError}</p>;
