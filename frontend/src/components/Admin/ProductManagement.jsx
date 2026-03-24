@@ -45,26 +45,26 @@ const navigate=useNavigate()
           </thead>
           <tbody>
             {products.length > 0 ? (
-              products.map((product) => (
+              products?.map((product) => (
                 <tr
-                  key={product._id}
+                  key={product?._id}
                   className="border-b hover:bg-gray-50 cursor-pointer"
                 >
                   <td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap">
-                    {product.name}
+                    {product?.name}
                   </td>
-                  <td className="px-4 py-2">${product.price}</td>
-                  <td className="px-4 py-2">{product.sku}</td>
+                  <td className="px-4 py-2">${product?.price}</td>
+                  <td className="px-4 py-2">{product?.sku}</td>
                   <td className="px-4 py-2 flex gap-2">
                     <Link
                       className="bg-yellow-500 rounded p-2 text-white"
-                      to={`/admin/product/edit/${product._id}`}
+                      to={`/admin/product/edit/${product?._id}`}
                     >
                       edit
                     </Link>
 
                     <button
-                      onClick={() => handleDelete(product._id)}
+                      onClick={() => handleDelete(product?._id)}
                       className="bg-red-500  hover:bg-red-600cursor-pointer px-2 py-1 rounded text-white"
                     >
                       delete
