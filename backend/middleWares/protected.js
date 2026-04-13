@@ -13,6 +13,7 @@ export const auth = async(req, res, next) => {
     const token = tokenHeaders.split(" ")[1];
 
 
+
     try {
         const payload = jwt.verify(token, process.env.JWT_SECRET);
         req.user = await User.findById(payload.userId).select("-password");
@@ -22,6 +23,7 @@ export const auth = async(req, res, next) => {
         return res.status(401).json({ success: false, msg: "Invalid token" });
     }
 };
+
 export const admin = (req, res, next) => {
     if (req.user && req.user.role === "admin") {
         next();
