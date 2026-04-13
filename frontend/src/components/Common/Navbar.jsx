@@ -3,147 +3,147 @@ import { Link } from "react-router-dom";
 import {
   HiOutlineUser,
   HiOutlineShoppingBag,
-  HiBars3BottomRight,
+  HiBars3,
 } from "react-icons/hi2";
+import { IoMdClose } from "react-icons/io";
 import SearchBar from "./SearchBar";
 import CartDrawer from "../Layout/CartDrawer";
-import { IoMdClose } from "react-icons/io";
 import { useSelector } from "react-redux";
+
 function Navbar() {
   const { user } = useSelector((state) => state.auth);
   const { cart } = useSelector((state) => state.cart);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [navOpen, setNavOpen] = useState(false);
-  const toggleNav = () => {
-    setNavOpen(!navOpen);
-  };
+
   const cartItemCount =
-    cart?.products?.reduce((total, product) => total + product.quantity, 0) ||
-    0;
-  const toggleCartDrawer = () => {
-    setDrawerOpen(!drawerOpen);
-  };
+    cart?.products?.reduce((total, p) => total + p.quantity, 0) || 0;
+
+  const toggleCartDrawer = () => setDrawerOpen((prev) => !prev);
+  const toggleNav = () => setNavOpen((prev) => !prev);
+
+  const navLinks = [
+    { label: "Men", to: "/collections/all?gender=Men" },
+    { label: "Women", to: "/collections/all?gender=Women" },
+    { label: "Top Wear", to: "/collections/all?category=Top Wear" },
+    { label: "Bottom Wear", to: "/collections/all?category=Bottom Wear" },
+  ];
+
   return (
     <>
-      <nav className="container flex items-center justify-between mx-auto py-4 px-6">
-        {/* left icones */}
-        <div>
-          <Link to="/" className="text-2x1 font-medium">
-            Rabbit
+      <nav className="bg-white border-b border-gray-100">
+        <div className="container mx-auto flex items-center justify-between px-4 py-4">
+          {/* Logo */}
+          <Link
+            to="/"
+            className="text-xl font-bold tracking-tight text-primary hover:text-accent transition-colors"
+          >
+            RABBIT
           </Link>
-        </div>
-        {/* center icones */}
-        <div className="hidden md:flex space-x-6">
-          <Link
-            to="/collections/all?gender=Men"
-            className="text-gray-700 text-sm font-medium uppercase"
-          >
-            men
-          </Link>
-          <Link
-            to="/collections/all?gender=Women"
-            className="text-gray-700 text-sm font-medium uppercase"
-          >
-            women
-          </Link>{" "}
-          <Link
-            to="/collections/all?category=Top Wear"
-            className="text-gray-700 text-sm font-medium uppercase"
-          >
-            top wear
-          </Link>{" "}
-          <Link
-            to="/collections/all?category=Bottom Wear"
-            className="text-gray-700 text-sm font-medium uppercase"
-          >
-            bottom wear
-          </Link>
-        </div>
-        {/* right icomes */}
-        <div className="flex itemcenter space-x-4">
-          {user && user.role == "admin" && (
-            <Link
-              to="/admin"
-              className="block bg-black px-2 text-white rounded text-sm "
-            >
-              Admin
-            </Link>
-          )}
 
-          <Link to="/profile" className="hover:text-black flex">
-            <HiOutlineUser className="h-6 w-6 text-gray-700" />
-          </Link>
-          <button
-            onClick={toggleCartDrawer}
-            className="flex cursor-pointer relative hover:text-black"
-          >
-            <HiOutlineShoppingBag className="h-6 w-6 text-gray-700" />
-            {cartItemCount > 0 && (
-              <span className="absolute bg-[#ea2e0e] -top-1 text-white text-xs rounded-full px-2 py-0.5">
-                {cartItemCount}
-              </span>
-            )}
-          </button>
-
-          <div clasname="overflow-hidden">
-            <SearchBar />
+          {/* Desktop nav links */}
+          <div className="hidden md:flex items-center gap-8">
+            {navLinks.map((link) => (
+              <Link
+                key={link.label}
+                to={link.to}
+                className="text-sm font-medium text-gray-600 hover:text-primary transition-colors uppercase tracking-wide"
+              >
+                {link.label}
+              </Link>
+            ))}
           </div>
 
-          <button onClick={toggleNav} className="flex cursor-pointer md:hidden">
-            <HiBars3BottomRight />
-          </button>
+          {/* Right icons */}
+          <div className="flex items-center gap-4">
+            {user?.role === "admin" && (
+              <Link
+                to="/admin"
+                className="hidden md:block text-xs font-semibold bg-accent text-white px-3 py-1.5 rounded-full hover:bg-blue-600 transition-colors"
+              >
+                Admin
+              </Link>
+            )}
+
+            <SearchBar />
+
+            <Link
+              to="/profile"
+              className="text-gray-600 hover:text-primary transition-colors"
+            >
+              <HiOutlineUser className="h-5 w-5" />
+            </Link>
+
+            <button
+              onClick={toggleCartDrawer}
+              className="relative text-gray-600 hover:text-primary transition-colors cursor-pointer"
+            >
+              <HiOutlineShoppingBag className="h-5 w-5" />
+              {cartItemCount > 0 && (
+                <span className="absolute -top-2 -right-2 bg-accent text-white text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center">
+                  {cartItemCount}
+                </span>
+              )}
+            </button>
+
+            <button
+              onClick={toggleNav}
+              className="md:hidden text-gray-600 hover:text-primary transition-colors cursor-pointer"
+            >
+              <HiBars3 className="h-5 w-5" />
+            </button>
+          </div>
         </div>
       </nav>
+
+      {/* Cart Drawer */}
       <CartDrawer
-        setDrawerOpen={setDrawerOpen}
         drawerOpen={drawerOpen}
+        setDrawerOpen={setDrawerOpen}
         toggleCartDrawer={toggleCartDrawer}
       />
 
+      {/* Mobile nav overlay */}
+      {navOpen && (
+        <div
+          className="fixed inset-0 bg-black/40 z-40"
+          onClick={toggleNav}
+        />
+      )}
+
+      {/* Mobile nav panel */}
       <div
-        className={`fixed top-0 left-0 w-3/4 sm:w-1/2 md:w-1/3 h-full bg-white shadow-lg z-40 transform transition-transform duration-300 ${
+        className={`fixed top-0 left-0 h-full w-72 bg-white z-50 shadow-2xl transform transition-transform duration-300 ${
           navOpen ? "translate-x-0" : "-translate-x-full"
-        } `}
+        }`}
       >
-        {/* Mobile navigation content goes here */}
-        <div className="flex justify-end p-4">
-          <button onClick={toggleNav} className="cursor-pointer">
-            <IoMdClose className="h-6 w-6 text-gray-600" />
+        <div className="flex items-center justify-between p-5 border-b border-gray-100">
+          <span className="text-lg font-bold tracking-tight text-primary">RABBIT</span>
+          <button onClick={toggleNav} className="cursor-pointer text-gray-500 hover:text-primary">
+            <IoMdClose className="h-5 w-5" />
           </button>
         </div>
-        <div className="p-4">
-          <h2 className="text-xl font-semibold mb-4"> Menu </h2>
-          <nav className="space-y-4">
+        <nav className="p-5 space-y-1">
+          {navLinks.map((link) => (
             <Link
+              key={link.label}
+              to={link.to}
               onClick={toggleNav}
-              to="/collections/all?gender=Men"
-              className="block py-2 text-gray-600 hover:text-black"
+              className="block py-3 px-3 text-sm font-medium text-gray-700 hover:text-primary hover:bg-gray-50 rounded-lg transition-colors"
             >
-              Men
+              {link.label}
             </Link>
+          ))}
+          {user?.role === "admin" && (
             <Link
+              to="/admin"
               onClick={toggleNav}
-              to="/collections/all?gender=Women"
-              className="block py-2 text-gray-600 hover:text-black"
+              className="block py-3 px-3 text-sm font-semibold text-accent hover:bg-blue-50 rounded-lg transition-colors"
             >
-              women
-            </Link>{" "}
-            <Link
-              onClick={toggleNav}
-              to="/collections/all?category=Top Wear"
-              className="block py-2 text-gray-600 hover:text-black"
-            >
-              Top Wear
+              Admin Dashboard
             </Link>
-            <Link
-              onClick={toggleNav}
-              to="/collections/all?category=Bottom Wear"
-              className="block py-2 text-gray-600 hover:text-black"
-            >
-              Bottom Wear
-            </Link>
-          </nav>
-        </div>
+          )}
+        </nav>
       </div>
     </>
   );

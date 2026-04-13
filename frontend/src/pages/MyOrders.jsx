@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { fetchUserOrders } from "../redux/slice/orderSlice";
+import { HiOutlineShoppingBag } from "react-icons/hi2";
 
 function MyOrders() {
   const dispatch = useDispatch();
@@ -12,94 +13,93 @@ function MyOrders() {
     dispatch(fetchUserOrders());
   }, [dispatch]);
 
-  const handleRowClick = (orderId) => {
-    navigate(`/order/${orderId}`);
-  };
-
   if (loading) {
-    return <p>Loading ...</p>;
+    return (
+      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 space-y-4">
+        {Array.from({ length: 3 }).map((_, i) => (
+          <div key={i} className="animate-pulse flex gap-4">
+            <div className="w-12 h-12 bg-gray-200 rounded-lg" />
+            <div className="flex-1 space-y-2">
+              <div className="bg-gray-200 rounded h-4 w-1/2" />
+              <div className="bg-gray-200 rounded h-3 w-1/3" />
+            </div>
+          </div>
+        ))}
+      </div>
+    );
   }
-  if (error) {
-    return <p>Error:{error}</p>;
-  }
+
+  if (error) return <p className="text-red-500 text-sm">{error}</p>;
+
   return (
-    <div className="max-w-7xl mx-auto p-4 sm:p-6">
-      <h2 className="text-xl sm:text-2xl font-bold mb-6">My Orders</h2>
-      <div className="relative shadow-md sm:rounded-lg overflow-x-scroll">
-        <table className="min-w-full text-left text-gray-500">
-          <thead className="bg-gray-100 text-xs uppercase text-gray-700">
-            <tr>
-              <th className="py-2 px-4 sm:py-3">Image</th>
-              <th className="py-2 px-4 sm:py-3">Order Id</th>
-              <th className="py-2 px-4 sm:py-3">Created</th>
-              <th className="py-2 px-4 sm:py-3">shippingAddress</th>
-              <th className="py-2 px-4 sm:py-3">Items</th>
-              <th className="py-2 px-4 sm:py-3">Price</th>
-              <th className="py-2 px-4 sm:py-3">Status</th>
-              <th className="py-2 px-4 sm:py-3">Details</th>
-            </tr>
-          </thead>
-          <tbody>
-            {orders.length > 0 ? (
-              orders.map((order) => (
+    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+      <div className="px-6 py-4 border-b border-gray-100">
+        <h2 className="font-bold text-primary text-base">My Orders</h2>
+      </div>
+
+      {orders.length === 0 ? (
+        <div className="flex flex-col items-center justify-center py-16 text-center">
+          <HiOutlineShoppingBag className="h-12 w-12 text-gray-200 mb-3" />
+          <p className="text-gray-500 font-medium">No orders yet</p>
+          <p className="text-gray-400 text-sm mt-1">Your orders will appear here</p>
+        </div>
+      ) : (
+        <div className="overflow-x-auto">
+          <table className="min-w-full text-sm">
+            <thead className="bg-gray-50 text-xs text-gray-400 uppercase tracking-wider">
+              <tr>
+                <th className="py-3 px-5 text-left">Order</th>
+                <th className="py-3 px-5 text-left">Date</th>
+                <th className="py-3 px-5 text-left">Items</th>
+                <th className="py-3 px-5 text-left">Total</th>
+                <th className="py-3 px-5 text-left">Status</th>
+                <th className="py-3 px-5 text-left"></th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-50">
+              {orders.map((order) => (
                 <tr
-                  onClick={() => handleRowClick(order._id)}
                   key={order._id}
-                  className="border-b hover:border-r-gray-50 cursor-pointer"
+                  onClick={() => navigate(`/order/${order._id}`)}
+                  className="hover:bg-gray-50 cursor-pointer transition-colors"
                 >
-                  <td className="py-2 px-2 sm:py-4 sm:px-4">
-                    <img
-                      src={order.orderItems[0].image}
-                      alt={order.orderItems[0].name}
-                      className="w-10 h-10 object-cover sm:h-12 sm:w-12 rounded-lg"
-                    />
+                  <td className="py-4 px-5">
+                    <div className="flex items-center gap-3">
+                      <img
+                        src={order.orderItems[0]?.image}
+                        alt={order.orderItems[0]?.name}
+                        className="w-10 h-10 object-cover rounded-lg bg-gray-100"
+                      />
+                      <span className="text-xs text-gray-400 font-mono">#{order._id.slice(-8)}</span>
+                    </div>
                   </td>
-                  <td className="py-2 px-2 sm:py-4 sm:px-4 text-gray-900 whitespace-nowrap">
-                    {order._id}
+                  <td className="py-4 px-5 text-gray-500">
+                    {new Date(order.createdAt).toLocaleDateString()}
                   </td>
-                  <td className="py-2 px-2 sm:py-4 sm:px-4">
-                    {new Date(order.createdAt).toLocaleDateString()} <br />
-                    {new Date(order.createdAt).toLocaleTimeString()}
+                  <td className="py-4 px-5 text-gray-500">
+                    {order.orderItems.reduce((t, i) => t + i.quantity, 0)} items
                   </td>
-                  <td className="py-2 px-2 sm:py-4 sm:px-4">
-                    {order.shippingAddress.street}, {order.shippingAddress.city}
-                  </td>
-                  <td className="py-2 px-2 sm:py-4 sm:px-4">
-                    {order.orderItems.reduce(
-                      (total, item) => total + item.quantity,
-                      0,
-                    )}{" "}
-                    Items
-                  </td>
-                  <td className="py-2 px-2 sm:py-4 sm:px-4">
+                  <td className="py-4 px-5 font-semibold text-primary">
                     ${order.totalPrice.toFixed(2)}
                   </td>
-                  <td className="py-2 px-2 sm:py-4 sm:px-4">
-                    {order.isPaid ? (
-                      <span className="text-green-600 font-semibold">Paid</span>
-                    ) : (
-                      <span className="text-red-600 font-semibold">
-                        Pending
-                      </span>
-                    )}
+                  <td className="py-4 px-5">
+                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold ${
+                      order.isPaid
+                        ? "bg-green-50 text-green-700"
+                        : "bg-yellow-50 text-yellow-700"
+                    }`}>
+                      {order.isPaid ? "Paid" : "Pending"}
+                    </span>
                   </td>
-                  <td className="py-2 px-4 sm:py-3">
-                    <button className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition">
-                      Details
-                    </button>
+                  <td className="py-4 px-5">
+                    <span className="text-accent text-xs font-semibold hover:underline">View →</span>
                   </td>
                 </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="8" className="py-4 px-4 text-center text-gray-500">
-                  No orders found.
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 }

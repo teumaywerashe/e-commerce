@@ -1,29 +1,42 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import featured from '../../assets/featured.webp'
+import React from "react";
+import { Link } from "react-router-dom";
+import featured from "../../assets/featured.webp";
 
 function FeaturedCollection() {
   return (
-    <section className='flex py-16 px-4 lg:px-0 '>
-    <div className="container flex flex-col-reverse sm:flex-row lg:flex-row items-center bg-green-50 rounded-3xl">
-      <div className="lg:w-1/2 p-8 text-center lg:text-left">
-      <h2 className="text-lg font-semibold text-gray-700 mb-2">
-        Confort and Style
-      </h2>
-      <h2 className="text-4xl lg:text-5xl font-bold mb-6 ">
-        Apparel made for your every day life
-      </h2>
-      <p className="text-lg text-gray-600 mb-6">
-        Discover high quality, Comfortable clothing that effortlessly blends fashion amd function. Designed to make you look and feel great every day
-      </p>
-      <Link to='/collections/all' className='bg-black text-white rounded-lg px-6 py-2 text-sm hover:bg-gray-800'>
-      Shop Now</Link>
+    <section className="py-16 px-4">
+      <div className="container mx-auto">
+        <div className="flex flex-col-reverse md:flex-row items-center gap-0 bg-primary rounded-2xl overflow-hidden shadow-xl">
+          {/* Text */}
+          <div className="md:w-1/2 p-10 md:p-14 text-center md:text-left">
+            <p className="text-accent text-xs font-semibold uppercase tracking-widest mb-3">
+              Featured
+            </p>
+            <h2 className="text-3xl md:text-4xl font-bold text-white leading-tight mb-4">
+              Apparel made for your everyday life
+            </h2>
+            <p className="text-gray-400 text-sm leading-relaxed mb-8">
+              Discover high-quality, comfortable clothing that effortlessly blends fashion and function. Designed to make you look and feel great every day.
+            </p>
+            <Link
+              to="/collections/all"
+              className="inline-block bg-accent hover:bg-blue-600 text-white font-semibold px-7 py-3 rounded-full transition-all duration-200 shadow-lg hover:shadow-accent/30"
+            >
+              Shop the Collection
+            </Link>
+          </div>
+          {/* Image */}
+          <div className="md:w-1/2 w-full">
+            <img
+              src={featured}
+              alt="Featured Collection"
+              className="w-full h-[380px] md:h-[480px] object-cover"
+            />
+          </div>
+        </div>
       </div>
-      <div className="lg:w-1/2 ">
-      <img src={featured} alt="" className='w-full h-full object-cover lg:rounded-tr-3xl lg:rounded-br-3xl'/></div>
-    </div>
     </section>
-  )
+  );
 }
 
-export default FeaturedCollection
+export default FeaturedCollection;

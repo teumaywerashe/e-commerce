@@ -1,123 +1,93 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { TbBrandMeta, TbFilePhone } from "react-icons/tb";
+import { TbBrandMeta } from "react-icons/tb";
 import { IoLogoInstagram } from "react-icons/io";
 import { RiTwitterXLine } from "react-icons/ri";
 import { FiPhoneCall } from "react-icons/fi";
+
 function Footer() {
   return (
-    <footer className="border-t py-12">
-      <div className="container mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 px-4 llg:px-0">
+    <footer className="bg-primary text-gray-400 pt-14 pb-8 mt-10">
+      <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-10">
+        {/* Newsletter */}
         <div>
-          <h3 className="text-lg text-gray-800 mb-4">NewsLetter</h3>
-          <p className="text-gray-500 mb-4 ">
+          <h3 className="text-white font-bold text-lg mb-1">RABBIT</h3>
+          <p className="text-sm mb-4 leading-relaxed">
             Be the first to know about new arrivals, exclusive offers, and more.
           </p>
-          <p className="font-medium text-sm text-gray-600 mb-6">
-            signup and get 10% off your first order!
+          <p className="text-xs text-accent font-semibold mb-4 uppercase tracking-wide">
+            Sign up & get 10% off your first order
           </p>
           <form className="flex">
             <input
               type="email"
-              placeholder="Enter your email"
-              className="p-3 rounded-l-md w-fulll text-sm border-l border-b border-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 transition-all required:"
+              placeholder="Your email"
+              className="flex-1 bg-white/10 text-white placeholder-gray-500 text-sm px-4 py-2.5 rounded-l-lg border border-white/10 focus:outline-none focus:border-accent transition-colors"
             />
             <button
               type="submit"
-              className="text-white bg-black cursor-pointer px-6 py-3 text-sm rounded-r-md hover:bg-gray-800 transition-all"
+              className="bg-accent hover:bg-blue-600 text-white text-sm font-semibold px-4 py-2.5 rounded-r-lg transition-colors cursor-pointer"
             >
-              subscribe
+              Join
             </button>
           </form>
         </div>
+
+        {/* Shop */}
         <div>
-          <h3 className="text-lg text-gray-800 mb-6">Shop</h3>
-          <ul className="space-y-2 text-gray-600">
-            <li>
-              <Link to="#" className="hover:text-gray-600 transition-colors">
-                Men's Top Wear
-              </Link>
-            </li>
-            <li>
-              <Link to="#" className="hover:text-gray-600 transition-colors">
-                Women's Top Wear
-              </Link>
-            </li>
-            <li>
-              <Link to="#" className="hover:text-gray-600 transition-colors">
-                Men's bottom Wear
-              </Link>
-            </li>
-            <li>
-              <Link to="#" className="hover:text-gray-600 transition-colors">
-                Women's Bottom Wear
-              </Link>
-            </li>
+          <h3 className="text-white font-semibold text-sm uppercase tracking-wider mb-5">Shop</h3>
+          <ul className="space-y-3 text-sm">
+            {["Men's Top Wear", "Women's Top Wear", "Men's Bottom Wear", "Women's Bottom Wear"].map((item) => (
+              <li key={item}>
+                <Link to="#" className="hover:text-white transition-colors">{item}</Link>
+              </li>
+            ))}
           </ul>
         </div>
+
+        {/* Support */}
         <div>
-          <h3 className="text-lg text-gray-800 mb-6">Support</h3>
-          <ul className="space-y-2 text-gray-600">
-            <li>
-              <Link to="#" className="hover:text-gray-600 transition-colors">
-                Contact Us
-              </Link>
-            </li>
-            <li>
-              <Link to="#" className="hover:text-gray-600 transition-colors">
-                About Us
-              </Link>
-            </li>
-            <li>
-              <Link to="#" className="hover:text-gray-600 transition-colors">
-                FAQs
-              </Link>
-            </li>
-            <li>
-              <Link to="#" className="hover:text-gray-600 transition-colors">
-                Features
-              </Link>
-            </li>
+          <h3 className="text-white font-semibold text-sm uppercase tracking-wider mb-5">Support</h3>
+          <ul className="space-y-3 text-sm">
+            {["Contact Us", "About Us", "FAQs", "Returns"].map((item) => (
+              <li key={item}>
+                <Link to="#" className="hover:text-white transition-colors">{item}</Link>
+              </li>
+            ))}
           </ul>
         </div>
+
+        {/* Follow */}
         <div>
-          <h3 className="text-lg mb-4 text-gray-800">Follow Us</h3>
-          <div className="flec items-center space-x-4 mb-6 ">
-            <a
-              href="http://www.facebook.com"
-              target="_black"
-              rel="noopener noreferrer"
-              className="hover:text-gray-500"
-            >
-              <TbBrandMeta className="h-6 w-6" />
-            </a>
-            <a
-              href="http://www.instagram.com"
-              target="_black"
-              rel="noopener noreferrer"
-              className="hover:text-gray-500"
-            >
-              <IoLogoInstagram className="h-6 w-6" />
-            </a>{" "}
-            <a
-              href="http://www.x.com"
-              target="_black"
-              rel="noopener noreferrer"
-              className="hover:text-gray-500"
-            >
-              <RiTwitterXLine className="h-6 w-6" />
+          <h3 className="text-white font-semibold text-sm uppercase tracking-wider mb-5">Follow Us</h3>
+          <div className="flex items-center gap-4 mb-6">
+            {[
+              { href: "https://facebook.com", icon: <TbBrandMeta className="h-5 w-5" /> },
+              { href: "https://instagram.com", icon: <IoLogoInstagram className="h-5 w-5" /> },
+              { href: "https://x.com", icon: <RiTwitterXLine className="h-5 w-5" /> },
+            ].map((s, i) => (
+              <a
+                key={i}
+                href={s.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 rounded-full bg-white/10 hover:bg-accent hover:text-white transition-all"
+              >
+                {s.icon}
+              </a>
+            ))}
+          </div>
+          <div className="flex items-center gap-2 text-sm">
+            <FiPhoneCall className="h-4 w-4 text-accent" />
+            <a href="tel:+1234567890" className="hover:text-white transition-colors">
+              +1 (234) 567-890
             </a>
           </div>
-          <p className="text-gray-500">CallUs</p>
-          <p> <FiPhoneCall className="inline-block mr-2"/>
-          0123-456-789</p>
-         
         </div>
       </div>
-      <div className="container ax-s=auto mt-12 px-4 lg;px-0 border-t border-gray-200 pt-6">
-        <p className="text-gray-500 text-sm tracking-tighter text-center">
-          @ 2025 ,compileTab. aLL Rights Reserved.
-        </p>
+
+      <div className="container mx-auto px-4 mt-12 pt-6 border-t border-white/10 text-center text-xs text-gray-600">
+        © 2025 Rabbit. All rights reserved.
       </div>
     </footer>
   );

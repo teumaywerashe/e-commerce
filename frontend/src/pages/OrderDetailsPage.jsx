@@ -1,114 +1,126 @@
-import React from "react";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import { fetchUserOrders } from "../redux/slice/orderSlice";
+
 function OrderDetailsPage() {
-  const id = useParams();
+  const { id } = useParams();
   const dispatch = useDispatch();
-  const {orderDetails,loading,error} = useSelector((state) => state.orders);
+  const { orderDetails, loading, error } = useSelector((state) => state.orders);
 
   useEffect(() => {
     dispatch(fetchUserOrders());
   }, [id, dispatch]);
-  if(loading){
-    return <p className="text-center">Loading</p>
-  }
-  if(error){
-    return <p className="text-center">Error:{error}</p>
-  }
- return (
-    <div className="max-w-7xl mx-auto p-4 sm:p-6">
-      <h2 className="text-2xl md:text-3xl font-bold mb-6 ">order details</h2>
-      {orderDetails ? (
-        <div className="P-4 SM:P-6 rounded-lg">
-          <div className="flex flex-col sm:flex-row justify-between mb-8 ">
-            <div>
-              <h3 className="text-lg md:text-xl font-semibold">
-                Order Id : #{orderDetails._id}
-              </h3>
-              <p className="text-gray-600 text-sm">
-                {new Date(orderDetails.createdAt).toLocaleDateString()}
-              </p>
-            </div>
-            <div className="flex flex-col items-start sm:items-end mt-4 sm:mt-0">
-              <span
-                className={`${
-                  orderDetails.isPaid
-                    ? "bg-green-100 text-green-700"
-                    : "bg-red-100 text-red-700"
-                } px-3 py-1 rounded-full text-sm font-medium mb-2 `}
-              >
-                {orderDetails.isPaid ? "Approved" : "Pending"}
-              </span>{" "}
-              <span
-                className={`${
-                  orderDetails.isDelevered
-                    ? "bg-green-100 text-green-700"
-                    : "bg-yellow-100 text-yellow-700"
-                } px-3 py-1 rounded-full text-sm font-medium mb-2 `}
-              >
-                {orderDetails.isDelevered ? "Delivered" : "Pending"}
-              </span>
-            </div>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 mb-8 ">
-            <div>
-              <h4 className="text-lg font-semibold mb-2">Payment Info</h4>
-              <p>Payment Method: {orderDetails.paymentMethod}</p>
-              <p>Status: {orderDetails.isPaid ? "Paid" : "Unpaid"}</p>
-            </div>
-            <div>
-              <h4 className="text-lg font-semibold mb-2">Shipping Info</h4>
-              <p>Shipping Method: {orderDetails.ShippimgMethod}</p>
-              <p>
-                Address: {orderDetails.shippingAdress.city},
-                {orderDetails.shippingAdress.country}
-              </p>
-            </div>
-            <div className="overflow-x-auto">
-              <h4 className="text-lg font-semibold mb-4 ">Products</h4>
-              <table className="min-wi-full text-gray-600 mb-4">
-                <thead className="bg-gray-100">
-                  <th className="py-2 px-4">Name</th>
-                  <th className="py-2 px-4">Unit Price</th>
-                  <th className="py-2 px-4">Quantity</th>
-                  <th className="py-2 px-4">Total</th>
-                </thead>
-                <tbody className="">
-                  {orderDetails.orderItems.map((item) => (
-                    <tr className="border-b">
-                      <td className="py-2 px-4 flex items-center">
-                        <img
-                          src={`${item.image}`}
-                          alt={item.name}
-                          className="w-12 h-12 object-cover rounded-lg mr-4"
-                        />
-                        <Link
-                          to={`/product/${item.productID}`}
-                          className="text-blue-500 hover:underline"
-                        >
-                          {item.name}
-                        </Link>
-                      </td>
-                      <td className="py-2 px-4">${item.price}</td>
-                      <td className="py-2 px-4">{item.quantity}</td>
-                      <td className="py-2 px-4">
-                        ${item.price * item.quantity}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            <Link to="/my-orders" className="text-blue-500 hover:underline">
-              Back to my Orders
-            </Link>
-          </div>
+
+  if (loading) return (
+    <div className="container mx-auto px-4 py-10 animate-pulse">
+      <div className="bg-gray-200 rounded h-8 w-48 mb-6" />
+      <div className="bg-white rounded-2xl p-8 space-y-4">
+        <div className="bg-gray-200 rounded h-6 w-1/3" />
+        <div className="bg-gray-200 rounded h-4 w-1/4" />
+      </div>
+    </div>
+  );
+
+  if (error) return <p className="text-center text-red-500 py-10">{error}</p>;
+
+  return (
+    <div className="min-h-screen bg-gray-50 py-10 px-4">
+      <div className="container mx-auto max-w-4xl">
+        <div className="flex items-center gap-3 mb-8">
+          <Link to="/my-orders" className="text-accent text-sm font-semibold hover:underline">
+            ← My Orders
+          </Link>
+          <span className="text-gray-300">/</span>
+          <span className="text-sm text-gray-500">Order Details</span>
         </div>
-      ) : (
-        <p className="">No Order details Found</p>
-      )}
+
+        {orderDetails ? (
+          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+            {/* Header */}
+            <div className="px-7 py-5 border-b border-gray-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div>
+                <h2 className="font-bold text-primary text-lg">
+                  Order #{orderDetails._id.slice(-10)}
+                </h2>
+                <p className="text-sm text-gray-400 mt-0.5">
+                  {new Date(orderDetails.createdAt).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}
+                </p>
+              </div>
+              <div className="flex gap-2">
+                <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                  orderDetails.isPaid ? "bg-green-50 text-green-700" : "bg-yellow-50 text-yellow-700"
+                }`}>
+                  {orderDetails.isPaid ? "Paid" : "Payment Pending"}
+                </span>
+                <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                  orderDetails.isDelevered ? "bg-green-50 text-green-700" : "bg-blue-50 text-blue-700"
+                }`}>
+                  {orderDetails.isDelevered ? "Delivered" : "In Transit"}
+                </span>
+              </div>
+            </div>
+
+            <div className="p-7 grid grid-cols-1 md:grid-cols-3 gap-8">
+              {/* Payment */}
+              <div>
+                <h4 className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3">Payment</h4>
+                <p className="text-sm text-primary font-medium">{orderDetails.paymentMethod}</p>
+                <p className="text-sm text-gray-500">{orderDetails.isPaid ? "Paid" : "Unpaid"}</p>
+              </div>
+
+              {/* Shipping */}
+              <div>
+                <h4 className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3">Shipping</h4>
+                <p className="text-sm text-primary font-medium">{orderDetails.ShippimgMethod}</p>
+                <p className="text-sm text-gray-500">
+                  {orderDetails.shippingAdress?.city}, {orderDetails.shippingAdress?.country}
+                </p>
+              </div>
+
+              {/* Summary */}
+              <div>
+                <h4 className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3">Summary</h4>
+                <p className="text-sm text-gray-500">{orderDetails.orderItems?.length} item(s)</p>
+                <p className="text-sm font-bold text-primary">${orderDetails.totalPrice?.toFixed(2)}</p>
+              </div>
+            </div>
+
+            {/* Items */}
+            <div className="px-7 pb-7">
+              <h4 className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-4">Items</h4>
+              <div className="space-y-3">
+                {orderDetails.orderItems?.map((item, i) => (
+                  <div key={i} className="flex items-center gap-4 p-4 bg-gray-50 rounded-xl">
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      className="w-14 h-14 object-cover rounded-lg bg-gray-200"
+                    />
+                    <div className="flex-1 min-w-0">
+                      <Link
+                        to={`/product/${item.productID}`}
+                        className="text-sm font-semibold text-primary hover:text-accent transition-colors line-clamp-1"
+                      >
+                        {item.name}
+                      </Link>
+                      <p className="text-xs text-gray-400 mt-0.5">Qty: {item.quantity}</p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-sm font-bold text-primary">${(item.price * item.quantity).toFixed(2)}</p>
+                      <p className="text-xs text-gray-400">${item.price} each</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div className="text-center py-16 bg-white rounded-2xl">
+            <p className="text-gray-500">No order details found.</p>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

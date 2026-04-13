@@ -1,97 +1,65 @@
 import React from "react";
 import { RiDeleteBin3Line } from "react-icons/ri";
 import { useDispatch } from "react-redux";
-import {
-  removeFromCart,
-  updateCartQuantity,
-} from "../../redux/slice/CartSlice";
+import { removeFromCart, updateCartQuantity } from "../../redux/slice/CartSlice";
 
 function CartContent({ cart, userId, guestId }) {
   const dispatch = useDispatch();
 
-  const handleAddToCart = (productId, size, delta, color, quantity) => {
+  const handleQuantityChange = (productId, size, delta, color, quantity) => {
     const newQuantity = quantity + delta;
-  
-    dispatch(
-      updateCartQuantity({
-        productId:String(productId),
-        quantity: newQuantity,
-        guestId,
-        userId,
-        size,
-        color
-      }),
-    );
+    dispatch(updateCartQuantity({ productId: String(productId), quantity: newQuantity, guestId, userId, size, color }));
   };
-  const handleRemoveFromCart = (productId, color, size) => {
+
+  const handleRemove = (productId, color, size) => {
     dispatch(removeFromCart({ productId, guestId, userId, size, color }));
   };
-  // Example cart items array
+
   return (
-    <div>
+    <div className="space-y-4">
       {cart.products.map(
         (item, i) =>
           item.quantity > 0 && (
-            <div
-              key={i}
-              className="flex items-center justify-between py-4 space-x-4 border-b pb-4"
-            >
-              <div className="flex items-start">
-                {" "}
+            <div key={i} className="flex gap-4 py-4 border-b border-gray-100 last:border-0">
+              <div className="shrink-0">
                 <img
-                  className="w-20 h-24 object-cover rounded"
                   src={item.image}
                   alt={item.name}
+                  className="w-20 h-24 object-cover rounded-xl bg-gray-100"
                 />
               </div>
-              <div className="flex-grow">
-                <h3 className="text-md font-medium">{item.name}</h3>
-                <p className="text-sm text-gray-500"> Size: {item.size}</p>
-                <div>
+              <div className="flex-1 min-w-0">
+                <h3 className="text-sm font-semibold text-primary line-clamp-1 mb-0.5">{item.name}</h3>
+                <p className="text-xs text-gray-400 mb-2">
+                  {item.color} · {item.size}
+                </p>
+                <div className="flex items-center gap-2">
                   <button
-                    onClick={() =>
-                      handleAddToCart(
-                        item.productId,
-                        item.size,
-                        -1,
-                        item.color,
-                        item.quantity,
-                      )
-                    }
-                    className="border rounded   cursor-pointer px-2 py-1 text-xl font-medium"
+                    onClick={() => handleQuantityChange(item.productId, item.size, -1, item.color, item.quantity)}
+                    className="w-7 h-7 rounded-lg border border-gray-200 flex items-center justify-center text-sm hover:border-primary transition-all cursor-pointer"
                   >
-                    -
+                    −
                   </button>
-                  <span className="mx-4"> {item.quantity}</span>
+                  <span className="text-sm font-semibold text-primary w-5 text-center">{item.quantity}</span>
                   <button
-                    onClick={() =>
-                      handleAddToCart(
-                        item.productId,
-                        item.size,
-                        1,
-                        item.color,
-                        item.quantity,
-                      )
-                    }
-                    className="border rounded  cursor-pointer px-2 py-1 text-xl font-medium"
+                    onClick={() => handleQuantityChange(item.productId, item.size, 1, item.color, item.quantity)}
+                    className="w-7 h-7 rounded-lg border border-gray-200 flex items-center justify-center text-sm hover:border-primary transition-all cursor-pointer"
                   >
                     +
                   </button>
                 </div>
               </div>
-              <div>
-                <p>$ {item.price}</p>
+              <div className="flex flex-col items-end justify-between">
+                <span className="text-sm font-bold text-primary">${(item.price * item.quantity).toFixed(2)}</span>
                 <button
-                  onClick={() =>
-                    handleRemoveFromCart(item.productId, item.color, item.size)
-                  }
-                  className="cursor-pointer"
+                  onClick={() => handleRemove(item.productId, item.color, item.size)}
+                  className="p-1.5 rounded-lg hover:bg-red-50 text-gray-400 hover:text-red-500 transition-all cursor-pointer"
                 >
-                  <RiDeleteBin3Line className="h-6 w-6 mt-2 text-[red]" />
+                  <RiDeleteBin3Line className="h-4 w-4" />
                 </button>
               </div>
             </div>
-          ),
+          )
       )}
     </div>
   );
