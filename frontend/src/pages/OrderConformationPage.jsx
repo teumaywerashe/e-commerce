@@ -91,10 +91,8 @@ function OrderConformationPage() {
               >
                 View Orders
               </Link>
-              <Link
-                to="/collections/all"
-                className="flex-1 text-center border border-neutral-200 text-primary text-[10px] font-semibold tracking-widest2 uppercase py-4 hover:border-primary transition-colors"
-              >
+              <Link to="/collections/all"
+                className="flex-1 text-center bg-neutral-100 text-primary text-[10px] font-semibold tracking-widest2 uppercase py-4 hover:bg-neutral-200 transition-colors">
                 Continue Shopping
               </Link>
             </div>

@@ -200,7 +200,7 @@ function AddProduct() {
         <button 
           type="submit" 
           disabled={loading}
-          className={`w-full py-3 rounded text-white font-bold transition-all ${loading ? "bg-gray-400" : "bg-blue-600 hover:bg-blue-700 shadow-lg"}`}
+          className={`w-full py-3 rounded border-gray-500 text-white font-bold transition-all ${loading ? "bg-gray-400" : "bg-blue-600 hover:bg-blue-700 shadow-lg"}`}
         >
           {loading ? "Saving Product..." : "Add Product to Catalog"}
         </button>

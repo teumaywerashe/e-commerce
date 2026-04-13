@@ -35,10 +35,8 @@ function Profile() {
               </div>
               <p className="text-sm font-medium text-primary mb-0.5">{user?.name}</p>
               <p className="text-[11px] text-neutral-400 mb-8 truncate">{user?.email}</p>
-              <button
-                onClick={handleLogout}
-                className="w-full border border-primary text-primary text-[10px] font-semibold tracking-widest uppercase py-3 hover:bg-primary hover:text-white transition-colors cursor-pointer"
-              >
+              <button onClick={handleLogout}
+                className="w-full bg-primary text-white text-[10px] font-semibold tracking-widest uppercase py-3 hover:bg-neutral-800 transition-colors cursor-pointer">
                 Sign Out
               </button>
             </div>

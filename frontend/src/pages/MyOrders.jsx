@@ -70,7 +70,7 @@ function MyOrders() {
                   </td>
                   <td className="py-4 px-4">
                     <span className={`text-[9px] font-semibold tracking-widest uppercase px-2 py-1 ${
-                      order.isPaid ? "bg-primary text-white" : "border border-neutral-300 text-neutral-500"
+                      order.isPaid ? "bg-primary text-white" : "bg-neutral-100 text-neutral-600"
                     }`}>
                       {order.isPaid ? "Paid" : "Pending"}
                     </span>

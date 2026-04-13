@@ -59,10 +59,8 @@ function AdminSidebar() {
       <div className="pt-6 border-t border-white/10">
         <p className="text-[10px] font-medium text-white truncate px-3 mb-0.5">{user?.name}</p>
         <p className="text-[9px] text-neutral-500 truncate px-3 mb-4">{user?.email}</p>
-        <button
-          onClick={handleLogout}
-          className="w-full flex items-center gap-3 px-3 py-3 text-[10px] font-semibold tracking-widest uppercase text-neutral-400 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
-        >
+        <button onClick={handleLogout}
+          className="w-full flex items-center gap-3 px-3 py-3 text-[10px] font-semibold tracking-widest uppercase bg-white/10 text-white hover:bg-white hover:text-primary transition-colors cursor-pointer">
           <span>Sign Out</span>
         </button>
       </div>

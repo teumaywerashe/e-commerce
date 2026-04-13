@@ -130,15 +130,15 @@ function ProductDetails({ error, loading, productId }) {
             <p className="text-[10px] font-semibold tracking-widest uppercase text-primary mb-3">Quantity</p>
             <div className="flex items-center gap-4">
               <button disabled={quantity <= 1} onClick={() => setQuantity((p) => Math.max(p - 1, 1))}
-                className="w-8 h-8 border border-neutral-200 flex items-center justify-center text-sm hover:border-primary disabled:opacity-30 transition-colors cursor-pointer">−</button>
+                className="w-8 h-8 border border-neutral-300 bg-white text-primary flex items-center justify-center text-sm hover:bg-primary hover:text-white hover:border-primary disabled:opacity-30 transition-colors cursor-pointer">−</button>
               <span className="text-sm font-medium text-primary w-6 text-center">{quantity}</span>
               <button onClick={() => setQuantity((p) => p + 1)}
-                className="w-8 h-8 border border-neutral-200 flex items-center justify-center text-sm hover:border-primary transition-colors cursor-pointer">+</button>
+                className="w-8 h-8 border border-neutral-300 bg-white text-primary flex items-center justify-center text-sm hover:bg-primary hover:text-white hover:border-primary transition-colors cursor-pointer">+</button>
             </div>
           </div>
 
           <button onClick={handleAddToCart} disabled={disabled}
-            className={`w-full py-4 text-[11px] font-semibold tracking-widest2 uppercase transition-colors cursor-pointer ${
+            className={`w-full py-4 bg-neutral-400 text-[11px] font-semibold tracking-widest2 uppercase transition-colors cursor-pointer ${
               disabled ? "bg-neutral-200 text-neutral-400 cursor-not-allowed" : "bg-primary text-white hover:bg-neutral-800"
             }`}>
             {disabled ? "Adding..." : "Add to Bag"}

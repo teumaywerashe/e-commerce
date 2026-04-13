@@ -44,12 +44,12 @@ function OrderDetailsPage() {
               </div>
               <div className="flex gap-2">
                 <span className={`text-[9px] font-semibold tracking-widest uppercase px-3 py-1.5 ${
-                  orderDetails.isPaid ? "bg-primary text-white" : "border border-neutral-300 text-neutral-500"
+                  orderDetails.isPaid ? "bg-primary text-white" : "bg-neutral-100 text-neutral-600"
                 }`}>
                   {orderDetails.isPaid ? "Paid" : "Pending"}
                 </span>
                 <span className={`text-[9px] font-semibold tracking-widest uppercase px-3 py-1.5 ${
-                  orderDetails.isDelevered ? "bg-primary text-white" : "border border-neutral-300 text-neutral-500"
+                  orderDetails.isDelevered ? "bg-primary text-white" : "bg-neutral-100 text-neutral-600"
                 }`}>
                   {orderDetails.isDelevered ? "Delivered" : "In Transit"}
                 </span>
