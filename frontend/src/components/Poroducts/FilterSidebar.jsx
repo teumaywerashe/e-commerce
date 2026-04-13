@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 const categories = ["Top Wear", "Bottom Wear"];
@@ -11,82 +11,62 @@ const brands = ["Urban Threads", "Modern Fit", "Street Style", "Beach Breeze", "
 function FilterSidebar() {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
-  const [filters, setFilters] = useState({
-    category: "", gender: "", colors: "", sizes: [], material: [], brand: [], minPrice: 0, maxPrice: 100,
-  });
+  const [filters, setFilters] = useState({ category: "", gender: "", colors: "", sizes: [], material: [], brand: [], minPrice: 0, maxPrice: 100 });
   const [priceRange, setPriceRange] = useState([0, 100]);
 
   useEffect(() => {
-    const params = Object.fromEntries([...searchParams]);
+    const p = Object.fromEntries([...searchParams]);
     setFilters({
-      category: params.category || "",
-      gender: params.gender || "",
-      colors: params.color || "",
-      sizes: params.size ? params.size.split(",") : [],
-      material: params.material ? params.material.split(",") : [],
-      brand: params.brand ? params.brand.split(",") : [],
-      minPrice: params.minPrice || 0,
-      maxPrice: params.maxPrice || 100,
+      category: p.category || "", gender: p.gender || "", colors: p.color || "",
+      sizes: p.size ? p.size.split(",") : [], material: p.material ? p.material.split(",") : [],
+      brand: p.brand ? p.brand.split(",") : [], minPrice: p.minPrice || 0, maxPrice: p.maxPrice || 100,
     });
-    setPriceRange([0, params.maxPrice || 100]);
+    setPriceRange([0, p.maxPrice || 100]);
   }, [searchParams]);
 
-  const updateURLParams = (newFilters) => {
+  const updateURL = (f) => {
     const params = new URLSearchParams();
-    Object.keys(newFilters).forEach((key) => {
-      if (Array.isArray(newFilters[key]) && newFilters[key].length > 0) {
-        params.append(key, newFilters[key].join(","));
-      } else if (newFilters[key]) {
-        params.append(key, newFilters[key]);
-      }
+    Object.keys(f).forEach((k) => {
+      if (Array.isArray(f[k]) && f[k].length > 0) params.append(k, f[k].join(","));
+      else if (f[k]) params.append(k, f[k]);
     });
     setSearchParams(params);
     navigate(`?${params.toString()}`);
   };
 
-  const handleFilterChange = (e) => {
+  const handleChange = (e) => {
     const { name, value, checked, type } = e.target;
-    let newFilters = { ...filters };
-    if (type === "checkbox") {
-      newFilters[name] = checked
-        ? [...(newFilters[name] || []), value]
-        : newFilters[name].filter((i) => i !== value);
-    } else {
-      newFilters[name] = value;
-    }
-    setFilters(newFilters);
-    updateURLParams(newFilters);
+    const f = { ...filters };
+    if (type === "checkbox") f[name] = checked ? [...(f[name] || []), value] : f[name].filter((i) => i !== value);
+    else f[name] = value;
+    setFilters(f);
+    updateURL(f);
   };
 
-  const updatePriceRange = (e) => {
+  const updatePrice = (e) => {
     const val = e.target.value;
     setPriceRange([0, val]);
-    const newFilters = { ...filters, minPrice: 0, maxPrice: val };
-    setFilters(newFilters);
-    updateURLParams(newFilters);
+    const f = { ...filters, minPrice: 0, maxPrice: val };
+    setFilters(f);
+    updateURL(f);
   };
 
   const Section = ({ title, children }) => (
-    <div className="mb-6">
-      <h4 className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3">{title}</h4>
+    <div className="mb-7">
+      <p className="text-[9px] font-semibold tracking-widest uppercase text-neutral-400 mb-3">{title}</p>
       {children}
     </div>
   );
 
   return (
-    <div className="p-5 bg-white h-full">
-      <h3 className="text-base font-bold text-primary mb-6">Filters</h3>
+    <div className="p-6">
+      <p className="text-[10px] font-semibold tracking-widest uppercase text-primary mb-7">Filter</p>
 
       <Section title="Category">
-        {categories.map((cat) => (
-          <label key={cat} className="flex items-center gap-2.5 mb-2 cursor-pointer group">
-            <input
-              type="radio" name="category" value={cat}
-              checked={filters.category === cat}
-              onChange={handleFilterChange}
-              className="accent-accent w-4 h-4"
-            />
-            <span className="text-sm text-gray-600 group-hover:text-primary transition-colors">{cat}</span>
+        {categories.map((c) => (
+          <label key={c} className="flex items-center gap-2.5 mb-2 cursor-pointer group">
+            <input type="radio" name="category" value={c} checked={filters.category === c} onChange={handleChange} className="accent-primary w-3 h-3" />
+            <span className="text-xs text-neutral-500 group-hover:text-primary transition-colors">{c}</span>
           </label>
         ))}
       </Section>
@@ -94,13 +74,8 @@ function FilterSidebar() {
       <Section title="Gender">
         {genders.map((g) => (
           <label key={g} className="flex items-center gap-2.5 mb-2 cursor-pointer group">
-            <input
-              type="radio" name="gender" value={g}
-              checked={filters.gender === g}
-              onChange={handleFilterChange}
-              className="accent-accent w-4 h-4"
-            />
-            <span className="text-sm text-gray-600 group-hover:text-primary transition-colors">{g}</span>
+            <input type="radio" name="gender" value={g} checked={filters.gender === g} onChange={handleChange} className="accent-primary w-3 h-3" />
+            <span className="text-xs text-neutral-500 group-hover:text-primary transition-colors">{g}</span>
           </label>
         ))}
       </Section>
@@ -108,79 +83,48 @@ function FilterSidebar() {
       <Section title="Color">
         <div className="flex flex-wrap gap-2">
           {colors.map((color) => (
-            <button
-              key={color} type="button" name="color" value={color}
-              onClick={handleFilterChange}
-              title={color}
-              className={`w-7 h-7 rounded-full border-2 transition-all hover:scale-110 cursor-pointer ${
-                filters.colors === color ? "border-accent shadow-md scale-110" : "border-transparent"
-              }`}
-              style={{ backgroundColor: color.toLowerCase() }}
-            />
+            <button key={color} type="button" name="color" value={color} onClick={handleChange} title={color}
+              className={`w-6 h-6 border transition-all cursor-pointer hover:scale-110 ${filters.colors === color ? "border-primary scale-110" : "border-transparent"}`}
+              style={{ backgroundColor: color.toLowerCase() }} />
           ))}
         </div>
       </Section>
 
       <Section title="Size">
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-1.5">
           {sizes.map((size) => (
             <label key={size} className="cursor-pointer">
-              <input
-                type="checkbox" name="sizes" value={size}
-                checked={filters.sizes.includes(size)}
-                onChange={handleFilterChange}
-                className="sr-only"
-              />
-              <span className={`inline-block px-3 py-1.5 text-xs font-medium rounded-lg border transition-all ${
-                filters.sizes.includes(size)
-                  ? "bg-primary text-white border-primary"
-                  : "bg-white text-gray-600 border-gray-200 hover:border-primary"
-              }`}>
-                {size}
-              </span>
+              <input type="checkbox" name="sizes" value={size} checked={filters.sizes.includes(size)} onChange={handleChange} className="sr-only" />
+              <span className={`inline-block px-3 py-1.5 text-[10px] font-medium tracking-wide border transition-colors ${
+                filters.sizes.includes(size) ? "bg-primary text-white border-primary" : "bg-white text-neutral-500 border-neutral-200 hover:border-primary"
+              }`}>{size}</span>
             </label>
           ))}
         </div>
       </Section>
 
       <Section title="Material">
-        {materials.map((mat) => (
-          <label key={mat} className="flex items-center gap-2.5 mb-2 cursor-pointer group">
-            <input
-              type="checkbox" name="material" value={mat}
-              checked={filters.material.includes(mat)}
-              onChange={handleFilterChange}
-              className="accent-accent w-4 h-4"
-            />
-            <span className="text-sm text-gray-600 group-hover:text-primary transition-colors">{mat}</span>
+        {materials.map((m) => (
+          <label key={m} className="flex items-center gap-2.5 mb-2 cursor-pointer group">
+            <input type="checkbox" name="material" value={m} checked={filters.material.includes(m)} onChange={handleChange} className="accent-primary w-3 h-3" />
+            <span className="text-xs text-neutral-500 group-hover:text-primary transition-colors">{m}</span>
           </label>
         ))}
       </Section>
 
       <Section title="Brand">
-        {brands.map((brand) => (
-          <label key={brand} className="flex items-center gap-2.5 mb-2 cursor-pointer group">
-            <input
-              type="radio" name="brand" value={brand}
-              checked={filters.brand.includes(brand)}
-              onChange={handleFilterChange}
-              className="accent-accent w-4 h-4"
-            />
-            <span className="text-sm text-gray-600 group-hover:text-primary transition-colors">{brand}</span>
+        {brands.map((b) => (
+          <label key={b} className="flex items-center gap-2.5 mb-2 cursor-pointer group">
+            <input type="radio" name="brand" value={b} checked={filters.brand.includes(b)} onChange={handleChange} className="accent-primary w-3 h-3" />
+            <span className="text-xs text-neutral-500 group-hover:text-primary transition-colors">{b}</span>
           </label>
         ))}
       </Section>
 
-      <Section title="Price Range">
-        <input
-          type="range" min={0} max={100}
-          value={priceRange[1]}
-          onChange={updatePriceRange}
-          className="w-full accent-accent cursor-pointer"
-        />
-        <div className="flex justify-between text-xs text-gray-500 mt-1">
-          <span>$0</span>
-          <span className="font-semibold text-primary">${priceRange[1]}</span>
+      <Section title="Price">
+        <input type="range" min={0} max={100} value={priceRange[1]} onChange={updatePrice} className="w-full accent-primary cursor-pointer" />
+        <div className="flex justify-between text-[10px] text-neutral-400 mt-1">
+          <span>$0</span><span className="text-primary font-medium">${priceRange[1]}</span>
         </div>
       </Section>
     </div>

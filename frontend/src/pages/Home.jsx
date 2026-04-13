@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Hero from "../components/Layout/Hero";
 import GenderCollectionSection from "../components/Poroducts/GenderCollectionSection";
 import NewArrivals from "../components/Poroducts/NewArrivals";
@@ -12,47 +12,36 @@ import axios from "axios";
 
 function Home() {
   const dispatch = useDispatch();
-  const { products, error, loading } = useSelector((state) => state.products);
-  const [bestSellerProduct, setBestSellerProduct] = useState(null);
+  const { products, error, loading } = useSelector((s) => s.products);
+  const [bestSeller, setBestSeller] = useState(null);
 
   useEffect(() => {
     dispatch(fetchProductsByFilters({ gender: "Women", category: "Top Wear", limit: 8 }));
-
-    const fetchBestSeller = async () => {
-      try {
-        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/product/best-seller`);
-        setBestSellerProduct(response.data.bestSellerProduct);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    fetchBestSeller();
+    axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/product/best-seller`)
+      .then((r) => setBestSeller(r.data.bestSellerProduct))
+      .catch(() => {});
   }, [dispatch]);
 
   return (
-    <div className="bg-gray-50">
+    <div className="bg-white">
       <Hero />
       <GenderCollectionSection />
       <NewArrivals />
 
       {/* Best Seller */}
-      <section className="py-10 px-4 bg-white">
-        <div className="container mx-auto">
-          <div className="text-center mb-8">
-            <p className="text-accent text-xs font-semibold uppercase tracking-widest mb-1">Top Pick</p>
-            <h2 className="text-3xl font-bold text-primary tracking-tight">Best Seller</h2>
-          </div>
-          <ProductDetails productId={bestSellerProduct?._id} error={error} loading={loading} />
+      <section className="py-20 border-t border-neutral-100">
+        <div className="max-w-screen-xl mx-auto px-6">
+          <p className="text-[10px] font-medium tracking-widest3 uppercase text-neutral-400 text-center mb-2">Top Pick</p>
+          <h2 className="text-xl font-light tracking-widest uppercase text-center text-primary mb-12">Best Seller</h2>
+          <ProductDetails productId={bestSeller?._id} error={error} loading={loading} />
         </div>
       </section>
 
       {/* Women's Top Wear */}
-      <section className="py-16 px-4">
-        <div className="container mx-auto">
-          <div className="text-center mb-8">
-            <p className="text-accent text-xs font-semibold uppercase tracking-widest mb-1">For Her</p>
-            <h2 className="text-3xl font-bold text-primary tracking-tight">Top Wear for Women</h2>
-          </div>
+      <section className="py-20 border-t border-neutral-100">
+        <div className="max-w-screen-xl mx-auto px-6">
+          <p className="text-[10px] font-medium tracking-widest3 uppercase text-neutral-400 text-center mb-2">For Her</p>
+          <h2 className="text-xl font-light tracking-widest uppercase text-center text-primary mb-12">Top Wear</h2>
           <ProductGrid loading={loading} error={error} products={products} />
         </div>
       </section>

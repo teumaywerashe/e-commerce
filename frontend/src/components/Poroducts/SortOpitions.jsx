@@ -1,4 +1,3 @@
-import React from "react";
 import { useSearchParams } from "react-router-dom";
 
 function SortOpitions() {
@@ -10,15 +9,15 @@ function SortOpitions() {
   };
 
   return (
-    <div className="flex items-center justify-end mb-5">
+    <div className="flex items-center justify-end mb-8">
       <select
         onChange={handleSortChange}
         value={searchParams.get("sortBy") || ""}
-        className="text-sm border border-gray-200 bg-white text-gray-700 px-4 py-2 rounded-lg focus:outline-none focus:border-accent transition-colors cursor-pointer"
+        className="text-[11px] font-medium tracking-widest uppercase border border-neutral-200 bg-white text-neutral-600 px-4 py-2 focus:outline-none focus:border-primary transition-colors cursor-pointer"
       >
-        <option value="">Sort: Default</option>
-        <option value="PriceAsc">Price: Low to High</option>
-        <option value="PriceDesc">Price: High to Low</option>
+        <option value="">Sort</option>
+        <option value="PriceAsc">Price: Low — High</option>
+        <option value="PriceDesc">Price: High — Low</option>
         <option value="Popularity">Popularity</option>
       </select>
     </div>

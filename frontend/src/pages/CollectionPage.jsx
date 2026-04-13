@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FiFilter, FiX } from "react-icons/fi";
 import FilterSidebar from "../components/Poroducts/FilterSidebar";
 import SortOpitions from "../components/Poroducts/SortOpitions";
@@ -12,7 +12,7 @@ function CollectionPage() {
   const [searchParams] = useSearchParams();
   const queryParams = Object.fromEntries([...searchParams]);
   const dispatch = useDispatch();
-  const { products, error, loading } = useSelector((state) => state.products);
+  const { products, error, loading } = useSelector((s) => s.products);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const sidebarRef = useRef(null);
 
@@ -21,68 +21,66 @@ function CollectionPage() {
   }, [dispatch, collection, searchParams]);
 
   useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (sidebarRef.current && !sidebarRef.current.contains(e.target)) {
-        setIsSidebarOpen(false);
-      }
+    const handler = (e) => {
+      if (sidebarRef.current && !sidebarRef.current.contains(e.target)) setIsSidebarOpen(false);
     };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
   }, []);
 
+  const title = queryParams.gender
+    ? `${queryParams.gender}'s Collection`
+    : queryParams.category || "All Products";
+
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="container mx-auto px-4 py-8">
-        {/* Page header */}
-        <div className="flex items-center justify-between mb-6">
-          <div>
-            <h1 className="text-2xl font-bold text-primary capitalize">
-              {queryParams.gender
-                ? `${queryParams.gender}'s Collection`
-                : queryParams.category || "All Products"}
-            </h1>
-            <p className="text-sm text-gray-400 mt-0.5">
-              {loading ? "Loading..." : `${products.length} products`}
-            </p>
+    <div className="min-h-screen bg-white">
+      {/* Page header */}
+      <div className="border-b border-neutral-100 py-10 px-6 text-center">
+        <p className="text-[10px] font-medium tracking-widest3 uppercase text-neutral-400 mb-1">Shop</p>
+        <h1 className="text-2xl font-light tracking-widest uppercase text-primary">{title}</h1>
+        {!loading && (
+          <p className="text-[10px] text-neutral-400 mt-2 tracking-widest uppercase">{products.length} pieces</p>
+        )}
+      </div>
+
+      <div className="max-w-screen-xl mx-auto px-6 py-10 flex gap-10">
+        {/* Desktop sidebar */}
+        <aside className="hidden lg:block w-52 shrink-0">
+          <div className="sticky top-20">
+            <FilterSidebar />
           </div>
+        </aside>
+
+        {/* Mobile filter button */}
+        <div className="lg:hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-30">
           <button
             onClick={() => setIsSidebarOpen(true)}
-            className="lg:hidden flex items-center gap-2 text-sm font-medium text-primary border border-gray-200 bg-white px-4 py-2 rounded-lg hover:border-primary transition-colors cursor-pointer"
+            className="flex items-center gap-2 bg-primary text-white text-[10px] font-semibold tracking-widest uppercase px-6 py-3 shadow-lg cursor-pointer"
           >
-            <FiFilter className="h-4 w-4" />
-            Filters
+            <FiFilter className="h-3.5 w-3.5" /> Filter
           </button>
         </div>
 
-        <div className="flex gap-6">
-          {/* Desktop sidebar */}
-          <aside className="hidden lg:block w-60 shrink-0">
-            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 sticky top-4">
+        {/* Mobile sidebar */}
+        {isSidebarOpen && (
+          <div className="fixed inset-0 z-50 flex">
+            <div className="absolute inset-0 bg-black/40" onClick={() => setIsSidebarOpen(false)} />
+            <div ref={sidebarRef} className="relative w-72 bg-white h-full overflow-y-auto z-10">
+              <div className="flex items-center justify-between px-6 h-14 border-b border-neutral-100">
+                <span className="text-[10px] font-semibold tracking-widest uppercase">Filter</span>
+                <button onClick={() => setIsSidebarOpen(false)} className="cursor-pointer text-neutral-400 hover:text-primary">
+                  <FiX className="h-4 w-4" />
+                </button>
+              </div>
               <FilterSidebar />
             </div>
-          </aside>
-
-          {/* Mobile sidebar overlay */}
-          {isSidebarOpen && (
-            <div className="fixed inset-0 z-50 flex">
-              <div className="absolute inset-0 bg-black/40" onClick={() => setIsSidebarOpen(false)} />
-              <div ref={sidebarRef} className="relative w-72 bg-white h-full overflow-y-auto shadow-2xl z-10">
-                <div className="flex items-center justify-between p-4 border-b border-gray-100">
-                  <span className="font-bold text-primary">Filters</span>
-                  <button onClick={() => setIsSidebarOpen(false)} className="cursor-pointer text-gray-500 hover:text-primary">
-                    <FiX className="h-5 w-5" />
-                  </button>
-                </div>
-                <FilterSidebar />
-              </div>
-            </div>
-          )}
-
-          {/* Products */}
-          <div className="flex-1 min-w-0">
-            <SortOpitions />
-            <ProductGrid products={products} error={error} loading={loading} />
           </div>
+        )}
+
+        {/* Products */}
+        <div className="flex-1 min-w-0">
+          <SortOpitions />
+          <ProductGrid products={products} error={error} loading={loading} />
         </div>
       </div>
     </div>
