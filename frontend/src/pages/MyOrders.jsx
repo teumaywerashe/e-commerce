@@ -1,27 +1,24 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { fetchUserOrders } from "../redux/slice/orderSlice";
-import { HiOutlineShoppingBag } from "react-icons/hi2";
 
 function MyOrders() {
   const dispatch = useDispatch();
-  const { orders, loading, error } = useSelector((state) => state.orders);
+  const { orders, loading, error } = useSelector((s) => s.orders);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    dispatch(fetchUserOrders());
-  }, [dispatch]);
+  useEffect(() => { dispatch(fetchUserOrders()); }, [dispatch]);
 
   if (loading) {
     return (
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 space-y-4">
+      <div className="space-y-4">
         {Array.from({ length: 3 }).map((_, i) => (
-          <div key={i} className="animate-pulse flex gap-4">
-            <div className="w-12 h-12 bg-gray-200 rounded-lg" />
+          <div key={i} className="animate-pulse flex gap-4 border-b border-neutral-100 pb-4">
+            <div className="w-12 h-12 bg-neutral-100" />
             <div className="flex-1 space-y-2">
-              <div className="bg-gray-200 rounded h-4 w-1/2" />
-              <div className="bg-gray-200 rounded h-3 w-1/3" />
+              <div className="bg-neutral-100 h-3 w-1/2" />
+              <div className="bg-neutral-100 h-3 w-1/3" />
             </div>
           </div>
         ))}
@@ -29,70 +26,59 @@ function MyOrders() {
     );
   }
 
-  if (error) return <p className="text-red-500 text-sm">{error}</p>;
+  if (error) return <p className="text-[11px] text-neutral-400 tracking-wide">{error}</p>;
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-      <div className="px-6 py-4 border-b border-gray-100">
-        <h2 className="font-bold text-primary text-base">My Orders</h2>
-      </div>
+    <div>
+      <p className="text-[10px] font-semibold tracking-widest uppercase text-primary mb-6">Order History</p>
 
       {orders.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-16 text-center">
-          <HiOutlineShoppingBag className="h-12 w-12 text-gray-200 mb-3" />
-          <p className="text-gray-500 font-medium">No orders yet</p>
-          <p className="text-gray-400 text-sm mt-1">Your orders will appear here</p>
+        <div className="border border-neutral-100 py-20 text-center">
+          <p className="text-[10px] tracking-widest uppercase text-neutral-400">No orders yet</p>
         </div>
       ) : (
         <div className="overflow-x-auto">
-          <table className="min-w-full text-sm">
-            <thead className="bg-gray-50 text-xs text-gray-400 uppercase tracking-wider">
-              <tr>
-                <th className="py-3 px-5 text-left">Order</th>
-                <th className="py-3 px-5 text-left">Date</th>
-                <th className="py-3 px-5 text-left">Items</th>
-                <th className="py-3 px-5 text-left">Total</th>
-                <th className="py-3 px-5 text-left">Status</th>
-                <th className="py-3 px-5 text-left"></th>
+          <table className="min-w-full">
+            <thead>
+              <tr className="border-b border-neutral-100">
+                {["Order", "Date", "Items", "Total", "Status", ""].map((h) => (
+                  <th key={h} className="py-3 px-4 text-left text-[9px] font-semibold tracking-widest uppercase text-neutral-400">{h}</th>
+                ))}
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-50">
+            <tbody>
               {orders.map((order) => (
                 <tr
                   key={order._id}
                   onClick={() => navigate(`/order/${order._id}`)}
-                  className="hover:bg-gray-50 cursor-pointer transition-colors"
+                  className="border-b border-neutral-50 hover:bg-neutral-50 cursor-pointer transition-colors"
                 >
-                  <td className="py-4 px-5">
+                  <td className="py-4 px-4">
                     <div className="flex items-center gap-3">
-                      <img
-                        src={order.orderItems[0]?.image}
-                        alt={order.orderItems[0]?.name}
-                        className="w-10 h-10 object-cover rounded-lg bg-gray-100"
-                      />
-                      <span className="text-xs text-gray-400 font-mono">#{order._id.slice(-8)}</span>
+                      <img src={order.orderItems[0]?.image} alt="" className="w-10 h-10 object-cover bg-neutral-100" />
+                      <span className="text-[10px] text-neutral-400 font-mono">#{order._id.slice(-8)}</span>
                     </div>
                   </td>
-                  <td className="py-4 px-5 text-gray-500">
+                  <td className="py-4 px-4 text-[11px] text-neutral-500">
                     {new Date(order.createdAt).toLocaleDateString()}
                   </td>
-                  <td className="py-4 px-5 text-gray-500">
-                    {order.orderItems.reduce((t, i) => t + i.quantity, 0)} items
+                  <td className="py-4 px-4 text-[11px] text-neutral-500">
+                    {order.orderItems.reduce((t, i) => t + i.quantity, 0)}
                   </td>
-                  <td className="py-4 px-5 font-semibold text-primary">
+                  <td className="py-4 px-4 text-[11px] font-semibold text-primary">
                     ${order.totalPrice.toFixed(2)}
                   </td>
-                  <td className="py-4 px-5">
-                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold ${
-                      order.isPaid
-                        ? "bg-green-50 text-green-700"
-                        : "bg-yellow-50 text-yellow-700"
+                  <td className="py-4 px-4">
+                    <span className={`text-[9px] font-semibold tracking-widest uppercase px-2 py-1 ${
+                      order.isPaid ? "bg-primary text-white" : "border border-neutral-300 text-neutral-500"
                     }`}>
                       {order.isPaid ? "Paid" : "Pending"}
                     </span>
                   </td>
-                  <td className="py-4 px-5">
-                    <span className="text-accent text-xs font-semibold hover:underline">View →</span>
+                  <td className="py-4 px-4">
+                    <span className="text-[10px] font-semibold tracking-widest uppercase text-primary hover:opacity-60 transition-opacity">
+                      View →
+                    </span>
                   </td>
                 </tr>
               ))}

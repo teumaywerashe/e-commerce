@@ -1,8 +1,7 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
 import { clearCart } from "../redux/slice/CartSlice";
-import { HiCheckCircle } from "react-icons/hi2";
 
 const estimatedDelivery = (createdAt) => {
   const d = new Date(createdAt);
@@ -11,7 +10,7 @@ const estimatedDelivery = (createdAt) => {
 };
 
 function OrderConformationPage() {
-  const { checkout } = useSelector((state) => state.checkout);
+  const { checkout } = useSelector((s) => s.checkout);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -25,65 +24,62 @@ function OrderConformationPage() {
   }, [checkout, dispatch]);
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4 py-16">
-      <div className="w-full max-w-2xl">
-        {/* Success header */}
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-green-50 rounded-full mb-4">
-            <HiCheckCircle className="h-9 w-9 text-green-500" />
+    <div className="min-h-screen bg-white flex items-center justify-center px-6 py-20">
+      <div className="w-full max-w-xl">
+        {/* Header */}
+        <div className="text-center mb-12">
+          <div className="w-12 h-12 bg-primary flex items-center justify-center mx-auto mb-6">
+            <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+            </svg>
           </div>
-          <h1 className="text-3xl font-bold text-primary mb-2">Order Confirmed!</h1>
-          <p className="text-gray-500 text-sm">
-            Thank you for your purchase. We'll send you a confirmation email shortly.
+          <p className="text-[10px] font-medium tracking-widest3 uppercase text-neutral-400 mb-2">Confirmed</p>
+          <h1 className="text-2xl font-light tracking-widest uppercase text-primary mb-3">Order Placed</h1>
+          <p className="text-xs text-neutral-400 tracking-wide">
+            Thank you. A confirmation email will be sent shortly.
           </p>
         </div>
 
         {checkout && (
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+          <div className="border border-neutral-100">
             {/* Order meta */}
-            <div className="px-7 py-5 border-b border-gray-100 flex flex-col sm:flex-row justify-between gap-3">
+            <div className="px-7 py-5 border-b border-neutral-100 flex flex-col sm:flex-row justify-between gap-4">
               <div>
-                <p className="text-xs text-gray-400 uppercase tracking-widest mb-1">Order ID</p>
-                <p className="font-mono text-sm font-semibold text-primary">#{checkout._id.slice(-12)}</p>
+                <p className="text-[9px] font-semibold tracking-widest uppercase text-neutral-400 mb-1">Order ID</p>
+                <p className="text-xs font-medium text-primary font-mono">#{checkout._id.slice(-12)}</p>
               </div>
               <div className="sm:text-right">
-                <p className="text-xs text-gray-400 uppercase tracking-widest mb-1">Estimated Delivery</p>
-                <p className="text-sm font-semibold text-green-600">{estimatedDelivery(checkout.createdAt)}</p>
+                <p className="text-[9px] font-semibold tracking-widest uppercase text-neutral-400 mb-1">Est. Delivery</p>
+                <p className="text-xs font-medium text-primary">{estimatedDelivery(checkout.createdAt)}</p>
               </div>
             </div>
 
             {/* Items */}
-            <div className="px-7 py-5 border-b border-gray-100">
-              <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-4">Items Ordered</h3>
-              <div className="space-y-3">
+            <div className="px-7 py-5 border-b border-neutral-100">
+              <p className="text-[9px] font-semibold tracking-widest uppercase text-neutral-400 mb-4">Items</p>
+              <div className="space-y-4">
                 {checkout.checkOutItems?.map((item, i) => (
                   <div key={i} className="flex items-center gap-4">
-                    <img
-                      src={item.image}
-                      alt={item.name}
-                      className="w-14 h-14 object-cover rounded-xl bg-gray-100"
-                    />
+                    <img src={item.image} alt={item.name} className="w-12 h-14 object-cover bg-neutral-50 shrink-0" />
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-semibold text-primary line-clamp-1">{item.name}</p>
-                      <p className="text-xs text-gray-400">{item.color} · {item.size} · Qty {item.quantity}</p>
+                      <p className="text-[11px] font-medium text-primary line-clamp-1">{item.name}</p>
+                      <p className="text-[10px] text-neutral-400">{item.color} · {item.size} · Qty {item.quantity}</p>
                     </div>
-                    <p className="text-sm font-bold text-primary">${(item.price * item.quantity).toFixed(2)}</p>
+                    <p className="text-[11px] font-semibold text-primary shrink-0">${(item.price * item.quantity).toFixed(2)}</p>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Payment & Delivery */}
-            <div className="px-7 py-5 grid grid-cols-2 gap-6 border-b border-gray-100">
+            {/* Payment / Ship */}
+            <div className="px-7 py-5 grid grid-cols-2 gap-6 border-b border-neutral-100">
               <div>
-                <p className="text-xs text-gray-400 uppercase tracking-widest mb-2">Payment</p>
-                <p className="text-sm font-medium text-primary">PayPal</p>
+                <p className="text-[9px] font-semibold tracking-widest uppercase text-neutral-400 mb-1">Payment</p>
+                <p className="text-xs text-primary">PayPal</p>
               </div>
               <div>
-                <p className="text-xs text-gray-400 uppercase tracking-widest mb-2">Ship to</p>
-                <p className="text-sm font-medium text-primary">
-                  {checkout.shippingAdress?.address?.split(" ")[0]}
-                </p>
+                <p className="text-[9px] font-semibold tracking-widest uppercase text-neutral-400 mb-1">Ship To</p>
+                <p className="text-xs text-primary">{checkout.shippingAdress?.address?.split(" ")[0]}</p>
               </div>
             </div>
 
@@ -91,13 +87,13 @@ function OrderConformationPage() {
             <div className="px-7 py-5 flex flex-col sm:flex-row gap-3">
               <Link
                 to="/my-orders"
-                className="flex-1 text-center bg-accent hover:bg-blue-600 text-white font-semibold py-3 rounded-xl transition-all duration-200 text-sm"
+                className="flex-1 text-center bg-primary text-white text-[10px] font-semibold tracking-widest2 uppercase py-4 hover:bg-neutral-800 transition-colors"
               >
-                View My Orders
+                View Orders
               </Link>
               <Link
                 to="/collections/all"
-                className="flex-1 text-center bg-gray-50 hover:bg-gray-100 text-primary font-semibold py-3 rounded-xl transition-all duration-200 text-sm"
+                className="flex-1 text-center border border-neutral-200 text-primary text-[10px] font-semibold tracking-widest2 uppercase py-4 hover:border-primary transition-colors"
               >
                 Continue Shopping
               </Link>

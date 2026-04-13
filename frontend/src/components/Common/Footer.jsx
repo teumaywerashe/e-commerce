@@ -1,32 +1,32 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import { TbBrandMeta } from "react-icons/tb";
 import { IoLogoInstagram } from "react-icons/io";
 import { RiTwitterXLine } from "react-icons/ri";
-import { FiPhoneCall } from "react-icons/fi";
 
 function Footer() {
   return (
-    <footer className="bg-primary text-gray-400 pt-14 pb-8 mt-10">
-      <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-10">
-        {/* Newsletter */}
+    <footer className="bg-primary text-neutral-500 pt-16 pb-8">
+      <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+
+        {/* Brand + Newsletter */}
         <div>
-          <h3 className="text-white font-bold text-lg mb-1">RABBIT</h3>
-          <p className="text-sm mb-4 leading-relaxed">
-            Be the first to know about new arrivals, exclusive offers, and more.
+          <p className="text-white text-[11px] font-semibold tracking-widest3 uppercase mb-4">Rabbit</p>
+          <p className="text-xs leading-relaxed mb-6">
+            Minimal luxury fashion for the modern wardrobe.
           </p>
-          <p className="text-xs text-accent font-semibold mb-4 uppercase tracking-wide">
-            Sign up & get 10% off your first order
+          <p className="text-[9px] font-semibold tracking-widest uppercase text-neutral-400 mb-3">
+            Get 10% off your first order
           </p>
-          <form className="flex">
+          <form className="flex border border-neutral-700">
             <input
               type="email"
               placeholder="Your email"
-              className="flex-1 bg-white/10 text-white placeholder-gray-500 text-sm px-4 py-2.5 rounded-l-lg border border-white/10 focus:outline-none focus:border-accent transition-colors"
+              className="flex-1 bg-transparent text-white placeholder-neutral-600 text-xs px-3 py-2.5 focus:outline-none"
             />
+            {/* solid white button — always visible */}
             <button
               type="submit"
-              className="bg-accent hover:bg-blue-600 text-white text-sm font-semibold px-4 py-2.5 rounded-r-lg transition-colors cursor-pointer"
+              className="bg-white text-primary text-[10px] font-semibold tracking-widest uppercase px-4 py-2.5 hover:bg-neutral-100 transition-colors cursor-pointer shrink-0"
             >
               Join
             </button>
@@ -35,11 +35,11 @@ function Footer() {
 
         {/* Shop */}
         <div>
-          <h3 className="text-white font-semibold text-sm uppercase tracking-wider mb-5">Shop</h3>
-          <ul className="space-y-3 text-sm">
+          <p className="text-white text-[10px] font-semibold tracking-widest uppercase mb-5">Shop</p>
+          <ul className="space-y-3">
             {["Men's Top Wear", "Women's Top Wear", "Men's Bottom Wear", "Women's Bottom Wear"].map((item) => (
               <li key={item}>
-                <Link to="#" className="hover:text-white transition-colors">{item}</Link>
+                <Link to="#" className="text-xs hover:text-white transition-colors">{item}</Link>
               </li>
             ))}
           </ul>
@@ -47,11 +47,11 @@ function Footer() {
 
         {/* Support */}
         <div>
-          <h3 className="text-white font-semibold text-sm uppercase tracking-wider mb-5">Support</h3>
-          <ul className="space-y-3 text-sm">
+          <p className="text-white text-[10px] font-semibold tracking-widest uppercase mb-5">Support</p>
+          <ul className="space-y-3">
             {["Contact Us", "About Us", "FAQs", "Returns"].map((item) => (
               <li key={item}>
-                <Link to="#" className="hover:text-white transition-colors">{item}</Link>
+                <Link to="#" className="text-xs hover:text-white transition-colors">{item}</Link>
               </li>
             ))}
           </ul>
@@ -59,35 +59,32 @@ function Footer() {
 
         {/* Follow */}
         <div>
-          <h3 className="text-white font-semibold text-sm uppercase tracking-wider mb-5">Follow Us</h3>
-          <div className="flex items-center gap-4 mb-6">
+          <p className="text-white text-[10px] font-semibold tracking-widest uppercase mb-5">Follow Us</p>
+          <div className="flex gap-3 mb-6">
             {[
-              { href: "https://facebook.com", icon: <TbBrandMeta className="h-5 w-5" /> },
-              { href: "https://instagram.com", icon: <IoLogoInstagram className="h-5 w-5" /> },
-              { href: "https://x.com", icon: <RiTwitterXLine className="h-5 w-5" /> },
+              { href: "https://facebook.com", icon: <TbBrandMeta className="h-4 w-4" /> },
+              { href: "https://instagram.com", icon: <IoLogoInstagram className="h-4 w-4" /> },
+              { href: "https://x.com", icon: <RiTwitterXLine className="h-4 w-4" /> },
             ].map((s, i) => (
               <a
                 key={i}
                 href={s.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2 rounded-full bg-white/10 hover:bg-accent hover:text-white transition-all"
+                className="w-8 h-8 border border-neutral-700 flex items-center justify-center text-neutral-400 hover:border-white hover:text-white transition-colors"
               >
                 {s.icon}
               </a>
             ))}
           </div>
-          <div className="flex items-center gap-2 text-sm">
-            <FiPhoneCall className="h-4 w-4 text-accent" />
-            <a href="tel:+1234567890" className="hover:text-white transition-colors">
-              +1 (234) 567-890
-            </a>
-          </div>
+          <a href="tel:+1234567890" className="text-xs hover:text-white transition-colors">
+            +1 (234) 567-890
+          </a>
         </div>
       </div>
 
-      <div className="container mx-auto px-4 mt-12 pt-6 border-t border-white/10 text-center text-xs text-gray-600">
-        © 2025 Rabbit. All rights reserved.
+      <div className="max-w-7xl mx-auto px-6 pt-8 border-t border-neutral-800 text-center">
+        <p className="text-[10px] tracking-widest uppercase text-neutral-700">© 2025 Rabbit. All rights reserved.</p>
       </div>
     </footer>
   );

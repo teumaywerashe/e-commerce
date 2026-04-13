@@ -1,104 +1,94 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { fetchAdminProducts } from "../redux/slice/adminProductSlice";
 import { fetchAllOrders } from "../redux/slice/adminOrderSlice";
 
 function AdminHomePage() {
-  const  dispatch  = useDispatch();
-
-  const {
-    products,
-    loading: productLoading,
-    error: productError,
-  } = useSelector((state) => state.adminProducts);
-
-  
-
-  const {
-    orders,
-    totalOrders,
-    totalSales,
-    loading: orderLoading,
-    error: orderError,
-  } = useSelector((state) => state.adminOrders);
+  const dispatch = useDispatch();
+  const { products, loading: pLoad } = useSelector((s) => s.adminProducts);
+  const { orders, totalOrders, totalSales, loading: oLoad } = useSelector((s) => s.adminOrders);
 
   useEffect(() => {
-    dispatch(fetchAdminProducts);
+    dispatch(fetchAdminProducts());
     dispatch(fetchAllOrders());
-  }, [ dispatch]);
+  }, [dispatch]);
 
-  if (orderError) {
-    return <p>Error:{productError}</p>;
-  }
+  const stats = [
+    { label: "Revenue", value: `$${(totalSales || 0).toFixed(2)}`, link: null },
+    { label: "Orders", value: totalOrders || 0, link: { to: "/admin/orders", text: "Manage" } },
+    { label: "Products", value: products?.length || 0, link: { to: "/admin/products", text: "Manage" } },
+  ];
 
-  if (orderLoading) {
-    return <p>Loading</p>;
+  if (oLoad || pLoad) {
+    return (
+      <div className="p-8 animate-pulse space-y-6">
+        <div className="grid grid-cols-3 gap-5">
+          {[1, 2, 3].map((i) => <div key={i} className="bg-neutral-100 h-28" />)}
+        </div>
+        <div className="bg-neutral-100 h-64" />
+      </div>
+    );
   }
 
   return (
-    <div className="max-w-7xl mx-auto p-6">
-      <h1 className="text-3xl font-bold mb-6">Admin Dashboard</h1>
+    <div className="p-8 max-w-screen-xl mx-auto">
+      {/* Header */}
+      <p className="text-[10px] font-medium tracking-widest3 uppercase text-neutral-400 mb-1">Overview</p>
+      <h1 className="text-2xl font-light tracking-widest uppercase text-primary mb-10">Dashboard</h1>
 
-      {productLoading || orderLoading ? (
-        <p>Loading...</p>
-      ) : productError ? (
-        <p>Error fetching the products :{productError}</p>
-      ) : orderError ? (
-        <p>Error fetching the orders:{orderError}</p>
-      ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div className="p-4 shadow-md rounded-lg">
-            <h2 className="text-xl font-semibold ">Revenue</h2>
-            <p className="text-2xl ">${totalSales.toFixed(2)}</p>
+      {/* Stats */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-12">
+        {stats.map((s) => (
+          <div key={s.label} className="border border-neutral-100 bg-white p-6">
+            <p className="text-[9px] font-semibold tracking-widest uppercase text-neutral-400 mb-3">{s.label}</p>
+            <p className="text-3xl font-light text-primary mb-4">{s.value}</p>
+            {s.link && (
+              <Link to={s.link.to} className="text-[9px] font-semibold tracking-widest uppercase text-primary hover:opacity-60 transition-opacity">
+                {s.link.text} →
+              </Link>
+            )}
           </div>
-          <div className="p-4 shadow-md rounded-lg">
-            <h2 className="text-xl font-semibold ">Totla Orders</h2>
-            <p className="text-2xl ">{totalOrders}</p>
-            <Link to="/admin/orders" className="text-blue-500 hover:underline">
-              Manage Orders
-            </Link>
-          </div>
-          <div className="p-4 shadow-md rounded-lg">
-            <h2 className="text-xl font-semibold ">Totla Products</h2>
-            <p className="text-2xl ">{products.length}</p>
-            <Link
-              to="/admin/products"
-              className="text-blue-500 hover:underline"
-            >
-              Manage Products
-            </Link>
-          </div>
+        ))}
+      </div>
+
+      {/* Recent orders */}
+      <div className="border border-neutral-100 bg-white">
+        <div className="px-6 py-4 border-b border-neutral-100 flex items-center justify-between">
+          <p className="text-[10px] font-semibold tracking-widest uppercase text-primary">Recent Orders</p>
+          <Link to="/admin/orders" className="text-[9px] font-semibold tracking-widest uppercase text-neutral-400 hover:text-primary transition-colors">
+            View All →
+          </Link>
         </div>
-      )}
-
-      <div className="mt-6">
-        <h2 className="text-2xl font-bold mb-4">Recent Orders</h2>
         <div className="overflow-x-auto">
-          <table className="min-w-full text-gray-500">
-            <thead className="bg-gray-100 text-xs uppercase text-gray-700">
-              <tr>
-                <th className="py-3 px-4">Order Id</th>
-                <th className="py-3 px-4">User</th>
-                <th className="py-3 px-4">Total Price</th>
-                <th className="py-3 px-4">Status</th>
+          <table className="min-w-full">
+            <thead>
+              <tr className="border-b border-neutral-100">
+                {["Order ID", "Customer", "Total", "Status"].map((h) => (
+                  <th key={h} className="py-3 px-6 text-left text-[9px] font-semibold tracking-widest uppercase text-neutral-400">{h}</th>
+                ))}
               </tr>
             </thead>
             <tbody>
               {orders.length > 0 ? (
-                orders.map((order) => (
-                  <tr className="border-b hover:bg-gray-50" key={order._id}>
-                    <td className="p-4">#{order._id}</td>
-
-                    <td className="p-4">{order.user.name}</td>
-                    <td className="p-4">{order.totalPrice.toFixed(2)}</td>
-                    <td className="p-4">{order.status}</td>
+                orders.slice(0, 8).map((order) => (
+                  <tr key={order._id} className="border-b border-neutral-50 hover:bg-neutral-50 transition-colors">
+                    <td className="py-4 px-6 text-[10px] font-mono text-neutral-400">#{order._id.slice(-8)}</td>
+                    <td className="py-4 px-6 text-[11px] font-medium text-primary">{order.user?.name}</td>
+                    <td className="py-4 px-6 text-[11px] font-semibold text-primary">${order.totalPrice.toFixed(2)}</td>
+                    <td className="py-4 px-6">
+                      <span className={`text-[9px] font-semibold tracking-widest uppercase px-2 py-1 ${
+                        order.isPaid ? "bg-primary text-white" : "border border-neutral-300 text-neutral-500"
+                      }`}>
+                        {order.isPaid ? "Paid" : "Pending"}
+                      </span>
+                    </td>
                   </tr>
                 ))
               ) : (
                 <tr>
-                  <td colSpan={4} className="text-gray-500 text-center pt-4">
-                    No Recent Orders Found
+                  <td colSpan={4} className="py-12 text-center text-[10px] tracking-widest uppercase text-neutral-400">
+                    No orders yet
                   </td>
                 </tr>
               )}

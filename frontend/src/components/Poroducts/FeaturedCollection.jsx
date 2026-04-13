@@ -1,38 +1,30 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import featured from "../../assets/featured.webp";
 
 function FeaturedCollection() {
   return (
-    <section className="py-16 px-4">
-      <div className="container mx-auto">
-        <div className="flex flex-col-reverse md:flex-row items-center gap-0 bg-primary rounded-2xl overflow-hidden shadow-xl">
-          {/* Text */}
-          <div className="md:w-1/2 p-10 md:p-14 text-center md:text-left">
-            <p className="text-accent text-xs font-semibold uppercase tracking-widest mb-3">
-              Featured
-            </p>
-            <h2 className="text-3xl md:text-4xl font-bold text-white leading-tight mb-4">
-              Apparel made for your everyday life
-            </h2>
-            <p className="text-gray-400 text-sm leading-relaxed mb-8">
-              Discover high-quality, comfortable clothing that effortlessly blends fashion and function. Designed to make you look and feel great every day.
-            </p>
-            <Link
-              to="/collections/all"
-              className="inline-block bg-accent hover:bg-blue-600 text-white font-semibold px-7 py-3 rounded-full transition-all duration-200 shadow-lg hover:shadow-accent/30"
-            >
-              Shop the Collection
-            </Link>
-          </div>
-          {/* Image */}
-          <div className="md:w-1/2 w-full">
-            <img
-              src={featured}
-              alt="Featured Collection"
-              className="w-full h-[380px] md:h-[480px] object-cover"
-            />
-          </div>
+    <section className="py-20 px-6">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-0">
+        {/* Image */}
+        <div className="overflow-hidden">
+          <img src={featured} alt="Featured Collection" className="w-full h-[500px] object-cover" />
+        </div>
+        {/* Text */}
+        <div className="bg-primary flex flex-col justify-center px-12 py-16">
+          <p className="text-[10px] font-medium tracking-widest3 uppercase text-neutral-500 mb-4">Featured</p>
+          <h2 className="text-3xl md:text-4xl font-light tracking-widest uppercase text-white leading-tight mb-6">
+            Everyday<br />Essentials
+          </h2>
+          <p className="text-sm text-neutral-400 leading-relaxed mb-10 max-w-xs">
+            High-quality, comfortable clothing that effortlessly blends fashion and function.
+          </p>
+          {/* solid white button — always visible */}
+          <Link
+            to="/collections/all"
+            className="self-start text-[11px] font-semibold tracking-widest2 uppercase bg-white text-primary px-8 py-3 hover:bg-neutral-100 transition-colors duration-200"
+          >
+            Shop Collection
+          </Link>
         </div>
       </div>
     </section>

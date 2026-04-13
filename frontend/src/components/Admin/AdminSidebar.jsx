@@ -1,90 +1,69 @@
-import React, { useEffect } from "react";
-import {
-  FaBoxOpen,
-  FaClipboardList,
-  FaOpencart,
-  FaSignInAlt,
-  FaStore,
-  FaUser,
-} from "react-icons/fa";
+import { useEffect } from "react";
+import { FaBoxOpen, FaClipboardList, FaStore, FaUser } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { logout } from "../../redux/slice/AuthSlice";
 import { clearCart } from "../../redux/slice/CartSlice";
 
+const links = [
+  { to: "/admin/users", icon: <FaUser className="h-3.5 w-3.5" />, label: "Users" },
+  { to: "/admin/products", icon: <FaBoxOpen className="h-3.5 w-3.5" />, label: "Products" },
+  { to: "/admin/orders", icon: <FaClipboardList className="h-3.5 w-3.5" />, label: "Orders" },
+  { to: "/admin/shop", icon: <FaStore className="h-3.5 w-3.5" />, label: "Shop" },
+];
+
 function AdminSidebar() {
-
-
-  const {user}=useSelector(state=>state.auth)
+  const { user } = useSelector((s) => s.auth);
   const navigate = useNavigate();
   const dispatch = useDispatch();
- const handleLogout=()=>{
-   dispatch(logout())
-   dispatch(clearCart())
-   navigate('/login')
- }
- useEffect(()=>{
- if(!user){
-   navigate('/login')
- }
- },[user,navigate])
+
+  useEffect(() => { if (!user) navigate("/login"); }, [user, navigate]);
+
+  const handleLogout = () => {
+    dispatch(logout());
+    dispatch(clearCart());
+    navigate("/login");
+  };
+
   return (
-    <div className="p-6">
-      <div className="mb-6">
-        <Link to="/admin" className="text-2xl font-medium  ">
+    <div className="flex flex-col h-full py-6 px-5">
+      {/* Logo */}
+      <div className="hidden md:block mb-10">
+        <Link to="/admin" className="text-[11px] font-semibold tracking-widest3 uppercase text-white hover:opacity-60 transition-opacity">
           Rabbit
         </Link>
+        <p className="text-[9px] tracking-widest uppercase text-neutral-500 mt-1">Admin Panel</p>
       </div>
-      <h2 className="text-xl font-medium mb-6 text-center ">Admin Dashboard</h2>
-      <nav className="flex flex-col space-y-2">
-        <NavLink
-          to="/admin/users"
-          className={({ isActive }) =>
-            isActive
-              ? "bg-gray-700 py-3 px-4 rounded flex items-center space-x-2 text-white "
-              : "text-gray-300 hover:bg-gray-700 space-x-2 rounded flex items-center py-3 px-4 hover:text-white"
-          }
-        >
-          <FaUser /> <span>Users</span>
-        </NavLink>
-        <NavLink
-          to="/admin/products"
-          className={({ isActive }) =>
-            isActive
-              ? "bg-gray-700 py-3 px-4 rounded flex items-center space-x-2 text-white "
-              : "text-gray-300 hover:bg-gray-700 space-x-2 rounded flex items-center py-3 px-4 hover:text-white"
-          }
-        >
-          <FaBoxOpen /> <span>Products</span>
-        </NavLink>
-        <NavLink
-          to="/admin/orders"
-          className={({ isActive }) =>
-            isActive
-              ? "bg-gray-700 py-3 px-4 rounded flex items-center space-x-2 text-white "
-              : "text-gray-300 hover:bg-gray-700 space-x-2 rounded flex items-center py-3 px-4 hover:text-white"
-          }
-        >
-          <FaClipboardList /> <span>Orders</span>
-        </NavLink>
-        <NavLink
-          to="/admin/shop"
-          className={({ isActive }) =>
-            isActive
-              ? "bg-gray-700 py-3 px-4 rounded flex items-center space-x-2 text-white "
-              : "text-gray-300 hover:bg-gray-700 space-x-2 rounded flex items-center py-3 px-4 hover:text-white"
-          }
-        >
-          <FaStore /> <span>Shop</span>
-        </NavLink>
+
+      {/* Nav */}
+      <nav className="flex-1 space-y-0.5">
+        {links.map(({ to, icon, label }) => (
+          <NavLink
+            key={to}
+            to={to}
+            className={({ isActive }) =>
+              `flex items-center gap-3 px-3 py-3 text-[10px] font-semibold tracking-widest uppercase transition-colors ${
+                isActive
+                  ? "bg-white text-primary"
+                  : "text-neutral-400 hover:text-white hover:bg-white/10"
+              }`
+            }
+          >
+            {icon}
+            <span>{label}</span>
+          </NavLink>
+        ))}
       </nav>
-      <div className="mb-6">
+
+      {/* User + logout */}
+      <div className="pt-6 border-t border-white/10">
+        <p className="text-[10px] font-medium text-white truncate px-3 mb-0.5">{user?.name}</p>
+        <p className="text-[9px] text-neutral-500 truncate px-3 mb-4">{user?.email}</p>
         <button
-          className="w-full bg-red-500 py-2 space-x-2 px-4 justify-center rounded flex items-center hover:bg-red-600 cursor-pointer text-white"
           onClick={handleLogout}
+          className="w-full flex items-center gap-3 px-3 py-3 text-[10px] font-semibold tracking-widest uppercase text-neutral-400 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
         >
-          <FaSignInAlt />
-          <span>Logout</span>
+          <span>Sign Out</span>
         </button>
       </div>
     </div>
