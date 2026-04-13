@@ -9,7 +9,8 @@ const getCart = (userId, guestId) => {
         return Cart.findOne({ user: userId });
     } else if (guestId) {
         return Cart.findOne({ guestId });
-    } else return null;
+    }
+    return Promise.resolve(null);
 };
 
 // add to cart
@@ -99,7 +100,7 @@ cartRouter.put("/", async(req, res) => {
                 cart.products.splice(productIndex, 1);
             }
             cart.totalPrice = cart.products.reduce(
-                (acc, item) => acc + item.price,
+                (acc, item) => acc + item.price * item.quantity,
                 0,
             );
             cart.save();

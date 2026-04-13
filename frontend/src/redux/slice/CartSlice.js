@@ -21,7 +21,7 @@ export const fetchCart = createAsyncThunk(
                 `${import.meta.env.VITE_BACKEND_URL}/api/cart`, { params: { userId, guestId } },
             );
 
-            return response.data.carts;
+            return response.data.cart;
         } catch (error) {
             console.log(error);
             return rejectWithValue(error.response.data);
