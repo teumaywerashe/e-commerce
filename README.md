@@ -108,7 +108,7 @@ frontend/
 
 ## Live Sites
 
-Once deployed, you can access the live versions of the project here:
+Once deployed, you can access the live versions of the project here :
 
 - [**Frontend Live Site:**](https://e-commerce.onrender.com)
 - [**Backend Live API:**](https://e-commerce1.onrender.com)
