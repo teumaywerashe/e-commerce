@@ -34,26 +34,26 @@ function Checkout() {
   if (loading) return <div className="flex items-center justify-center min-h-screen"><p className="text-xs tracking-widest uppercase text-neutral-400">Loading...</p></div>;
   if (error) return <p className="text-center text-neutral-500 py-10 text-xs">{error}</p>;
 
-  const inputClass = "w-full border-b border-neutral-200 py-3 text-sm text-primary placeholder-neutral-400 focus:outline-none focus:border-primary transition-colors bg-transparent";
+  const inputClass = "w-full border-b border-neutral-200 dark:border-gray-700 py-3 text-sm text-primary dark:text-white placeholder-neutral-400 dark:placeholder-neutral-600 focus:outline-none focus:border-primary dark:focus:border-white transition-colors bg-transparent";
   const labelClass = "text-[9px] font-semibold tracking-widest uppercase text-neutral-400 block mb-1";
 
   return (
-    <div className="min-h-screen bg-white py-16 px-6">
+    <div className="min-h-screen bg-white dark:bg-gray-950 py-16 px-6">
       <div className="max-w-screen-xl mx-auto">
         <p className="text-[10px] font-medium tracking-widest3 uppercase text-neutral-400 mb-1">Order</p>
-        <h1 className="text-2xl font-light tracking-widest uppercase text-primary mb-12">Checkout</h1>
+        <h1 className="text-2xl font-light tracking-widest uppercase text-primary dark:text-white mb-12">Checkout</h1>
 
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-16">
           {/* Form */}
           <div className="lg:col-span-3">
             <form onSubmit={handleCreateCheckout}>
-              <p className="text-[10px] font-semibold tracking-widest uppercase text-primary mb-6">Contact</p>
+              <p className="text-[10px] font-semibold tracking-widest uppercase text-primary dark:text-white mb-6">Contact</p>
               <div className="mb-8">
                 <label className={labelClass}>Email</label>
                 <input type="email" value={user?.email || ""} disabled className={`${inputClass} text-neutral-400`} />
               </div>
 
-              <p className="text-[10px] font-semibold tracking-widest uppercase text-primary mb-6">Delivery</p>
+              <p className="text-[10px] font-semibold tracking-widest uppercase text-primary dark:text-white mb-6">Delivery</p>
               <div className="grid grid-cols-2 gap-6 mb-6">
                 <div><label className={labelClass}>First Name</label><input type="text" placeholder="John" required className={inputClass} value={addr.firestName} onChange={(e) => setAddr({ ...addr, firestName: e.target.value })} /></div>
                 <div><label className={labelClass}>Last Name</label><input type="text" placeholder="Doe" required className={inputClass} value={addr.lastName} onChange={(e) => setAddr({ ...addr, lastName: e.target.value })} /></div>
@@ -69,12 +69,12 @@ function Checkout() {
               </div>
 
               {!checkoutId ? (
-                <button type="submit" className="w-full bg-primary text-white text-[11px] font-semibold tracking-widest2 uppercase py-4 hover:bg-neutral-800 transition-colors cursor-pointer">
+                <button type="submit" className="w-full bg-primary dark:bg-white text-white dark:text-gray-900 text-[11px] font-semibold tracking-widest2 uppercase py-4 hover:bg-neutral-800 dark:hover:bg-neutral-200 transition-colors cursor-pointer">
                   Continue to Payment
                 </button>
               ) : (
                 <div>
-                  <p className="text-[10px] font-semibold tracking-widest uppercase text-primary mb-4">Payment</p>
+                  <p className="text-[10px] font-semibold tracking-widest uppercase text-primary dark:text-white mb-4">Payment</p>
                   <PaypalButton amount={cart.totalPrice} onSuccess={handlePaymentSuccess} onError={() => alert("Payment failed.")} />
                 </div>
               )}
@@ -84,26 +84,26 @@ function Checkout() {
           {/* Summary */}
           <div className="lg:col-span-2">
             <div className="sticky top-20">
-              <p className="text-[10px] font-semibold tracking-widest uppercase text-primary mb-6">Order Summary</p>
+              <p className="text-[10px] font-semibold tracking-widest uppercase text-primary dark:text-white mb-6">Order Summary</p>
               <div className="space-y-5 mb-8">
                 {cart?.products?.map((p, i) => (
                   <div key={i} className="flex items-center gap-4">
                     <div className="relative shrink-0">
-                      <img src={p.image} alt={p.name} className="w-14 h-16 object-cover bg-neutral-50" />
-                      <span className="absolute -top-1.5 -right-1.5 bg-primary text-white text-[9px] font-bold w-4 h-4 flex items-center justify-center">{p.quantity}</span>
+                      <img src={p.image} alt={p.name} className="w-14 h-16 object-cover bg-neutral-50 dark:bg-gray-800" />
+                      <span className="absolute -top-1.5 -right-1.5 bg-primary dark:bg-white text-white dark:text-gray-900 text-[9px] font-bold w-4 h-4 flex items-center justify-center">{p.quantity}</span>
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-[11px] font-medium text-primary line-clamp-1">{p.name}</p>
+                      <p className="text-[11px] font-medium text-primary dark:text-white line-clamp-1">{p.name}</p>
                       <p className="text-[10px] text-neutral-400">{p.color} · {p.size}</p>
                     </div>
-                    <span className="text-[11px] font-semibold text-primary">${(p.price * p.quantity).toFixed(2)}</span>
+                    <span className="text-[11px] font-semibold text-primary dark:text-white">${(p.price * p.quantity).toFixed(2)}</span>
                   </div>
                 ))}
               </div>
-              <div className="border-t border-neutral-100 pt-5 space-y-3">
-                <div className="flex justify-between text-xs text-neutral-500"><span>Subtotal</span><span>${total.toFixed(2)}</span></div>
-                <div className="flex justify-between text-xs text-neutral-500"><span>Shipping</span><span>Free</span></div>
-                <div className="flex justify-between text-sm font-semibold text-primary pt-3 border-t border-neutral-100"><span>Total</span><span>${total.toFixed(2)}</span></div>
+              <div className="border-t border-neutral-100 dark:border-gray-800 pt-5 space-y-3">
+                <div className="flex justify-between text-xs text-neutral-500 dark:text-neutral-400"><span>Subtotal</span><span>${total.toFixed(2)}</span></div>
+                <div className="flex justify-between text-xs text-neutral-500 dark:text-neutral-400"><span>Shipping</span><span>Free</span></div>
+                <div className="flex justify-between text-sm font-semibold text-primary dark:text-white pt-3 border-t border-neutral-100 dark:border-gray-800"><span>Total</span><span>${total.toFixed(2)}</span></div>
               </div>
             </div>
           </div>

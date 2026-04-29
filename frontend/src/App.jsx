@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import UserLayout from "./components/Layout/UserLayout";
 import { Toaster } from "sonner";
@@ -20,10 +20,22 @@ import EditProduct from "./components/Admin/EditProduct";
 import OrderManagement from "./components/Admin/OrderManagement";
 import ProtectedRoute from "./components/Common/ProtectedRoute";
 import AddProduct from "./components/Admin/AddProduct";
+import { useSelector } from "react-redux";
+
 function App() {
+  const { mode } = useSelector((s) => s.theme);
+
+  useEffect(() => {
+    const root = document.documentElement;
+    if (mode === "dark") {
+      root.classList.add("dark");
+    } else {
+      root.classList.remove("dark");
+    }
+  }, [mode]);
+
   return (
-    <>
- 
+    <div className="min-h-screen bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 transition-colors duration-300">
       <Toaster position="top-right" />
       <Routes>
         <Route path="/" element={<UserLayout />}>
@@ -59,8 +71,7 @@ function App() {
 
         </Route>
       </Routes>
-    
-    </>
+    </div>
   );
 }
 

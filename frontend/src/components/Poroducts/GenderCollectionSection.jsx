@@ -9,10 +9,10 @@ const collections = [
 
 function GenderCollectionSection() {
   return (
-    <section className="py-20 px-6">
+    <section className="py-20 px-6 bg-white dark:bg-gray-950">
       <div className="max-w-7xl mx-auto">
         <p className="text-[10px] font-medium tracking-widest3 uppercase text-neutral-400 text-center mb-2">Collections</p>
-        <h2 className="text-xl font-light tracking-widest uppercase text-center text-primary mb-12">Shop by Gender</h2>
+        <h2 className="text-xl font-light tracking-widest uppercase text-center text-primary dark:text-white mb-12">Shop by Gender</h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {collections.map((c) => (

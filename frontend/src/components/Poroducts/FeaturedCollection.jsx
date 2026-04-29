@@ -3,7 +3,7 @@ import featured from "../../assets/featured.webp";
 
 function FeaturedCollection() {
   return (
-    <section className="py-20 px-6">
+    <section className="py-20 px-6 bg-white dark:bg-gray-950">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-0">
         {/* Image */}
         <div className="overflow-hidden">

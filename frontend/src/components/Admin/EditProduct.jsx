@@ -43,136 +43,51 @@ function EditProduct() {
     console.log(productData);
   }, [productData]);
   return (
-    <div className="max-w-5xl mx-auto p-6 shadow-md rounded-md">
-      <h2 className="text-3xl font-bold mb-6">Edit Product</h2>
-      <form onSubmit={handleSubmit} action="submit">
+    <div className="max-w-5xl mx-auto p-6 shadow-md rounded-md bg-white dark:bg-gray-900">
+      <h2 className="text-3xl font-bold mb-6 text-gray-900 dark:text-white">Edit Product</h2>
+      <form onSubmit={handleSubmit}>
         <div className="mb-6">
-          <label htmlFor="name" className="block font-semibold mb-2">
-            Product Name
-          </label>
-          <input
-            className="w-full p-2  border border-gray-500 rounded"
-            type="text"
-            name="name"
-            required
-            value={productData?.name}
-            onChange={handleDataChange}
-          />
+          <label className="block font-semibold mb-2 text-gray-900 dark:text-white">Product Name</label>
+          <input className="w-full p-2 border border-gray-500 dark:border-gray-600 rounded bg-white dark:bg-gray-800 text-gray-900 dark:text-white" type="text" name="name" required value={productData?.name} onChange={handleDataChange} />
         </div>
         <div className="mb-6">
-          <label htmlFor="name" className="block font-semibold mb-2">
-            description
-          </label>
-          <textarea
-            className="w-full p-2 border border-gray-300 rounded-md"
-            type="text"
-            name="description"
-            rows={4}
-            value={productData?.description}
-            onChange={handleDataChange}
-          ></textarea>
+          <label className="block font-semibold mb-2 text-gray-900 dark:text-white">Description</label>
+          <textarea className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white" name="description" rows={4} value={productData?.description} onChange={handleDataChange}></textarea>
         </div>
         <div className="mb-6">
-          <label htmlFor="name" className="block font-semibold mb-2">
-            Price
-          </label>
-          <input
-            className="w-full p-2 border border-gray-300 rounded-md"
-            type="number"
-            name="price"
-            value={productData?.price}
-            onChange={handleDataChange}
-          />
+          <label className="block font-semibold mb-2 text-gray-900 dark:text-white">Price</label>
+          <input className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white" type="number" name="price" value={productData?.price} onChange={handleDataChange} />
         </div>
         <div className="mb-6">
-          <label htmlFor="name" className="block font-semibold mb-2">
-            Count in Stock
-          </label>
-          <input
-            className="w-full p-2 border border-gray-300 rounded-md"
-            type="number"
-            name="countInStock"
-            required
-            value={productData?.countInStock}
-            onChange={handleDataChange}
-          />
+          <label className="block font-semibold mb-2 text-gray-900 dark:text-white">Count in Stock</label>
+          <input className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white" type="number" name="countInStock" required value={productData?.countInStock} onChange={handleDataChange} />
         </div>
         <div className="mb-6">
-          <label htmlFor="name" className="block font-semibold mb-2">
-            SKU
-          </label>
-          <input
-            className="w-full p-2 border border-gray-300 rounded-md"
-            type="text"
-            name="sku"
-            value={productData?.sku}
-            onChange={handleDataChange}
-          />
+          <label className="block font-semibold mb-2 text-gray-900 dark:text-white">SKU</label>
+          <input className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white" type="text" name="sku" value={productData?.sku} onChange={handleDataChange} />
         </div>
         <div className="mb-6">
-          <label htmlFor="name" className="block font-semibold mb-2">
-            Sizes (comma seperated)
-          </label>
-          <input
-            className="w-full p-2 border border-gray-300 rounded-md"
-            type="text"
-            name="name"
-            value={productData?.sizes.join(", ")}
-            onChange={(e) =>
-              setProductDate((productData) => ({
-                ...productData,
-                sizes: e.target.value.split(",").map((size) => size.trim()),
-              }))
-            }
-          />
+          <label className="block font-semibold mb-2 text-gray-900 dark:text-white">Sizes (comma separated)</label>
+          <input className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white" type="text" value={productData?.sizes.join(", ")}
+            onChange={(e) => setProductDate((d) => ({ ...d, sizes: e.target.value.split(",").map((s) => s.trim()) }))} />
         </div>
         <div className="mb-6">
-          <label htmlFor="name" className="block font-semibold mb-2">
-            Colors (comma seperated)
-          </label>
-          <input
-            className="w-full p-2 border border-gray-300 rounded-md"
-            type="text"
-            name="name"
-            value={productData?.colors.join(", ")}
-            onChange={(e) =>
-              setProductDate((productData) => ({
-                ...productData,
-                colors: e.target.value.split(",").map((color) => color.trim()),
-              }))
-            }
-          />
+          <label className="block font-semibold mb-2 text-gray-900 dark:text-white">Colors (comma separated)</label>
+          <input className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white" type="text" value={productData?.colors.join(", ")}
+            onChange={(e) => setProductDate((d) => ({ ...d, colors: e.target.value.split(",").map((c) => c.trim()) }))} />
         </div>
         <div className="mb-6">
-          <label htmlFor="name" className="block font-semibold mb-2">
-            Upload Image
-          </label>
-          <input
-            type="file"
-            className="cursor-pointer"
-            name="imag"
-            // value={productData?.category}
-            onChange={handleImageUpload}
-          />
-          ,
+          <label className="block font-semibold mb-2 text-gray-900 dark:text-white">Upload Image</label>
+          <input type="file" className="cursor-pointer text-gray-900 dark:text-white" onChange={handleImageUpload} />
           <div className="flex gap-4 mt-4">
             {productData?.images.map((image, i) => (
-              <div key={i}>
-                {" "}
-                <img
-                  className="h-20 w-20 shadow-md rounded-md object-cover"
-                  src={image.url}
-                  alt={image.altText || "product image"}
-                />
-              </div>
+              <img key={i} className="h-20 w-20 shadow-md rounded-md object-cover" src={image.url} alt={image.altText || "product image"} />
             ))}
           </div>
         </div>
-        {
-          <button className="w-full bg-green-500 rounded-md font-bold text-white py-2 hover:bg-green-600 cursor-pointer transition-colors ">
-            {uploading ? "Updating ..." : "Update Product"}
-          </button>
-        }
+        <button className="w-full bg-green-500 rounded-md font-bold text-white py-2 hover:bg-green-600 cursor-pointer transition-colors">
+          {uploading ? "Updating ..." : "Update Product"}
+        </button>
       </form>
     </div>
   );

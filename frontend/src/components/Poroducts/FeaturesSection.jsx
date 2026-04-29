@@ -22,14 +22,14 @@ const features = [
 
 function FeaturesSection() {
   return (
-    <section className="py-14 px-4 bg-white border-t border-gray-100">
+    <section className="py-14 px-4 bg-white dark:bg-gray-950 border-t border-gray-100 dark:border-gray-800">
       <div className="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
         {features.map((f, i) => (
-          <div key={i} className="flex items-start gap-4 p-6 rounded-xl bg-gray-50 hover:shadow-md transition-shadow">
-            <div className="p-3 bg-blue-50 rounded-xl flex-shrink-0">{f.icon}</div>
+          <div key={i} className="flex items-start gap-4 p-6 rounded-xl bg-gray-50 dark:bg-gray-900 hover:shadow-md transition-shadow">
+            <div className="p-3 bg-blue-50 dark:bg-blue-900/30 rounded-xl flex-shrink-0">{f.icon}</div>
             <div>
-              <h4 className="font-semibold text-primary text-sm mb-1">{f.title}</h4>
-              <p className="text-gray-500 text-sm">{f.desc}</p>
+              <h4 className="font-semibold text-primary dark:text-white text-sm mb-1">{f.title}</h4>
+              <p className="text-gray-500 dark:text-gray-400 text-sm">{f.desc}</p>
             </div>
           </div>
         ))}

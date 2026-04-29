@@ -3,9 +3,11 @@ import { Link } from "react-router-dom";
 import { HiOutlineUser, HiOutlineShoppingBag } from "react-icons/hi2";
 import { IoMdClose } from "react-icons/io";
 import { RiMenu3Line } from "react-icons/ri";
+import { HiOutlineSun, HiOutlineMoon } from "react-icons/hi2";
 import SearchBar from "./SearchBar";
 import CartDrawer from "../Layout/CartDrawer";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { toggleTheme } from "../../redux/slice/themeSlice";
 
 const navLinks = [
   { label: "Men", to: "/collections/all?gender=Men" },
@@ -17,6 +19,8 @@ const navLinks = [
 function Navbar() {
   const { user } = useSelector((s) => s.auth);
   const { cart } = useSelector((s) => s.cart);
+  const { mode } = useSelector((s) => s.theme);
+  const dispatch = useDispatch();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [navOpen, setNavOpen] = useState(false);
 
@@ -26,16 +30,16 @@ function Navbar() {
 
   return (
     <>
-      <nav className="bg-white border-b border-neutral-100 sticky top-0 z-30">
+      <nav className="bg-white dark:bg-gray-900 border-b border-neutral-100 dark:border-gray-800 sticky top-0 z-30">
         <div className="max-w-7xl mx-auto flex items-center justify-between px-6 h-16">
-          <Link to="/" className="text-sm font-semibold tracking-widest3 uppercase text-primary hover:opacity-60 transition-opacity">
+          <Link to="/" className="text-sm font-semibold tracking-widest3 uppercase text-primary dark:text-white hover:opacity-60 transition-opacity">
             Rabbit
           </Link>
 
           <div className="hidden md:flex items-center gap-10">
             {navLinks.map((l) => (
               <Link key={l.label} to={l.to}
-                className="text-[11px] font-medium tracking-widest uppercase text-neutral-500 hover:text-primary transition-colors">
+                className="text-[11px] font-medium tracking-widest uppercase text-neutral-500 dark:text-neutral-400 hover:text-primary dark:hover:text-white transition-colors">
                 {l.label}
               </Link>
             ))}
@@ -49,10 +53,21 @@ function Navbar() {
               </Link>
             )}
             <SearchBar />
-            <Link to="/profile" className="text-neutral-600 hover:text-primary transition-colors">
+            <button
+              onClick={() => dispatch(toggleTheme())}
+              className="text-neutral-600 dark:text-neutral-300 hover:text-primary dark:hover:text-white transition-colors cursor-pointer"
+              aria-label="Toggle dark mode"
+            >
+              {mode === "dark" ? (
+                <HiOutlineSun className="h-[18px] w-[18px]" />
+              ) : (
+                <HiOutlineMoon className="h-[18px] w-[18px]" />
+              )}
+            </button>
+            <Link to="/profile" className="text-neutral-600 dark:text-neutral-300 hover:text-primary dark:hover:text-white transition-colors">
               <HiOutlineUser className="h-[18px] w-[18px]" />
             </Link>
-            <button onClick={toggleCart} className="relative text-neutral-600 hover:text-primary transition-colors cursor-pointer">
+            <button onClick={toggleCart} className="relative text-neutral-600 dark:text-neutral-300 hover:text-primary dark:hover:text-white transition-colors cursor-pointer">
               <HiOutlineShoppingBag className="h-[18px] w-[18px]" />
               {cartCount > 0 && (
                 <span className="absolute -top-2 -right-2 bg-primary text-white text-[9px] font-bold w-4 h-4 flex items-center justify-center">
@@ -60,7 +75,7 @@ function Navbar() {
                 </span>
               )}
             </button>
-            <button onClick={toggleNav} className="md:hidden text-neutral-600 hover:text-primary cursor-pointer">
+            <button onClick={toggleNav} className="md:hidden text-neutral-600 dark:text-neutral-300 hover:text-primary cursor-pointer">
               <RiMenu3Line className="h-[18px] w-[18px]" />
             </button>
           </div>
@@ -71,23 +86,23 @@ function Navbar() {
 
       {navOpen && <div className="fixed inset-0 bg-black/50 z-40" onClick={toggleNav} />}
 
-      <div className={`fixed top-0 left-0 h-full w-72 bg-white z-50 transform transition-transform duration-300 ${navOpen ? "translate-x-0" : "-translate-x-full"}`}>
-        <div className="flex items-center justify-between px-6 h-16 border-b border-neutral-100">
-          <span className="text-xs font-semibold tracking-widest3 uppercase text-primary">Menu</span>
-          <button onClick={toggleNav} className="cursor-pointer text-neutral-400 hover:text-primary">
+      <div className={`fixed top-0 left-0 h-full w-72 bg-white dark:bg-gray-900 z-50 transform transition-transform duration-300 ${navOpen ? "translate-x-0" : "-translate-x-full"}`}>
+        <div className="flex items-center justify-between px-6 h-16 border-b border-neutral-100 dark:border-gray-800">
+          <span className="text-xs font-semibold tracking-widest3 uppercase text-primary dark:text-white">Menu</span>
+          <button onClick={toggleNav} className="cursor-pointer text-neutral-400 dark:text-neutral-300 hover:text-primary dark:hover:text-white">
             <IoMdClose className="h-5 w-5" />
           </button>
         </div>
         <nav className="px-6 py-8 space-y-6">
           {navLinks.map((l) => (
             <Link key={l.label} to={l.to} onClick={toggleNav}
-              className="block text-xs font-medium tracking-widest uppercase text-neutral-500 hover:text-primary transition-colors">
+              className="block text-xs font-medium tracking-widest uppercase text-neutral-500 dark:text-neutral-400 hover:text-primary dark:hover:text-white transition-colors">
               {l.label}
             </Link>
           ))}
           {user?.role === "admin" && (
             <Link to="/admin" onClick={toggleNav}
-              className="block text-xs font-semibold tracking-widest uppercase text-primary">
+              className="block text-xs font-semibold tracking-widest uppercase text-primary dark:text-white">
               Admin
             </Link>
           )}

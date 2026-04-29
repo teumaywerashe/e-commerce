@@ -77,131 +77,78 @@ function AddProduct() {
   };
 
   return (
-    <div className="max-w-5xl mx-auto p-6 shadow-md rounded-md bg-white my-10">
-      <h2 className="text-3xl font-bold mb-6">Add New Product</h2>
-      
-      {error && <p className="text-red-500 mb-4 p-2 bg-red-50 rounded">{error}</p>}
-
+    <div className="max-w-5xl mx-auto p-6 shadow-md rounded-md bg-white dark:bg-gray-900 my-10">
+      <h2 className="text-3xl font-bold mb-6 text-gray-900 dark:text-white">Add New Product</h2>
+      {error && <p className="text-red-500 mb-4 p-2 bg-red-50 dark:bg-red-900/20 rounded">{error}</p>}
       <form onSubmit={handleSubmit}>
-        {/* Basic Info */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
           <div>
-            <label className="block font-semibold mb-2">Product Name</label>
-            <input type="text" name="name" value={productData.name} onChange={handleChange} className="w-full p-2 border rounded" required />
+            <label className="block font-semibold mb-2 text-gray-900 dark:text-white">Product Name</label>
+            <input type="text" name="name" value={productData.name} onChange={handleChange} className="w-full p-2 border dark:border-gray-700 rounded bg-white dark:bg-gray-800 text-gray-900 dark:text-white" required />
           </div>
           <div>
-            <label className="block font-semibold mb-2">SKU (Unique)</label>
-            <input type="text" name="sku" value={productData.sku} onChange={handleChange} className="w-full p-2 border rounded" required />
+            <label className="block font-semibold mb-2 text-gray-900 dark:text-white">SKU (Unique)</label>
+            <input type="text" name="sku" value={productData.sku} onChange={handleChange} className="w-full p-2 border dark:border-gray-700 rounded bg-white dark:bg-gray-800 text-gray-900 dark:text-white" required />
           </div>
         </div>
-
         <div className="mb-6">
-          <label className="block font-semibold mb-2">Description</label>
-          <textarea name="description" value={productData.description} onChange={handleChange} className="w-full p-2 border rounded" rows={3} required />
+          <label className="block font-semibold mb-2 text-gray-900 dark:text-white">Description</label>
+          <textarea name="description" value={productData.description} onChange={handleChange} className="w-full p-2 border dark:border-gray-700 rounded bg-white dark:bg-gray-800 text-gray-900 dark:text-white" rows={3} required />
         </div>
-
-        {/* Pricing & Logistics */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-          <div>
-            <label className="block font-semibold mb-2">Price</label>
-            <input type="number" name="price" value={productData.price} onChange={handleChange} className="w-full p-2 border rounded" required />
-          </div>
-          <div>
-            <label className="block font-semibold mb-2">Discount Price</label>
-            <input type="number" name="discountPrice" value={productData.discountPrice} onChange={handleChange} className="w-full p-2 border rounded" />
-          </div>
-          <div>
-            <label className="block font-semibold mb-2">Stock</label>
-            <input type="number" name="countInStock" value={productData.countInStock} onChange={handleChange} className="w-full p-2 border rounded" required />
-          </div>
-          <div>
-            <label className="block font-semibold mb-2">Weight</label>
-            <input type="text" name="weight" value={productData.weight} onChange={handleChange} placeholder="e.g. 1.2kg" className="w-full p-2 border rounded" />
-          </div>
+          <div><label className="block font-semibold mb-2 text-gray-900 dark:text-white">Price</label><input type="number" name="price" value={productData.price} onChange={handleChange} className="w-full p-2 border dark:border-gray-700 rounded bg-white dark:bg-gray-800 text-gray-900 dark:text-white" required /></div>
+          <div><label className="block font-semibold mb-2 text-gray-900 dark:text-white">Discount Price</label><input type="number" name="discountPrice" value={productData.discountPrice} onChange={handleChange} className="w-full p-2 border dark:border-gray-700 rounded bg-white dark:bg-gray-800 text-gray-900 dark:text-white" /></div>
+          <div><label className="block font-semibold mb-2 text-gray-900 dark:text-white">Stock</label><input type="number" name="countInStock" value={productData.countInStock} onChange={handleChange} className="w-full p-2 border dark:border-gray-700 rounded bg-white dark:bg-gray-800 text-gray-900 dark:text-white" required /></div>
+          <div><label className="block font-semibold mb-2 text-gray-900 dark:text-white">Weight</label><input type="text" name="weight" value={productData.weight} onChange={handleChange} placeholder="e.g. 1.2kg" className="w-full p-2 border dark:border-gray-700 rounded bg-white dark:bg-gray-800 text-gray-900 dark:text-white" /></div>
         </div>
-
-        {/* Classification */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+          <div><label className="block font-semibold mb-2 text-gray-900 dark:text-white">Category</label><input type="text" name="category" value={productData.category} onChange={handleChange} className="w-full p-2 border dark:border-gray-700 rounded bg-white dark:bg-gray-800 text-gray-900 dark:text-white" required /></div>
+          <div><label className="block font-semibold mb-2 text-gray-900 dark:text-white">Brand</label><input type="text" name="brand" value={productData.brand} onChange={handleChange} className="w-full p-2 border dark:border-gray-700 rounded bg-white dark:bg-gray-800 text-gray-900 dark:text-white" required /></div>
+          <div><label className="block font-semibold mb-2 text-gray-900 dark:text-white">Collection</label><input type="text" name="collections" value={productData.collections} onChange={handleChange} className="w-full p-2 border dark:border-gray-700 rounded bg-white dark:bg-gray-800 text-gray-900 dark:text-white" required /></div>
           <div>
-            <label className="block font-semibold mb-2">Category</label>
-            <input type="text" name="category" value={productData.category} onChange={handleChange} className="w-full p-2 border rounded" required />
-          </div>
-          <div>
-            <label className="block font-semibold mb-2">Brand</label>
-            <input type="text" name="brand" value={productData.brand} onChange={handleChange} className="w-full p-2 border rounded" required />
-          </div>
-          <div>
-            <label className="block font-semibold mb-2">Collection</label>
-            <input type="text" name="collections" value={productData.collections} onChange={handleChange} className="w-full p-2 border rounded" required />
-          </div>
-          <div>
-            <label className="block font-semibold mb-2">Gender</label>
-            <select name="gender" value={productData.gender} onChange={handleChange} className="w-full p-2 border rounded">
+            <label className="block font-semibold mb-2 text-gray-900 dark:text-white">Gender</label>
+            <select name="gender" value={productData.gender} onChange={handleChange} className="w-full p-2 border dark:border-gray-700 rounded bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
               <option value="Men">Men</option>
               <option value="Women">Women</option>
               <option value="Unisex">Unisex</option>
             </select>
           </div>
         </div>
-
-        {/* Variants & Tags */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-          <div>
-            <label className="block font-semibold mb-2">Colors (Red, Blue)</label>
-            <input type="text" onChange={(e) => handleArrayInput("colors", e.target.value)} className="w-full p-2 border rounded" required />
-          </div>
-          <div>
-            <label className="block font-semibold mb-2">Sizes (S, M, L)</label>
-            <input type="text" onChange={(e) => handleArrayInput("sizes", e.target.value)} className="w-full p-2 border rounded" required />
-          </div>
-          <div>
-            <label className="block font-semibold mb-2">Tags (Single String)</label>
-            <input type="text" name="tages" value={productData.tages} onChange={handleChange} className="w-full p-2 border rounded" />
-          </div>
+          <div><label className="block font-semibold mb-2 text-gray-900 dark:text-white">Colors (Red, Blue)</label><input type="text" onChange={(e) => handleArrayInput("colors", e.target.value)} className="w-full p-2 border dark:border-gray-700 rounded bg-white dark:bg-gray-800 text-gray-900 dark:text-white" required /></div>
+          <div><label className="block font-semibold mb-2 text-gray-900 dark:text-white">Sizes (S, M, L)</label><input type="text" onChange={(e) => handleArrayInput("sizes", e.target.value)} className="w-full p-2 border dark:border-gray-700 rounded bg-white dark:bg-gray-800 text-gray-900 dark:text-white" required /></div>
+          <div><label className="block font-semibold mb-2 text-gray-900 dark:text-white">Tags</label><input type="text" name="tages" value={productData.tages} onChange={handleChange} className="w-full p-2 border dark:border-gray-700 rounded bg-white dark:bg-gray-800 text-gray-900 dark:text-white" /></div>
         </div>
-
-        {/* Dimensions */}
-        <div className="mb-6 p-4 bg-gray-50 rounded">
-          <label className="block font-semibold mb-2">Dimensions (L x W x H)</label>
+        <div className="mb-6 p-4 bg-gray-50 dark:bg-gray-800 rounded">
+          <label className="block font-semibold mb-2 text-gray-900 dark:text-white">Dimensions (L x W x H)</label>
           <div className="flex gap-4">
-            <input type="number" name="length" placeholder="Length" onChange={handleDimensionChange} className="w-full p-2 border rounded" />
-            <input type="number" name="width" placeholder="Width" onChange={handleDimensionChange} className="w-full p-2 border rounded" />
-            <input type="number" name="height" placeholder="Height" onChange={handleDimensionChange} className="w-full p-2 border rounded" />
+            <input type="number" name="length" placeholder="Length" onChange={handleDimensionChange} className="w-full p-2 border dark:border-gray-700 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-white" />
+            <input type="number" name="width" placeholder="Width" onChange={handleDimensionChange} className="w-full p-2 border dark:border-gray-700 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-white" />
+            <input type="number" name="height" placeholder="Height" onChange={handleDimensionChange} className="w-full p-2 border dark:border-gray-700 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-white" />
           </div>
         </div>
-
-        {/* Material & Flags */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-          <div>
-            <label className="block font-semibold mb-2">Material</label>
-            <input type="text" name="material" value={productData.material} onChange={handleChange} className="w-full p-2 border rounded" />
-          </div>
+          <div><label className="block font-semibold mb-2 text-gray-900 dark:text-white">Material</label><input type="text" name="material" value={productData.material} onChange={handleChange} className="w-full p-2 border dark:border-gray-700 rounded bg-white dark:bg-gray-800 text-gray-900 dark:text-white" /></div>
           <div className="flex items-center gap-6">
-            <label className="flex items-center gap-2 cursor-pointer">
+            <label className="flex items-center gap-2 cursor-pointer text-gray-900 dark:text-white">
               <input type="checkbox" name="isFeatured" checked={productData.isFeatured} onChange={handleChange} /> Featured
             </label>
-            <label className="flex items-center gap-2 cursor-pointer">
+            <label className="flex items-center gap-2 cursor-pointer text-gray-900 dark:text-white">
               <input type="checkbox" name="isPublished" checked={productData.isPublished} onChange={handleChange} /> Published
             </label>
           </div>
         </div>
-
-        {/* Images */}
         <div className="mb-6">
-          <label className="block font-semibold mb-2">Upload Product Images</label>
-          <input type="file" onChange={handleImageUpload} className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100" />
+          <label className="block font-semibold mb-2 text-gray-900 dark:text-white">Upload Product Images</label>
+          <input type="file" onChange={handleImageUpload} className="block w-full text-sm text-gray-500 dark:text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:bg-blue-50 dark:file:bg-blue-900/30 file:text-blue-700 dark:file:text-blue-300 hover:file:bg-blue-100" />
           <div className="flex gap-4 mt-4">
             {productData.images.map((img, i) => (
-              <img key={i} src={img.url[0]} alt={img.altText} className="w-20 h-20 object-cover border rounded shadow-sm" />
+              <img key={i} src={img.url[0]} alt={img.altText} className="w-20 h-20 object-cover border dark:border-gray-700 rounded shadow-sm" />
             ))}
           </div>
         </div>
-
-        <button 
-          type="submit" 
-          disabled={loading}
-          className={`w-full py-3 rounded border-gray-500 text-white font-bold transition-all ${loading ? "bg-gray-400" : "bg-blue-600 hover:bg-blue-700 shadow-lg"}`}
-        >
+        <button type="submit" disabled={loading}
+          className={`w-full py-3 rounded text-white font-bold transition-all ${loading ? "bg-gray-400" : "bg-blue-600 hover:bg-blue-700 shadow-lg"}`}>
           {loading ? "Saving Product..." : "Add Product to Catalog"}
         </button>
       </form>

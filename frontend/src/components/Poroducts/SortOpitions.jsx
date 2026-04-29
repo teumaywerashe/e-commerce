@@ -13,7 +13,7 @@ function SortOpitions() {
       <select
         onChange={handleSortChange}
         value={searchParams.get("sortBy") || ""}
-        className="text-[11px] font-medium tracking-widest uppercase border border-neutral-200 bg-white text-neutral-600 px-4 py-2 focus:outline-none focus:border-primary transition-colors cursor-pointer"
+        className="text-[11px] font-medium tracking-widest uppercase border border-neutral-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-neutral-600 dark:text-neutral-300 px-4 py-2 focus:outline-none focus:border-primary dark:focus:border-white transition-colors cursor-pointer"
       >
         <option value="">Sort</option>
         <option value="PriceAsc">Price: Low — High</option>

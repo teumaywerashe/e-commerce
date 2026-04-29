@@ -8,9 +8,9 @@ function AdminLayout() {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="min-h-screen flex bg-neutral-50">
+    <div className="min-h-screen flex bg-neutral-50 dark:bg-gray-950">
       {/* Mobile topbar */}
-      <div className="fixed top-0 left-0 right-0 flex md:hidden items-center justify-between px-5 h-14 bg-primary text-white z-30">
+      <div className="fixed top-0 left-0 right-0 flex md:hidden items-center justify-between px-5 h-14 bg-primary dark:bg-gray-900 text-white z-30">
         <button onClick={() => setOpen(true)} className="cursor-pointer">
           <RiMenu3Line className="h-5 w-5" />
         </button>

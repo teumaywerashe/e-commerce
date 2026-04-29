@@ -59,14 +59,14 @@ function FilterSidebar() {
   );
 
   return (
-    <div className="p-6">
-      <p className="text-[10px] font-semibold tracking-widest uppercase text-primary mb-7">Filter</p>
+    <div className="p-6 bg-white dark:bg-gray-950">
+      <p className="text-[10px] font-semibold tracking-widest uppercase text-primary dark:text-white mb-7">Filter</p>
 
       <Section title="Category">
         {categories.map((c) => (
           <label key={c} className="flex items-center gap-2.5 mb-2 cursor-pointer group">
             <input type="radio" name="category" value={c} checked={filters.category === c} onChange={handleChange} className="accent-primary w-3 h-3" />
-            <span className="text-xs text-neutral-500 group-hover:text-primary transition-colors">{c}</span>
+            <span className="text-xs text-neutral-500 dark:text-neutral-400 group-hover:text-primary dark:group-hover:text-white transition-colors">{c}</span>
           </label>
         ))}
       </Section>
@@ -75,7 +75,7 @@ function FilterSidebar() {
         {genders.map((g) => (
           <label key={g} className="flex items-center gap-2.5 mb-2 cursor-pointer group">
             <input type="radio" name="gender" value={g} checked={filters.gender === g} onChange={handleChange} className="accent-primary w-3 h-3" />
-            <span className="text-xs text-neutral-500 group-hover:text-primary transition-colors">{g}</span>
+            <span className="text-xs text-neutral-500 dark:text-neutral-400 group-hover:text-primary dark:group-hover:text-white transition-colors">{g}</span>
           </label>
         ))}
       </Section>
@@ -96,7 +96,9 @@ function FilterSidebar() {
             <label key={size} className="cursor-pointer">
               <input type="checkbox" name="sizes" value={size} checked={filters.sizes.includes(size)} onChange={handleChange} className="sr-only" />
               <span className={`inline-block px-3 py-1.5 text-[10px] font-medium tracking-wide border transition-colors ${
-                filters.sizes.includes(size) ? "bg-primary text-white border-primary" : "bg-white text-neutral-500 border-neutral-200 hover:border-primary"
+                filters.sizes.includes(size)
+                  ? "bg-primary dark:bg-white text-white dark:text-gray-900 border-primary dark:border-white"
+                  : "bg-white dark:bg-gray-900 text-neutral-500 dark:text-neutral-400 border-neutral-200 dark:border-gray-700 hover:border-primary dark:hover:border-white"
               }`}>{size}</span>
             </label>
           ))}
@@ -107,7 +109,7 @@ function FilterSidebar() {
         {materials.map((m) => (
           <label key={m} className="flex items-center gap-2.5 mb-2 cursor-pointer group">
             <input type="checkbox" name="material" value={m} checked={filters.material.includes(m)} onChange={handleChange} className="accent-primary w-3 h-3" />
-            <span className="text-xs text-neutral-500 group-hover:text-primary transition-colors">{m}</span>
+            <span className="text-xs text-neutral-500 dark:text-neutral-400 group-hover:text-primary dark:group-hover:text-white transition-colors">{m}</span>
           </label>
         ))}
       </Section>
@@ -116,7 +118,7 @@ function FilterSidebar() {
         {brands.map((b) => (
           <label key={b} className="flex items-center gap-2.5 mb-2 cursor-pointer group">
             <input type="radio" name="brand" value={b} checked={filters.brand.includes(b)} onChange={handleChange} className="accent-primary w-3 h-3" />
-            <span className="text-xs text-neutral-500 group-hover:text-primary transition-colors">{b}</span>
+            <span className="text-xs text-neutral-500 dark:text-neutral-400 group-hover:text-primary dark:group-hover:text-white transition-colors">{b}</span>
           </label>
         ))}
       </Section>
@@ -124,7 +126,7 @@ function FilterSidebar() {
       <Section title="Price">
         <input type="range" min={0} max={100} value={priceRange[1]} onChange={updatePrice} className="w-full accent-primary cursor-pointer" />
         <div className="flex justify-between text-[10px] text-neutral-400 mt-1">
-          <span>$0</span><span className="text-primary font-medium">${priceRange[1]}</span>
+          <span>$0</span><span className="text-primary dark:text-white font-medium">${priceRange[1]}</span>
         </div>
       </Section>
     </div>

@@ -33,11 +33,11 @@ function CollectionPage() {
     : queryParams.category || "All Products";
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white dark:bg-gray-950">
       {/* Page header */}
-      <div className="border-b border-neutral-100 py-10 px-6 text-center">
+      <div className="border-b border-neutral-100 dark:border-gray-800 py-10 px-6 text-center">
         <p className="text-[10px] font-medium tracking-widest3 uppercase text-neutral-400 mb-1">Shop</p>
-        <h1 className="text-2xl font-light tracking-widest uppercase text-primary">{title}</h1>
+        <h1 className="text-2xl font-light tracking-widest uppercase text-primary dark:text-white">{title}</h1>
         {!loading && (
           <p className="text-[10px] text-neutral-400 mt-2 tracking-widest uppercase">{products.length} pieces</p>
         )}
@@ -65,10 +65,10 @@ function CollectionPage() {
         {isSidebarOpen && (
           <div className="fixed inset-0 z-50 flex">
             <div className="absolute inset-0 bg-black/40" onClick={() => setIsSidebarOpen(false)} />
-            <div ref={sidebarRef} className="relative w-72 bg-white h-full overflow-y-auto z-10">
-              <div className="flex items-center justify-between px-6 h-14 border-b border-neutral-100">
-                <span className="text-[10px] font-semibold tracking-widest uppercase">Filter</span>
-                <button onClick={() => setIsSidebarOpen(false)} className="cursor-pointer text-neutral-400 hover:text-primary">
+            <div ref={sidebarRef} className="relative w-72 bg-white dark:bg-gray-900 h-full overflow-y-auto z-10">
+              <div className="flex items-center justify-between px-6 h-14 border-b border-neutral-100 dark:border-gray-800">
+                <span className="text-[10px] font-semibold tracking-widest uppercase text-gray-900 dark:text-white">Filter</span>
+                <button onClick={() => setIsSidebarOpen(false)} className="cursor-pointer text-neutral-400 hover:text-primary dark:hover:text-white">
                   <FiX className="h-4 w-4" />
                 </button>
               </div>

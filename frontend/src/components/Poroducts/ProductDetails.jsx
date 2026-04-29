@@ -44,11 +44,11 @@ function ProductDetails({ error, loading, productId }) {
 
   if (loading) return (
     <div className="max-w-screen-xl mx-auto px-6 py-16 animate-pulse flex flex-col md:flex-row gap-12">
-      <div className="md:w-1/2 bg-neutral-100 aspect-[3/4]" />
+      <div className="md:w-1/2 bg-neutral-100 dark:bg-gray-800 aspect-[3/4]" />
       <div className="md:w-1/2 space-y-4">
-        <div className="bg-neutral-100 h-4 w-1/3" />
-        <div className="bg-neutral-100 h-8 w-2/3" />
-        <div className="bg-neutral-100 h-20 w-full" />
+        <div className="bg-neutral-100 dark:bg-gray-800 h-4 w-1/3" />
+        <div className="bg-neutral-100 dark:bg-gray-800 h-8 w-2/3" />
+        <div className="bg-neutral-100 dark:bg-gray-800 h-20 w-full" />
       </div>
     </div>
   );
@@ -72,7 +72,7 @@ function ProductDetails({ error, loading, productId }) {
         {/* Main image */}
         <div className="md:w-[48%] shrink-0">
           {mainImage && (
-            <div className="overflow-hidden bg-neutral-50">
+            <div className="overflow-hidden bg-neutral-50 dark:bg-gray-800">
               <img src={mainImage.url} alt={mainImage.altText} className="w-full aspect-[3/4] object-cover" />
             </div>
           )}
@@ -81,30 +81,30 @@ function ProductDetails({ error, loading, productId }) {
         {/* Info */}
         <div className="flex-1 flex flex-col">
           <p className="text-[10px] font-medium tracking-widest3 uppercase text-neutral-400 mb-2">{selectedProduct.brand}</p>
-          <h1 className="text-2xl font-light tracking-wide text-primary mb-4 leading-snug">{selectedProduct.name}</h1>
+          <h1 className="text-2xl font-light tracking-wide text-primary dark:text-white mb-4 leading-snug">{selectedProduct.name}</h1>
 
           <div className="flex items-baseline gap-3 mb-6">
             {selectedProduct.discountPrice ? (
               <>
-                <span className="text-base font-semibold text-primary">${selectedProduct.discountPrice}</span>
+                <span className="text-base font-semibold text-primary dark:text-white">${selectedProduct.discountPrice}</span>
                 <span className="text-sm text-neutral-400 line-through">${selectedProduct.price}</span>
               </>
             ) : (
-              <span className="text-base font-semibold text-primary">${selectedProduct.price}</span>
+              <span className="text-base font-semibold text-primary dark:text-white">${selectedProduct.price}</span>
             )}
           </div>
 
-          <p className="text-xs text-neutral-500 leading-relaxed mb-8">{selectedProduct.description}</p>
+          <p className="text-xs text-neutral-500 dark:text-neutral-400 leading-relaxed mb-8">{selectedProduct.description}</p>
 
           {/* Color */}
           <div className="mb-6">
-            <p className="text-[10px] font-semibold tracking-widest uppercase text-primary mb-3">
+            <p className="text-[10px] font-semibold tracking-widest uppercase text-primary dark:text-white mb-3">
               Color {selectedColor && <span className="font-normal text-neutral-400">— {selectedColor}</span>}
             </p>
             <div className="flex gap-2 flex-wrap">
               {selectedProduct.colors?.map((color, i) => (
                 <button key={i} onClick={() => setSelectedColor(color)} title={color}
-                  className={`w-7 h-7 border-2 transition-all cursor-pointer ${selectedColor === color ? "border-primary scale-110" : "border-transparent hover:border-neutral-300"}`}
+                  className={`w-7 h-7 border-2 transition-all cursor-pointer ${selectedColor === color ? "border-primary dark:border-white scale-110" : "border-transparent hover:border-neutral-300"}`}
                   style={{ backgroundColor: color.toLowerCase() }} />
               ))}
             </div>
@@ -112,12 +112,14 @@ function ProductDetails({ error, loading, productId }) {
 
           {/* Size */}
           <div className="mb-6">
-            <p className="text-[10px] font-semibold tracking-widest uppercase text-primary mb-3">Size</p>
+            <p className="text-[10px] font-semibold tracking-widest uppercase text-primary dark:text-white mb-3">Size</p>
             <div className="flex gap-2 flex-wrap">
               {selectedProduct.sizes?.map((size, i) => (
                 <button key={i} onClick={() => setSelectedSize(size)}
                   className={`px-4 py-2 text-[11px] font-medium tracking-wide border transition-colors cursor-pointer ${
-                    selectedSize === size ? "bg-primary text-white border-primary" : "bg-white text-neutral-600 border-neutral-200 hover:border-primary"
+                    selectedSize === size
+                      ? "bg-primary dark:bg-white text-white dark:text-gray-900 border-primary dark:border-white"
+                      : "bg-white dark:bg-gray-900 text-neutral-600 dark:text-neutral-300 border-neutral-200 dark:border-gray-700 hover:border-primary dark:hover:border-white"
                   }`}>
                   {size}
                 </button>
@@ -127,29 +129,29 @@ function ProductDetails({ error, loading, productId }) {
 
           {/* Quantity */}
           <div className="mb-8">
-            <p className="text-[10px] font-semibold tracking-widest uppercase text-primary mb-3">Quantity</p>
+            <p className="text-[10px] font-semibold tracking-widest uppercase text-primary dark:text-white mb-3">Quantity</p>
             <div className="flex items-center gap-4">
               <button disabled={quantity <= 1} onClick={() => setQuantity((p) => Math.max(p - 1, 1))}
-                className="w-8 h-8 border border-neutral-300 bg-white text-primary flex items-center justify-center text-sm hover:bg-primary hover:text-white hover:border-primary disabled:opacity-30 transition-colors cursor-pointer">−</button>
-              <span className="text-sm font-medium text-primary w-6 text-center">{quantity}</span>
+                className="w-8 h-8 border border-neutral-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-primary dark:text-white flex items-center justify-center text-sm hover:bg-primary dark:hover:bg-white hover:text-white dark:hover:text-gray-900 hover:border-primary disabled:opacity-30 transition-colors cursor-pointer">−</button>
+              <span className="text-sm font-medium text-primary dark:text-white w-6 text-center">{quantity}</span>
               <button onClick={() => setQuantity((p) => p + 1)}
-                className="w-8 h-8 border border-neutral-300 bg-white text-primary flex items-center justify-center text-sm hover:bg-primary hover:text-white hover:border-primary transition-colors cursor-pointer">+</button>
+                className="w-8 h-8 border border-neutral-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-primary dark:text-white flex items-center justify-center text-sm hover:bg-primary dark:hover:bg-white hover:text-white dark:hover:text-gray-900 hover:border-primary transition-colors cursor-pointer">+</button>
             </div>
           </div>
 
           <button onClick={handleAddToCart} disabled={disabled}
-            className={`w-full py-4 bg-neutral-400 text-[11px] font-semibold tracking-widest2 uppercase transition-colors cursor-pointer ${
-              disabled ? "bg-neutral-200 text-neutral-400 cursor-not-allowed" : "bg-primary text-white hover:bg-neutral-800"
+            className={`w-full py-4 text-[11px] font-semibold tracking-widest2 uppercase transition-colors cursor-pointer ${
+              disabled ? "bg-neutral-200 dark:bg-gray-700 text-neutral-400 cursor-not-allowed" : "bg-primary dark:bg-white text-white dark:text-gray-900 hover:bg-neutral-800 dark:hover:bg-neutral-200"
             }`}>
             {disabled ? "Adding..." : "Add to Bag"}
           </button>
 
           {/* Details */}
-          <div className="mt-10 pt-8 border-t border-neutral-100 grid grid-cols-2 gap-4">
+          <div className="mt-10 pt-8 border-t border-neutral-100 dark:border-gray-800 grid grid-cols-2 gap-4">
             {[["Brand", selectedProduct.brand], ["Material", selectedProduct.material], ["Category", selectedProduct.category], ["Gender", selectedProduct.gender]].map(([l, v]) => (
               <div key={l}>
                 <p className="text-[9px] font-semibold tracking-widest uppercase text-neutral-400 mb-0.5">{l}</p>
-                <p className="text-xs text-primary">{v}</p>
+                <p className="text-xs text-primary dark:text-white">{v}</p>
               </div>
             ))}
           </div>
@@ -159,7 +161,7 @@ function ProductDetails({ error, loading, productId }) {
       {similarProducts?.length > 0 && (
         <div className="mt-24">
           <p className="text-[10px] font-medium tracking-widest3 uppercase text-neutral-400 text-center mb-2">You May Also Like</p>
-          <h2 className="text-xl font-light tracking-widest uppercase text-center text-primary mb-10">Similar Pieces</h2>
+          <h2 className="text-xl font-light tracking-widest uppercase text-center text-primary dark:text-white mb-10">Similar Pieces</h2>
           <ProductGrid products={similarProducts} />
         </div>
       )}

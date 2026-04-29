@@ -23,25 +23,25 @@ function Home() {
   }, [dispatch]);
 
   return (
-    <div className="bg-white">
+    <div className="bg-white dark:bg-gray-950">
       <Hero />
       <GenderCollectionSection />
       <NewArrivals />
 
       {/* Best Seller */}
-      <section className="py-20 border-t border-neutral-100">
+      <section className="py-20 border-t border-neutral-100 dark:border-gray-800">
         <div className="max-w-screen-xl mx-auto px-6">
           <p className="text-[10px] font-medium tracking-widest3 uppercase text-neutral-400 text-center mb-2">Top Pick</p>
-          <h2 className="text-xl font-light tracking-widest uppercase text-center text-primary mb-12">Best Seller</h2>
+          <h2 className="text-xl font-light tracking-widest uppercase text-center text-primary dark:text-white mb-12">Best Seller</h2>
           <ProductDetails productId={bestSeller?._id} error={error} loading={loading} />
         </div>
       </section>
 
       {/* Women's Top Wear */}
-      <section className="py-20 border-t border-neutral-100">
+      <section className="py-20 border-t border-neutral-100 dark:border-gray-800">
         <div className="max-w-screen-xl mx-auto px-6">
           <p className="text-[10px] font-medium tracking-widest3 uppercase text-neutral-400 text-center mb-2">For Her</p>
-          <h2 className="text-xl font-light tracking-widest uppercase text-center text-primary mb-12">Top Wear</h2>
+          <h2 className="text-xl font-light tracking-widest uppercase text-center text-primary dark:text-white mb-12">Top Wear</h2>
           <ProductGrid loading={loading} error={error} products={products} />
         </div>
       </section>
