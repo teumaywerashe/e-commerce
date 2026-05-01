@@ -1,33 +1,88 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap");
 @import "tailwindcss";
 
-* {
-  box-sizing: border-box;
+/* ─── Design Tokens: Light Mode ─────────────────────────────────────────── */
+:root {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8f8f8;
+  --bg-card: #ffffff;
+  --bg-elevated: #f1f5f9;
+
+  --text-primary: #111827;
+  --text-secondary: #6b7280;
+  --text-muted: #9ca3af;
+
+  --border-color: #e5e7eb;
+  --border-subtle: #f3f4f6;
+
+  --accent-color: #3b82f6;
+  --accent-hover: #2563eb;
+
+  --surface-inverse: #111827;
+  --text-inverse: #ffffff;
 }
 
+/* ─── Design Tokens: Dark Mode ──────────────────────────────────────────── */
+.dark {
+  --bg-primary: #030712;
+  --bg-secondary: #111827;
+  --bg-card: #111827;
+  --bg-elevated: #1f2937;
+
+  --text-primary: #f9fafb;
+  --text-secondary: #9ca3af;
+  --text-muted: #6b7280;
+
+  --border-color: #1f2937;
+  --border-subtle: #111827;
+
+  --accent-color: #60a5fa;
+  --accent-hover: #3b82f6;
+
+  --surface-inverse: #f9fafb;
+  --text-inverse: #111827;
+}
+
+/* ─── Global Smooth Transitions ─────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  transition-property: background-color, border-color, color, fill, stroke;
+  transition-duration: 200ms;
+  transition-timing-function: ease;
+}
+
+/* Opt out elements where transitions feel wrong */
+img,
+video,
+[class*="animate-"] {
+  transition: none !important;
+}
+
+/* ─── Base ───────────────────────────────────────────────────────────────── */
 #root {
   font-family: "Inter", sans-serif;
   font-optical-sizing: auto;
   font-style: normal;
 }
 
-/* smooth scrollbar */
+/* ─── Scrollbar ──────────────────────────────────────────────────────────── */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #f1f5f9;
+  background: var(--bg-secondary);
 }
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: var(--border-color);
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: var(--text-muted);
 }
 
-/* hide scrollbar for carousel */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }

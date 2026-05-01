@@ -10,7 +10,7 @@ function AdminLayout() {
   return (
     <div className="min-h-screen flex bg-neutral-50 dark:bg-gray-950">
       {/* Mobile topbar */}
-      <div className="fixed top-0 left-0 right-0 flex md:hidden items-center justify-between px-5 h-14 bg-primary dark:bg-gray-900 text-white z-30">
+      <div className="fixed top-0 left-0 right-0 flex md:hidden items-center justify-between px-5 h-14 bg-gray-900 dark:bg-gray-950 text-white z-30">
         <button onClick={() => setOpen(true)} className="cursor-pointer">
           <RiMenu3Line className="h-5 w-5" />
         </button>
@@ -22,7 +22,7 @@ function AdminLayout() {
       {open && <div className="fixed inset-0 bg-black/50 z-40 md:hidden" onClick={() => setOpen(false)} />}
 
       {/* Sidebar */}
-      <aside className={`fixed md:static top-0 left-0 h-full w-60 bg-primary text-white z-50 shrink-0 transform transition-transform duration-300 ${open ? "translate-x-0" : "-translate-x-full"} md:translate-x-0`}>
+      <aside className={`fixed md:static top-0 left-0 h-full w-60 bg-gray-900 dark:bg-gray-950 text-white z-50 shrink-0 transform transition-transform duration-300 ${open ? "translate-x-0" : "-translate-x-full"} md:translate-x-0`}>
         <div className="flex items-center justify-between px-5 h-14 border-b border-white/10 md:hidden">
           <span className="text-[10px] font-semibold tracking-widest3 uppercase text-white">Rabbit</span>
           <button onClick={() => setOpen(false)} className="cursor-pointer text-neutral-400 hover:text-white">

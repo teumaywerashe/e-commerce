@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import UserLayout from "./components/Layout/UserLayout";
 import { Toaster } from "sonner";
 import Home from "./pages/Home";
@@ -20,11 +20,14 @@ import EditProduct from "./components/Admin/EditProduct";
 import OrderManagement from "./components/Admin/OrderManagement";
 import ProtectedRoute from "./components/Common/ProtectedRoute";
 import AddProduct from "./components/Admin/AddProduct";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { syncSystemTheme } from "./redux/slice/themeSlice";
 
 function App() {
   const { mode } = useSelector((s) => s.theme);
+  const dispatch = useDispatch();
 
+  // Apply dark class to <html>
   useEffect(() => {
     const root = document.documentElement;
     if (mode === "dark") {
@@ -34,8 +37,16 @@ function App() {
     }
   }, [mode]);
 
+  // Listen for OS-level theme changes (for "auto" mode)
+  useEffect(() => {
+    const mq = window.matchMedia("(prefers-color-scheme: dark)");
+    const handler = () => dispatch(syncSystemTheme());
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, [dispatch]);
+
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 transition-colors duration-300">
+    <div className="min-h-screen bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100">
       <Toaster position="top-right" />
       <Routes>
         <Route path="/" element={<UserLayout />}>

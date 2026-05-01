@@ -5,7 +5,7 @@ import { RiTwitterXLine } from "react-icons/ri";
 
 function Topbar() {
   return (
-    <div className="bg-primary text-white text-xs">
+    <div className="bg-gray-900 dark:bg-gray-950 text-white text-xs border-b border-gray-800">
       <div className="container mx-auto flex justify-between items-center py-2.5 px-4">
         <div className="hidden md:flex items-center gap-3">
           <a href="#" className="hover:text-accent transition-colors">

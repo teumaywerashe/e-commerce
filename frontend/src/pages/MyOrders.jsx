@@ -14,11 +14,11 @@ function MyOrders() {
     return (
       <div className="space-y-4">
         {Array.from({ length: 3 }).map((_, i) => (
-          <div key={i} className="animate-pulse flex gap-4 border-b border-neutral-100 pb-4">
-            <div className="w-12 h-12 bg-neutral-100" />
+          <div key={i} className="animate-pulse flex gap-4 border-b border-neutral-100 dark:border-gray-800 pb-4">
+            <div className="w-12 h-12 bg-neutral-100 dark:bg-gray-800" />
             <div className="flex-1 space-y-2">
-              <div className="bg-neutral-100 h-3 w-1/2" />
-              <div className="bg-neutral-100 h-3 w-1/3" />
+              <div className="bg-neutral-100 dark:bg-gray-800 h-3 w-1/2" />
+              <div className="bg-neutral-100 dark:bg-gray-800 h-3 w-1/3" />
             </div>
           </div>
         ))}

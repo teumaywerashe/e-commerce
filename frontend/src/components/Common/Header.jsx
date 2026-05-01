@@ -4,7 +4,7 @@ import Navbar from "./Navbar";
 
 function Header() {
   return (
-    <header className="border-b border-gray-200">
+    <header className="border-b border-gray-200 dark:border-gray-800">
       <Topbar />
       <Navbar/>
     </header >

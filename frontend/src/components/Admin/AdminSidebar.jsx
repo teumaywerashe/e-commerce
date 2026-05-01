@@ -44,7 +44,7 @@ function AdminSidebar() {
             className={({ isActive }) =>
               `flex items-center gap-3 px-3 py-3 text-[10px] font-semibold tracking-widest uppercase transition-colors ${
                 isActive
-                  ? "bg-white text-primary"
+                  ? "bg-white text-primary text-black"
                   : "text-neutral-400 hover:text-white hover:bg-white/10"
               }`
             }
